@@ -10,6 +10,8 @@ app = Flask(__name__)
 
 app.config.from_object(Config)
 
+CORS(app)
+
 # create an instance of SQLAlchemy for this app
 db = SQLAlchemy(app)
 
@@ -23,7 +25,6 @@ login = LoginManager(app)
 # login.login_message = 'You must be logged in to do that.'
 # login.login_message_category = 'danger'
 
-CORS(app)
 
 from app.blueprints.api import api # tries to import api which imports the api and everything that it needs
 app.register_blueprint(api) # adds the api to my main app
