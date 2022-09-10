@@ -180,7 +180,53 @@ class Puzzle(db.Model):
         #                   #
         #####################
 
+# this is the transactional table that connects the player and puzzle so we can keep track of what they have tried to solve and how.
+class PlayerPuzzle(db.Model):
+    player_puzzle_id = db.Column(db.Integer, primary_key=True)
+    player_id = db.Column(db.Integer, db.ForeignKey('player.id'), nullable=False)
+    puzzle_id = db.Column(db.Integer, db.ForeignKey('puzzle.puzzle_id'), nullable=False)
+    player_saw_puzzle = db.Column(db.Boolean, default=False)
+    player_completed_puzzle = db.Column(db.Boolean, default=False)
+    combination_player_entered = db.Column(db.String, nullable=True)
+    correct_combination = db.Column(db.String, nullable=False)
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        db.session.add(self)
+        db.session.commit()
+
+    def __repr__(self):
+        return f"<Player_Puzzle|{self.player_id}, {self.puzzle_id}>"
+    
+    def to_dict(self):
+        return {
+            'player_puzzle_id': self.puzzle_id,
+            'player_id': self.player_id,
+            'puzzle_id': self.puzzle_id,
+            'player_saw_puzzle': self.player_saw_puzzle,
+            'player_completed_puzzle': self.player_completed_puzzle,
+            'combination_player_entered': self.combination_player_entered,
+            'correct_combination': self.correct_combination
+        }
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+    
+    def update(self, data):
+        for field in data:
+            if field not in {
+                'player_id',
+                'puzzle_id', 
+                'player_saw_puzzle'
+                'player_completed_puzzle'
+                'combination_player_entered'
+                'correct_combination'
+                }:
+                continue
+            setattr(self, field, data[field])
+        db.session.commit()
+    
 
 
         ###########################
@@ -188,3 +234,7 @@ class Puzzle(db.Model):
         #   PLAYER-PUZZLE-PIECE   #
         #                         #
         ###########################
+
+# this is the transactional table that connects the
+#  player-puzzle table and piece table for tracking what
+#  pieces go where and if they player has the piece
