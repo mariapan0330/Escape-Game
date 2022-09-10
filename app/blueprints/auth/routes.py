@@ -56,7 +56,7 @@ def get_players():
 # Update a player by id
 @auth.route('/players/<int:id>', methods=['PUT'])
 @token_auth.login_required
-def updated_player(id):
+def update_player(id):
     current_player = token_auth.current_user()
     if current_player.id != id:
         return jsonify({ "error": "You do not have access to update this player" }), 403

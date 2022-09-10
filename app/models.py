@@ -100,7 +100,7 @@ class Piece(db.Model):
     piece_id = db.Column(db.Integer, primary_key=True)
     piece_name = db.Column(db.String(50), nullable=False, unique=True)
     piece_description = db.Column(db.String(200), nullable=False)
-    piece_image = db.Column(db.String(400), nullable=False)
+    piece_image = db.Column(db.String(400), nullable=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
