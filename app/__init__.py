@@ -34,4 +34,10 @@ app.register_blueprint(piece) # adds the piece to my main app
 from app.blueprints.puzzle import puzzle # imports puzzle
 app.register_blueprint(puzzle) # adds the puzzle to my main app
 
+from app.blueprints.player_puzzle import player_puzzle # imports puzzle
+app.register_blueprint(player_puzzle) # adds the puzzle to my main app
+
+# from app.blueprints.player_puzzle_piece import player_puzzle_piece # imports puzzle
+# app.register_blueprint(player_puzzle_piece) # adds the puzzle to my main app
+
 from app import routes # TODO: might not be necessary to import routes

@@ -143,7 +143,9 @@ class Puzzle(db.Model):
     puzzle_id = db.Column(db.Integer, primary_key=True)
     puzzle_name = db.Column(db.String(50), nullable=False, unique=True)
     puzzle_description = db.Column(db.String(200), nullable=False)
-    puzzle_image = db.Column(db.String(400), nullable=True)
+    puzzle_image1 = db.Column(db.String(400), nullable=True)
+    puzzle_image2 = db.Column(db.String(400), nullable=True)
+    puzzle_image3 = db.Column(db.String(400), nullable=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -158,7 +160,9 @@ class Puzzle(db.Model):
             'puzzle_id': self.puzzle_id,
             'puzzle_name': self.puzzle_name,
             'puzzle_description': self.puzzle_description,
-            'puzzle_image': self.puzzle_image
+            'puzzle_image1': self.puzzle_image1,
+            'puzzle_image2': self.puzzle_image2,
+            'puzzle_image3': self.puzzle_image3
         }
 
     def delete(self):
@@ -187,8 +191,8 @@ class PlayerPuzzle(db.Model):
     puzzle_id = db.Column(db.Integer, db.ForeignKey('puzzle.puzzle_id'), nullable=False)
     player_saw_puzzle = db.Column(db.Boolean, default=False)
     player_completed_puzzle = db.Column(db.Boolean, default=False)
-    combination_player_entered = db.Column(db.String, nullable=True)
-    correct_combination = db.Column(db.String, nullable=False)
+    combination_player_entered = db.Column(db.String(50), nullable=True)
+    correct_combination = db.Column(db.String(50), nullable=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -196,13 +200,13 @@ class PlayerPuzzle(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return f"<Player_Puzzle|{self.player_id}, {self.puzzle_id}>"
+        return f"<Player_Puzzle | {self.player_id}, {self.puzzle_id}>"
     
     def to_dict(self):
         return {
             'player_puzzle_id': self.puzzle_id,
-            'player_id': self.player_id,
-            'puzzle_id': self.puzzle_id,
+            'player': Player.query.get(self.player_id).to_dict(),
+            'puzzle': Puzzle.query.get(self.puzzle_id).to_dict(),
             'player_saw_puzzle': self.player_saw_puzzle,
             'player_completed_puzzle': self.player_completed_puzzle,
             'combination_player_entered': self.combination_player_entered,
@@ -218,9 +222,9 @@ class PlayerPuzzle(db.Model):
             if field not in {
                 'player_id',
                 'puzzle_id', 
-                'player_saw_puzzle'
-                'player_completed_puzzle'
-                'combination_player_entered'
+                'player_saw_puzzle',
+                'player_completed_puzzle',
+                'combination_player_entered',
                 'correct_combination'
                 }:
                 continue
