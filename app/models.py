@@ -96,6 +96,7 @@ class Player(db.Model):
         #           #
         #############
 
+# pieces are components that the player must find to solve the puzzles.
 class Piece(db.Model):
     piece_id = db.Column(db.Integer, primary_key=True)
     piece_name = db.Column(db.String(50), nullable=False, unique=True)
@@ -137,7 +138,39 @@ class Piece(db.Model):
         #   PUZZLE   #
         #            #
         ##############
+# puzzles are any obstruction or lock that the player has to figure out to continue
+class Puzzle(db.Model):
+    puzzle_id = db.Column(db.Integer, primary_key=True)
+    puzzle_name = db.Column(db.String(50), nullable=False, unique=True)
+    puzzle_description = db.Column(db.String(200), nullable=False)
+    puzzle_image = db.Column(db.String(400), nullable=True)
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        db.session.add(self)
+        db.session.commit()
+
+    def __repr__(self):
+        return f"<Puzzle|{self.puzzle_name}>"
+    
+    def to_dict(self):
+        return {
+            'puzzle_id': self.puzzle_id,
+            'puzzle_name': self.puzzle_name,
+            'puzzle_description': self.puzzle_description,
+            'puzzle_image': self.puzzle_image
+        }
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+    
+    def update(self, data):
+        for field in data:
+            if field not in {'puzzle_name', 'puzzle_description', 'puzzle_image'}:
+                continue
+            setattr(self, field, data[field])
+        db.session.commit()
 
 
 

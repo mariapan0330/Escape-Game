@@ -3,6 +3,9 @@ from flask import jsonify, request
 from ...models import Piece
 from ..auth.http_auth import token_auth
 
+##### MUST BE LOGGED IN AND MARKED AS ADMIN TO CREATE, RETRIEVE, UPDATE, AND DEL PIECES #####
+
+
 # @piece.route('/')
 # def index():
 #     return "You've found the piece route!"
