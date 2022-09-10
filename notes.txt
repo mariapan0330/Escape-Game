@@ -1,0 +1,67 @@
+[
+    users: {
+        id: 1,
+        username: "driedMango",
+        email: "driedmango@gmail.com",
+        password: FJS93U82IOMK230-5994922 or whatever,
+        currentLocation: 'fountain-bench',
+        progress: [
+            puzzle1: {
+                puzzle_id: 1,
+                puzzle_seen: false,
+                description: 'mailbox box',
+                puzzleComplete: false,
+                piece1: true,
+                piece2: false,
+                combinationEntered: [0, 0, 0, 0],
+                correctCombination: [1, 2, 3, 4]
+            },
+            puzzle2: {
+                puzzle_id: 2,
+                puzzle_seen: true,
+                description: 'fountain hidden door',
+                puzzleComplete: false,
+                piece1: true,
+                piece2: true,
+                combinationEntered: [7, 2, 9, 2],
+                correctCombination: [1, 2, 3, 4]
+            },
+            puzzle3: {
+                puzzle_id: 3,
+                puzzle_seen: true,
+                description: 'House address has 2 screws. Need something to unscrew it with.',
+                puzzleComplete: false,
+                piece1: true,
+                piece2: null,
+                combinationEntered: null,
+                correctCombination: null
+            },
+        ],
+        hotbar: {
+            slot1: {
+                name: 'key1',
+                image: "http://key1.jpg"
+                },
+            slot2: {
+                name: 'screwdriver',
+                image: "http://screwdriver.jpg"
+                },
+            slot3: {
+                name: 'null',
+                image: "null"
+                },
+            slot4: {
+                name: 'null',
+                image: "null"
+                },
+            slot5: {
+                name: 'null',
+                image: "null"
+                },
+            slot6: {
+                name: 'null',
+                image: "null"
+                },
+        },
+    },
+]
