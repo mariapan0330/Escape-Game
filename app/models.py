@@ -242,3 +242,43 @@ class PlayerPuzzle(db.Model):
 # this is the transactional table that connects the
 #  player-puzzle table and piece table for tracking what
 #  pieces go where and if they player has the piece
+class PlayerPuzzlePiece(db.Model):
+    player_puzzle_piece_id = db.Column(db.Integer, primary_key=True)
+    player_puzzle_id = db.Column(db.Integer, db.ForeignKey('player_puzzle.player_puzzle_id'), nullable=False)
+    piece_id = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), nullable=False)
+    player_saw_piece = db.Column(db.Boolean, default=False)
+    player_has_piece = db.Column(db.Boolean, default=False)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        db.session.add(self)
+        db.session.commit()
+
+    def __repr__(self):
+        return f"<Player_Puzzle_Piece | {self.player_puzzle_id}, {self.piece_id}>"
+    
+    def to_dict(self):
+        # should self.piece_id be here or in Player hotbar
+        return {
+            'player_puzzle_piece_id': self.player_puzzle_piece_id,
+            'player_puzzle_id': PlayerPuzzle.query.get(self.player_puzzle_id).to_dict(),
+            'piece_id': Piece.query.get(self.piece_id).to_dict(),
+            'player_saw_piece': self.player_saw_piece,
+            'player_has_piece': self.player_has_piece
+        }
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+    
+    def update(self, data):
+        for field in data:
+            if field not in {
+                'player_puzzle_id',
+                'piece_id', 
+                'player_saw_piece',
+                'player_has_piece',
+                }:
+                continue
+            setattr(self, field, data[field])
+        db.session.commit()

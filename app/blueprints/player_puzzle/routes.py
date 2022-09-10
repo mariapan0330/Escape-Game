@@ -58,7 +58,6 @@ def view_player_puzzle(id):
 
 
 # update a player-puzzle by id
-# TODO: this doesn't work for some reason
 @player_puzzle.route('/<int:id>', methods=["PUT"])
 @token_auth.login_required
 def update_player_puzzle(id):
