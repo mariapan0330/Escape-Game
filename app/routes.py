@@ -20,7 +20,7 @@ def index():
 #     return render_template('/login.html')
 """
 
-from app.models import User
+from app.models import Player
 from app import app
 from flask import render_template
 

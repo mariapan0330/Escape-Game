@@ -1,6 +1,6 @@
 from . import auth
 from flask import jsonify, request
-from ...models import User
+from ...models import Player
 from .http_auth import basic_auth, token_auth
 
 # Auth Routes homepage
@@ -14,16 +14,14 @@ def index():
 @auth.route('/token', methods=["POST"])
 @basic_auth.login_required
 def get_token():
-    user = basic_auth.current_user()
-    token = user.get_token()
+    player = basic_auth.current_user()
+    token = player.get_token()
     return jsonify({ "token": token })
 
-
-
-# Create a user
-@auth.route('/users', methods=["POST"])
-# no auth required bc you need to make a user before you can create auth routes for them.
-def create_user():
+# Create a player
+@auth.route('/players', methods=["POST"])
+# no auth required bc you need to make a player before you can create auth routes for them.
+def create_player():
     data = request.json
     # validate the data
     for field in ['username', 'email', 'password']:
@@ -32,51 +30,56 @@ def create_user():
     # if it makes it through the for loop without errors:
     username = data['username']
     email = data['email']
-    password = data['password']
     
     # if username or email already exists:
-    user_exists = User.query.filter((User.username == username) | (User.email == email)).all()
-    if user_exists:
-        return jsonify({'error': f"User with username {username} or email {email} already exists."}), 400
+    player_exists = Player.query.filter((Player.username == username) | (Player.email == email)).all()
+    if player_exists:
+        return jsonify({'error': f"Player with username {username} or email {email} already exists."}), 400
 
-    new_user = User(username=username, email=email, password=password)
-    return jsonify(new_user.to_dict())
+    new_player = Player(**data)
+    return jsonify(new_player.to_dict())
 
 
-# Update a user by id
-@auth.route('/users/<int:id>', methods=['PUT'])
+# get all players
+@auth.route('/players', methods=["GET"])
 @token_auth.login_required
-def updated_user(id):
-    current_user = token_auth.current_user()
-    if current_user.id != id:
-        return jsonify({ "error": "You do not have access to update this user" }), 403
-    user = User.query.get_or_404(id)
+def get_players():
+    current_player = token_auth.current_user()
+    if current_player.is_admin:
+        players = Player.query.all()
+        return jsonify([u.to_dict() for u in players])
+    else:
+        return jsonify({ "error": "You do not have access to update this player" }), 403
+
+
+
+# Update a player by id
+@auth.route('/players/<int:id>', methods=['PUT'])
+@token_auth.login_required
+def updated_player(id):
+    current_player = token_auth.current_user()
+    if current_player.id != id:
+        return jsonify({ "error": "You do not have access to update this player" }), 403
+    player = Player.query.get_or_404(id)
     data = request.json
-    user.update(data)
-    return jsonify(user.to_dict())
+    player.update(data)
+    return jsonify(player.to_dict())
 
 
-# get user info from token
-@auth.route('/current-user')
+# get player info from token
+@auth.route('/current-player')
 @token_auth.login_required
-def current_user():
+def current_player():
     return token_auth.current_user().to_dict()
 
 
-# get all users
-@auth.route('/users', methods=["GET"])
-def get_users():
-    users = User.query.all()
-    return jsonify([u.to_dict() for u in users])
-
-
-# delete user by id
-@auth.route('/users/<int:id>', methods=["DELETE"])
+# delete player by id
+@auth.route('/players/<int:id>', methods=["DELETE"])
 @token_auth.login_required
-def delete_user(id):
-    current_user = token_auth.current_user()
-    if current_user.id != id:
-        return jsonify({"error": "You do not have permission to delete this user."}), 403
-    user_to_delete = User.query.get_or_404(id)
-    user_to_delete.delete()
-    return jsonify({'success':f"{user_to_delete.username} has been deleted."})
+def delete_player(id):
+    current_player = token_auth.current_user()
+    if current_player.id != id:
+        return jsonify({"error": "You do not have permission to delete this player."}), 403
+    player_to_delete = Player.query.get_or_404(id)
+    player_to_delete.delete()
+    return jsonify({'success':f"{player_to_delete.username} has been deleted."})

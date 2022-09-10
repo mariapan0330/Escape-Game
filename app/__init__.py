@@ -20,7 +20,7 @@ migrate = Migrate(app, db)
 # create an instance of LoginManager for this app
 # login = LoginManager(app)
 # TODO: the following might be unneccessary:
-# login.login_view = 'login' # tells login manager endpoint to redirect to if user is not logged in
+# login.login_view = 'login' # tells login manager endpoint to redirect to if Player is not logged in
 # login.login_message = 'You must be logged in to do that.'
 # login.login_message_category = 'danger'
 
