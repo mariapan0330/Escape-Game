@@ -1,6 +1,8 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Index(props) {
+    let navigate = useNavigate()
     // props.linkToSignUp
     return (
         <>
@@ -9,7 +11,7 @@ export default function Index(props) {
                 <div className="col text-center">
                     <h1>Lockwood</h1>
                     <h3>Mystery</h3>
-                    {props.linkToSignUp}
+                    {props.loggedIn ? navigate('/') : props.linkToSignUpLogin}
                 </div>
                 <div className="col"></div>
             </div>

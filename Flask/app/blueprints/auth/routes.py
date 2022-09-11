@@ -4,9 +4,9 @@ from ...models import Player
 from .http_auth import basic_auth, token_auth
 
 # Auth Routes homepage
-@auth.route('/')
-def index():
-    return "You've found the AUTH route!"
+# @auth.route('/')
+# def index():
+#     return "You've found the AUTH route!"
 
 
 # Login - Get token with username/pw
@@ -26,7 +26,7 @@ def create_player():
     # validate the data
     for field in ['username', 'email', 'password']:
         if field not in data:
-            return jsonify({ "error": f"You are missing the {field} field." }), 400
+            return jsonify({ "error": f"You are missing a field." }), 400
     # if it makes it through the for loop without errors:
     username = data['username']
     email = data['email']
@@ -34,7 +34,7 @@ def create_player():
     # if username or email already exists:
     player_exists = Player.query.filter((Player.username == username) | (Player.email == email)).all()
     if player_exists:
-        return jsonify({'error': f"Player with username {username} or email {email} already exists."}), 400
+        return jsonify({'error': f"Player with that username or email already exists."}), 400
 
     new_player = Player(**data)
     return jsonify(new_player.to_dict())

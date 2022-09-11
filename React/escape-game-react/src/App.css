@@ -4,6 +4,7 @@ body {
     background-attachment: fixed;
     font-family: "Special Elite", sans-serif;
     /* color:lime; */
+    background-color: rgb(39, 39, 55);
 }
 
 #landing {

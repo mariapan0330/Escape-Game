@@ -14,23 +14,26 @@ function App() {
     
     const login = () => {setLoggedIn(true)}
     const logout = () => {
+        console.log(localStorage.getItem('token'), loggedIn)
         localStorage.removeItem('token')
         setLoggedIn(false)
+        console.log('logging out....', localStorage.getItem('token'), loggedIn)
     }
 
 
     return (
         <>
             <div className="container-fluid">
-                {/* <Routes> */}
-                    {/* <Route path='/' element={<Index loggedIn={loggedIn} />} /> */}
-                    <Index linkToSignUp={<HashLink to="#signup-or-login"><p><i className="fa-regular fa-circle-play"></i></p></HashLink>} />
-                    <SignupOrLogin loggedIn={loggedIn} />
-                    {/* <Route path='/signup' element={<Signup login={login} />} />
-                    <Route path='/login' element={<Login login={login} />} />
-                    <Route path='/game' element={<Game loggedIn={loggedIn} />} /> */}
-
-                {/* </Routes> */}
+                <Index loggedIn={loggedIn} logout={logout}
+                    linkToSignUpLogin={<HashLink to="#signup-or-login"><p><i className="fa-regular fa-circle-play"></i></p></HashLink>} />
+                    {/* The hashlinks let you move within one page */}
+                <SignupOrLogin login={login} loggedIn={loggedIn} />
+                <Routes> {/* The Routes actually change tabs */}
+                    <Route path='/' element={<Game loggedIn={loggedIn} logout={logout} />} />
+                </Routes>
+                {/* <Route path='/signup' element={<Signup login={login} />} />
+                <Route path='/login' element={<Login login={login} />} />
+                <Route path='/game' element={<Game loggedIn={loggedIn} />} /> */}
             </div>
         </>
     );
