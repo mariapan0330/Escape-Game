@@ -18,6 +18,7 @@ class Player(db.Model):
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     current_location = db.Column(db.String(100), default='gate')
     is_admin = db.Column(db.Boolean, default=False)
+    # reset_to_new_game = db.Column(db.Boolean, default=False)
     hotbar_slot_1 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), nullable=True)
     hotbar_slot_2 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), nullable=True)
     hotbar_slot_3 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), nullable=True)

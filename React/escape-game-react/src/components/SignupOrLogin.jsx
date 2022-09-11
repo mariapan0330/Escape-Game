@@ -13,8 +13,9 @@ export default function SignupOrLogin(props) {
     const [confirmPw, setConfirmPw] = useState()
     // if pw and confirmpw match, then passwords don't not match
     const [passwordsMatch, setPasswordsMatch] = useState(pw === confirmPw) 
-    const [signUpError, setSignUpError] = useState()
     const [missingField, setMissingField] = useState(false)
+    const [signUpError, setSignUpError] = useState()
+    const [loginError, setLoginError] = useState()
     
 
     useEffect(() => {
@@ -53,12 +54,14 @@ export default function SignupOrLogin(props) {
             method: "POST",
             headers: myHeaders
         })
-            .then(res => res.json())
+            .then(res => res.ok ? res.json() : setLoginError("Username or password is incorrect!"))
             .then(data => {
                 if (data.token){
                     localStorage.setItem('token', data.token)
                     props.login()
                     console.log('LOGIN SUCCESSFUL')
+                } else {
+                    setLoginError("That didn't work.")
                 }
             })
     }
@@ -110,9 +113,12 @@ export default function SignupOrLogin(props) {
             <>
                 <h1 className='text-center text-light' id='formTitle'>Log In</h1>
                 <form id='signUpForm' onSubmit={handleLoginSubmit}>
-                    <input type="username" className="form-control mb-4 p-3" placeholder="Username" name='username' onChange={(e) => setUsername(e.target.value)}/>
-                    <input type="password" className="form-control mb-4 p-3" placeholder="Password" name='password' onChange={(e) => setPw(e.target.value)}/>
-                    <h4 className='py-1 mx-4' id='switch-signup-login' onClick={() => setShowSignUpForm(true)}>New Here? Sign Up here!</h4>
+                    <p className='text-start mb-0 ms-3 fs-5'>Username</p>
+                    <input type="username" className="form-control mb-3 p-3" placeholder="Username" name='username' value={username} onChange={(e) => setUsername(e.target.value)}/>
+                    <p className='text-start mb-0 ms-3 fs-5'>Password</p>
+                    <input type="password" className="form-control mb-3 p-3" placeholder="Password" name='password' value={pw} onChange={(e) => setPw(e.target.value)}/>
+                    {loginError ? <h5 className='text-danger'>{loginError}</h5> : <></>}
+                    <h4 className='py-1 mx-4' id='switch-signup-login' onClick={() => setShowSignUpForm(true)}>Newcomer? Sign Up here!</h4>
                     <div className="d-flex justify-content-center">
                         <button type="submit" className="btn btn-warning mb-4 fs-3" id='submitSignup'>Log In</button>
                     </div>
@@ -128,10 +134,14 @@ export default function SignupOrLogin(props) {
             <>
                 <h1 className='text-center text-light' id='formTitle'>Sign Up</h1>
                 <form id='signUpForm' onSubmit={handleSignUpSubmit}>
-                        <input type="email" className="form-control mb-4 p-3" placeholder="Email" name='email' onChange={(e) => setEmail(e.target.value)} />
-                        <input type="username" className="form-control mb-4 p-3" placeholder="Username" name='username' onChange={(e) => setUsername(e.target.value)} />
-                        <input type="password" className="form-control mb-4 p-3" placeholder="Password" name='password' onChange={(e) => setPw(e.target.value)} />
-                        <input type="password" className="form-control mb-4 p-3" placeholder="Confirm Password" name='confirmPassword' onChange={(e) => setConfirmPw(e.target.value)} />
+                        <p className='text-start mb-0 ms-3 fs-5'>Email</p>
+                        <input type="email" className="form-control mb-3 p-3" placeholder="Email" name='email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <p className='text-start mb-0 ms-3 fs-5'>Username</p>
+                        <input type="username" className="form-control mb-3 p-3" placeholder="Username" name='username' value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <p className='text-start mb-0 ms-3 fs-5'>Password</p>
+                        <input type="password" className="form-control mb-3 p-3" placeholder="Password" name='password' value={pw} onChange={(e) => setPw(e.target.value)} />
+                        <p className='text-start mb-0 ms-3 fs-5'>Confirm Password</p>
+                        <input type="password" className="form-control mb-3 p-3" placeholder="Confirm Password" name='confirmPassword' value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} />
                         {passwordsMatch ? <></> : <h5 className='text-danger'>Your passwords don't match.</h5>}
                         {missingField ? <h5 className='text-danger'>You are missing a field.</h5> : <></>}
                         {signUpError ? <h5 className='text-danger'>{signUpError}</h5> : <></>}

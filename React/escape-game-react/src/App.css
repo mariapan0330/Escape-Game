@@ -7,7 +7,9 @@ body {
     background-color: rgb(39, 39, 55);
 }
 
-#landing {
+/**************** LANDING and GAME LANDING ****************/
+
+#landing, #game {
     font-family: "Sedgwick Ave Display", sans-serif;
     color:white;
     padding: 5rem;
@@ -26,19 +28,30 @@ body {
     /* text-align: center; */
 }
 
-#landing h1 {
+#landing h1, #game h1 {
     font-size: 10vw;
 }
 
-#landing h3 {
+#landing h3, #game h3 {
     font-size: 7vw;
 }
 
-#landing p {
+#landing p, #game p {
     color:white;
     font-size: 10vw;
     /* cursor: url('../public/images/question_pointerPNG.png'), grab; */
 }
+
+
+
+/****************  GAME  ****************/
+
+
+
+
+
+
+/****************  SIGN UP OR LOG IN  ****************/
 
 #signup-or-login{
     margin-top: 3vh;
@@ -57,4 +70,31 @@ body {
     /* color:black; */
     background-color: black;
     cursor:pointer;
+}
+
+
+/****************  FOOTER  ****************/
+#footer {
+    background-color: rgb(34, 34, 50);
+    border: 2px solid rgb(34, 34, 50);
+    color: white;
+    position: block;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+#editUserButton:hover {
+    color:rgb(217, 145, 20);
+    /* text-shadow: 2px 0px whitesmoke; */
+    cursor: pointer;
+}
+
+
+#logOutButton:hover {
+    color:rgb(217, 145, 20);
+    /* text-shadow: 2px 0px whitesmoke; */
+    cursor: pointer;
 }

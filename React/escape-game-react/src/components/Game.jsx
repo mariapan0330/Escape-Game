@@ -1,15 +1,22 @@
 import React from 'react'
 
 export default function Game(props) {
-    const logout= () => {
-        console.log('clicked LOG OUT');
-        props.logout()
-    }
+    // props.linkToSignUp
+    // props.linkToFooter
+
+
     return (
         <>
-            <div>Game</div>
-            <p onClick={() => {logout()}}>Logout</p>
+        <div className="d-flex justify-content-center">
+            <div id="game" className='row'>
+                <div className="col text-center">
+                    <h1>Lockwood</h1>
+                    <h3>Mystery</h3>
+                    {/* {props.loggedIn ? props.linkToFooter : props.linkToSignUpLogin} */}
+                </div>
+                <div className="col"></div>
+            </div>
+        </div>
         </>
-        
     )
 }

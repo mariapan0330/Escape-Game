@@ -1,9 +1,10 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 
-export default function Index(props) {
-    let navigate = useNavigate()
+export default function Landing(props) {
     // props.linkToSignUp
+    // props.linkToFooter
+
+
     return (
         <>
         <div className="d-flex justify-content-center">
@@ -11,7 +12,7 @@ export default function Index(props) {
                 <div className="col text-center">
                     <h1>Lockwood</h1>
                     <h3>Mystery</h3>
-                    {props.loggedIn ? navigate('/') : props.linkToSignUpLogin}
+                    {props.loggedIn ? props.linkToFooter : props.linkToSignUpLogin}
                 </div>
                 <div className="col"></div>
             </div>
