@@ -82,12 +82,6 @@ function App() {
             })
     }
 
-
-    const prologueTime = () => {
-        setAtPrologue(true)
-        setAtGate(false)
-    }
-
     return (
         <>
             <div className="container-fluid">
@@ -109,7 +103,12 @@ function App() {
 
                 {editUser ? <EditUser setEditUser={setEditUser} /> : <></> }
             </div>
-            <Footer currentPlayerUsername={currentPlayerUsername} loggedIn={loggedIn} logout={logout} setEditUser={setEditUser} />
+            <Footer currentPlayerUsername={currentPlayerUsername}
+                loggedIn={loggedIn} 
+                setAtPrologue={setAtPrologue} 
+                setAtGate={setAtGate} 
+                logout={logout} 
+                setEditUser={setEditUser} />
         </>
     );
 }

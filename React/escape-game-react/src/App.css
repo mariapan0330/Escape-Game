@@ -61,32 +61,33 @@ body {
 
 .bottom-bar {
     /* font-family: "Dokdo", sans-serif; */
-    border: 2px dashed red;
+    border: 2px solid white;
     height: auto;
 }
 
 .character-commentary {
     font-family: "Sriracha", sans-serif;
     /* font-size: 200%; */
-    border: 2px dashed lightpink;
+    /* border: 2px dashed lightpink; */
 }
 
 .column-test {
-    border: 2px dashed lime;
+    /* border: 2px solid white; */
+    /* border-radius: 1rem; */
     min-height: 75vh;
 }
 
 .column-test2 {
-    border: 2px dashed yellow;
+    border: 2px solid white;
 }
 
 .hotbar {
-    border: 2px dashed lightblue;
+    border: 2px solid white;
     min-height: 14.3%;
 }
 
 .hotbar-menu {
-    border: 2px dashed orange;
+    border: 2px solid white;
 }
 
 

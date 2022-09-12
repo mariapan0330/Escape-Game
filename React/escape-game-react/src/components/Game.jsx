@@ -88,6 +88,7 @@ export default function Game(props) {
                         <h5 className="fs-3" onClick={() => {
                             props.setAtGate(true)
                             props.setAtPrologue(false)
+                            // props.updatePlayer({'hotbar_slot_1':'this-is-test'})
                         }}>BEGIN</h5>
                     </div>
                 </>
@@ -100,6 +101,7 @@ export default function Game(props) {
     const handleNewGame = () => {
         console.log('===== NEW GAME =====')
         setShowLanding(false)
+        setPrologue(beginPrologue(1))
         setShowPrologue(true)
     }
 
@@ -120,6 +122,7 @@ export default function Game(props) {
             setPrologue(beginPrologue(3))
             setShowPrologue(true)
         } else if(playerLocation === 'gate'){
+            props.updatePlayer({'hotbar_slot_1':2})
             props.setAtGate(true)
             props.setAtPrologue(false)
         }
@@ -149,28 +152,9 @@ export default function Game(props) {
         <>
         <div className="">
             <div id="game" className='front-page row justify-content-center'>
-                <div className="column-test col-11">
+                <div className="column-test col">
                     {showLanding ? landing() : <></> }
                     {showPrologue ? prologue : <></>}
-                </div>
-
-                <div className="column-test2 col">
-                    <div className="hotbar row">item 1</div>
-                    <div className="hotbar row">item 1</div>
-                    <div className="hotbar row">item 1</div>
-                    <div className="hotbar row">item 1</div>
-                    <div className="hotbar row">item 1</div>
-                    <div className="hotbar row">item 1</div>
-                    <div className="hotbar row">item 1</div>
-                </div>
-                <div className="bottom-bar d-flex">
-                    <div className="character-commentary col justify-content-end">
-                        <h3 className="mt-3">{commentary}</h3>
-                    </div>
-                    <div className="hotbar-menu col-1">
-                        HINT
-                    </div>
-                    {/* <div className="hotbar-menu col-1">HINT?</div> */}
                 </div>
             </div>
         </div>

@@ -13,18 +13,18 @@ from ..auth.http_auth import token_auth
 
 # create a piece
 @piece.route('/', methods=["POST"])
-@token_auth.login_required
+# @token_auth.login_required
 def create_piece():
-    if token_auth.current_user().is_admin:
-        data = request.json
-        for field in ['piece_name', 'piece_description',
-        'piece_image']:
-            if field not in data:
-                return jsonify({ "error": f"You are missing the {field} field." }), 400
-        piece_name = data['piece_name']
-        piece_exists = Piece.query.filter((Piece.piece_name == piece_name)).all()
-        if piece_exists:
-            return jsonify({'error': f"Piece called '{piece_name}' already exists."}), 400
+    # if token_auth.current_user().is_admin:
+    data = request.json
+    for field in ['piece_name', 'piece_description',
+    'piece_image']:
+        if field not in data:
+            return jsonify({ "error": f"You are missing the {field} field." }), 400
+    piece_name = data['piece_name']
+    piece_exists = Piece.query.filter((Piece.piece_name == piece_name)).all()
+    if piece_exists:
+        return jsonify({'error': f"Piece called '{piece_name}' already exists."}), 400
 
     new_piece = Piece(**data)
     return jsonify(new_piece.to_dict())

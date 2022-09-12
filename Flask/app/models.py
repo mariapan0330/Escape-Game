@@ -19,13 +19,20 @@ class Player(db.Model):
     current_location = db.Column(db.String(100), default='prologue')
     is_admin = db.Column(db.Boolean, default=False)
     new_game = db.Column(db.Boolean, default=True)
-    hotbar_slot_1 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), nullable=True)
-    hotbar_slot_2 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), nullable=True)
-    hotbar_slot_3 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), nullable=True)
-    hotbar_slot_4 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), nullable=True)
-    hotbar_slot_5 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), nullable=True)
-    hotbar_slot_6 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), nullable=True)
-    hotbar_slot_7 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), nullable=True)
+    hotbar_slot_1 = db.Column(db.Integer, default=1)
+    hotbar_slot_2 = db.Column(db.Integer, default=1)
+    hotbar_slot_3 = db.Column(db.Integer, default=1)
+    hotbar_slot_4 = db.Column(db.Integer, default=1)
+    hotbar_slot_5 = db.Column(db.Integer, default=1)
+    hotbar_slot_6 = db.Column(db.Integer, default=1)
+    hotbar_slot_7 = db.Column(db.Integer, default=1)
+    # hotbar_slot_1 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), default=1)
+    # hotbar_slot_2 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), default=1)
+    # hotbar_slot_3 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), default=1)
+    # hotbar_slot_4 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), default=1)
+    # hotbar_slot_5 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), default=1)
+    # hotbar_slot_6 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), default=1)
+    # hotbar_slot_7 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), default=1)
 
     token = db.Column(db.String(32), unique=True, index=True)
     # token_expiration = db.Column(db.DateTime)
@@ -56,15 +63,13 @@ class Player(db.Model):
             'is_admin': self.is_admin,
             'new_game': self.new_game,
             'date_created': self.date_created,
-            'hotbar': {
-                'hotbar_slot_1': self.hotbar_slot_1,
-                'hotbar_slot_2': self.hotbar_slot_2,
-                'hotbar_slot_3': self.hotbar_slot_3,
-                'hotbar_slot_4': self.hotbar_slot_4,
-                'hotbar_slot_5': self.hotbar_slot_5,
-                'hotbar_slot_6': self.hotbar_slot_6,
-                'hotbar_slot_7': self.hotbar_slot_7
-            }
+            'hotbar_slot_1': Piece.query.get(self.hotbar_slot_1).to_dict(),
+            'hotbar_slot_2': Piece.query.get(self.hotbar_slot_2).to_dict(),
+            'hotbar_slot_3': Piece.query.get(self.hotbar_slot_3).to_dict(),
+            'hotbar_slot_4': Piece.query.get(self.hotbar_slot_4).to_dict(),
+            'hotbar_slot_5': Piece.query.get(self.hotbar_slot_5).to_dict(),
+            'hotbar_slot_6': Piece.query.get(self.hotbar_slot_6).to_dict(),
+            'hotbar_slot_7': Piece.query.get(self.hotbar_slot_7).to_dict()
         }
 
     

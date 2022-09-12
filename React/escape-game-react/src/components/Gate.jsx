@@ -9,10 +9,10 @@ export default function Gate(props) {
     const [hotbar5, setHotbar5] = useState()
     const [hotbar6, setHotbar6] = useState()
     const [hotbar7, setHotbar7] = useState()
-    const [commentary, setCommentary] = useState()
+    const [commentary, setCommentary] = useState(<>&nbsp;</>)
     const [newGame, setNewGame] = useState()
     const [playerLocation, setPlayerLocation] = useState()
-
+    const hotbars = [hotbar1, hotbar2, hotbar3, hotbar4, hotbar5, hotbar6, hotbar7]
 
     const findPlayerData = () => {
         let myHeaders = new Headers()
@@ -25,8 +25,16 @@ export default function Gate(props) {
         .then(res => res.json())
         .then(data => {
             setNewGame(data["new_game"])
+            setHotbar1(data['hotbar_slot_1']['piece_name'])
+            setHotbar2(data['hotbar_slot_2']['piece_name'])
+            setHotbar3(data['hotbar_slot_3']['piece_name'])
+            setHotbar4(data['hotbar_slot_4']['piece_name'])
+            setHotbar5(data['hotbar_slot_5']['piece_name'])
+            setHotbar6(data['hotbar_slot_6']['piece_name'])
+            setHotbar7(data['hotbar_slot_7']['piece_name'])
             setPlayerLocation(data['current_location'])
             console.log('FindPlayerData: newGame:', newGame, 'location:', playerLocation)
+            console.log('FindPlayerData: hotbar1:', hotbar1)
             // console.log('GAME current Player Data for',attr,":",, 'saved as:', playerData)
         })
         // return playerData
@@ -57,7 +65,7 @@ export default function Gate(props) {
                     <div className="character-commentary col justify-content-end">
                         <h3 className="mt-3">{commentary}</h3>
                     </div>
-                    <div className="hotbar-menu col-1">
+                    <div className="hotbar-menu col-1" onClick={() => {setCommentary('I don\'t know either, man.')}}>
                         HINT
                     </div>
                 </div>
