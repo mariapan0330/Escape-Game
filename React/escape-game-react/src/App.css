@@ -12,7 +12,7 @@ body {
 .front-page {
     font-family: "Sedgwick Ave Display", sans-serif;
     color:white;
-    padding: 5rem;
+    /* padding: 5rem; */
     min-height: 98vh; 
     min-width: 98vw;
     /* max-height: 200px;
@@ -26,6 +26,10 @@ body {
     border-radius: 1rem;
     /* margin: 5vh; */
     /* text-align: center; */
+}
+
+.front-page-title {
+    padding: 5rem;
 }
 
 .front-page h1 {
@@ -45,7 +49,45 @@ body {
 
 
 /****************  GAME  ****************/
+#prologue {
+    font-family: "Voces", sans-serif;
+    
+}
 
+.dig-deeper {
+    font-family: "Rock Salt", sans-serif;
+    
+}
+
+.bottom-bar {
+    /* font-family: "Dokdo", sans-serif; */
+    border: 2px dashed red;
+    height: auto;
+}
+
+.character-commentary {
+    font-family: "Sriracha", sans-serif;
+    /* font-size: 200%; */
+    border: 2px dashed lightpink;
+}
+
+.column-test {
+    border: 2px dashed lime;
+    min-height: 75vh;
+}
+
+.column-test2 {
+    border: 2px dashed yellow;
+}
+
+.hotbar {
+    border: 2px dashed lightblue;
+    min-height: 14.3%;
+}
+
+.hotbar-menu {
+    border: 2px dashed orange;
+}
 
 
 

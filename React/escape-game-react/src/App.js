@@ -9,13 +9,15 @@ import Landing from './components/Landing';
 import EditUser from './components/EditUser';
 import Game from './components/Game';
 import basicKey from './key';
+import Gate from './components/Gate';
 // This one has all the routes which you make in your components folder.
 // The user is called "Player" not user (but they do have a "username" not "playername").
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true: false)
     const [editUser, setEditUser] = useState(false)
-    const [currentPlayerUsername, setCurrentPlayerUsername] = useState()
+    const [atGate, setAtGate] = useState(false)
+    const [atPrologue, setAtPrologue] = useState(true)
     
     const login = () => {
         setLoggedIn(true)
@@ -24,14 +26,14 @@ function App() {
     useEffect(() => {
         findCurrentPlayer()
     }, [loggedIn])
-
+    
     
     useEffect(() => {
         console.log('finding current user')
         findCurrentPlayer()
     }, [])
 
-
+    
     const logout = () => {
         console.log(localStorage.getItem('token'), loggedIn)
         localStorage.removeItem('token')
@@ -42,42 +44,70 @@ function App() {
     const findCurrentPlayer = () => {
         let myHeaders = new Headers()
         myHeaders.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
-
+        
         fetch("http://127.0.0.1:5000/auth/current-player", {
             method: "GET",
             headers: myHeaders
         })
+        .then(res => res.json())
+        .then(data => {
+            setCurrentPlayerUsername(data["username"])
+            setCurrentPlayerId(data["id"])
+            console.log('current Player Data:',currentPlayerUsername, currentPlayerId)
+        })
+        // console.log('current Player Data2:',currentPlayerUsername)
+    }
+    const [currentPlayerUsername, setCurrentPlayerUsername] = useState(findCurrentPlayer())
+    const [currentPlayerId, setCurrentPlayerId] = useState(findCurrentPlayer())
+
+
+    const updatePlayer = (what) => {
+        findCurrentPlayer()
+        let myHeaders = new Headers()
+        myHeaders.append("Authorization", `Bearer ${localStorage.getItem('token')}`)
+        myHeaders.append('Content-Type',"application/json")
+
+        var toUpdate = JSON.stringify(what)
+
+        fetch(`http://127.0.0.1:5000/auth/players/${currentPlayerId}`, {
+            method: "PUT",
+            headers: myHeaders,
+            body: toUpdate
+        })
             .then(res => res.json())
             .then(data => {
-                setCurrentPlayerUsername(data["username"])
-                console.log('current Player Data:',currentPlayerUsername)
+                if (!data.error){
+                    console.log('Player', currentPlayerId, 'has been updated with:', what)
+                }
             })
-            // console.log('current Player Data2:',currentPlayerUsername)
     }
 
+
+    const prologueTime = () => {
+        setAtPrologue(true)
+        setAtGate(false)
+    }
 
     return (
         <>
             <div className="container-fluid">
                 {/* The hashlinks let you move within one page */}
                 {loggedIn ? 
+                    atPrologue ? <Game 
+                                    currentPlayerUsername={currentPlayerUsername} 
+                                    setAtGate={setAtGate} 
+                                    setAtPrologue={setAtPrologue}
+                                    updatePlayer={updatePlayer} /> : <></>
+                    :
                     <>
-                    <Game currentPlayerUsername={currentPlayerUsername} />
-                    </>
-                    : <>
                         <Landing loggedIn={loggedIn} logout={logout}
                             linkToSignUpLogin={<HashLink to="#signup-or-login"><p><i className="fa-regular fa-circle-play"></i></p></HashLink>}
                             linkToFooter={<HashLink to="#footer"><h1>New Game</h1></HashLink>} />
                         <SignupOrLogin login={login} loggedIn={loggedIn} findCurrentPlayer={findCurrentPlayer} />
                     </>}
+                {atGate ? <Gate updatePlayer={updatePlayer} /> : <></>}
 
                 {editUser ? <EditUser setEditUser={setEditUser} /> : <></> }
-                {/* <Routes> The Routes actually change tabs
-                    <Route path='/' element={<Game loggedIn={loggedIn} logout={logout} />} />
-                </Routes> */}
-                {/* <Route path='/signup' element={<Signup login={login} />} />
-                <Route path='/login' element={<Login login={login} />} />
-                <Route path='/game' element={<Game loggedIn={loggedIn} />} /> */}
             </div>
             <Footer currentPlayerUsername={currentPlayerUsername} loggedIn={loggedIn} logout={logout} setEditUser={setEditUser} />
         </>

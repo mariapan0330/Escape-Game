@@ -7,8 +7,15 @@ export default function Game(props) {
     const [showLanding, setShowLanding] = useState(true)
     const [showPrologue, setShowPrologue] = useState(false)
     const [prologue, setPrologue] = useState()
+    const [commentary, setCommentary] = useState(<>&nbsp;</>)
+    const [newGame, setNewGame] = useState()
+    const [playerLocation, setPlayerLocation] = useState()
 
-    const findPlayerData = (attr) => {
+    useEffect(() => {
+        findPlayerData()
+    }, [])
+
+    const findPlayerData = () => {
         let myHeaders = new Headers()
         myHeaders.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
 
@@ -16,46 +23,79 @@ export default function Game(props) {
             method: "GET",
             headers: myHeaders
         })
-            .then(res => res.json())
-            .then(data => {
-                setPlayerData(data[attr])
-                console.log('current Player Data:',playerData)
-            })
-        return playerData
-    }
-
-    const beginPrologue = () => {
-        return (
-            <>
-                <h3>Prologue Page 1</h3>
-                {/* <h5 onClick={() => setPrologue(prologuePage2)}>Next Page</h5> */}
-            </>
-            
-        )
+        .then(res => res.json())
+        .then(data => {
+            setNewGame(data["new_game"])
+            setPlayerLocation(data['current_location'])
+            console.log('FindPlayerData: newGame:', newGame, 'location:', playerLocation)
+            // console.log('GAME current Player Data for',attr,":",, 'saved as:', playerData)
+        })
+        // return playerData
     }
     
-    // const prologuePage2 = () => {
-    //     return (
-    //         <>
-    //             <h3>Prologue Page 2</h3>
-    //             <h5 onClick={() => setPrologue(prologuePage3)}>Next Page</h5>
-    //         </>
-            
-    //     )
-    // }
+    const beginPrologue = (page) => {
+        if (page === 1){
+            props.updatePlayer({"current_location":"prologue1"})
+            props.updatePlayer({"new_game":false})
+            console.log('current_location: prologue1')
+            setCommentary(<>&nbsp;</>)
+            return (
+                <>
+                <div className="d-flex row">
+                    <div id="prologue">
+                        <h3 className="fs-3">Sept 6, 1985</h3>
+                        <br />
+                        <h3 className="fs-2">It's all over the news.<br/>
+                        Lady Macaroni, a philanthropist and movie star and Lockwood's richest citizen...<br/>
+                        has been murdered!</h3>
+                        <br />
+                        <h5 className="fs-3" onClick={() => setPrologue(beginPrologue(2))}>Next Page</h5>
+                    </div>
+                </div>
+                </>
+            )
+        } else if (page === 2){
+            props.updatePlayer({"current_location":"prologue2"})
+            console.log('current_location: prologue2')
+            setCommentary(<>&nbsp;</>)
+            return (
+                <>
+                    <div id="prologue">
+                        <h3 className="fs-3">Sept 6, 1985</h3>
+                        <br />
+                        <h3 className="fs-2">The authorities found Farmer Fettuccine guilty. <br />
+                        They sentenced him to 30 years in prison.</h3>
+                        <br />
+                        <h5 className="fs-2" onClick={() => setPrologue(beginPrologue(3))}>Next Page</h5>
+                    </div>
+                </>
+            )
+        } else if (page === 3){
+            props.updatePlayer({"current_location":"prologue3"})
+            console.log('current_location: prologue3')
+            setCommentary('I recognize the place in this picture. It\'s Lady Macaroni\'s mansion.')
+            return (
+                <>
+                    <div id="prologue">
+                        <h3 className="fs-3">Sept 7, 1985</h3>
+                        <br />
+                        <h3 className="fs-2">The day after the trial, you recieve a letter with $5000 and a note:</h3>
+                        <h3 className="dig-deeper fs-1 ms-5">The murderer is not who they think it is.</h3>
+                        <br/>
+                        <h3 className="dig-deeper fs-1 ms-5">DIG DEEPER.</h3>
+                        <h3 className="fs-3 ms-5">(Picture of Lady Macaroni's mansion)</h3>
+                        <br />
+                        <h5 className="fs-3" onClick={() => {
+                            props.setAtGate(true)
+                            props.setAtPrologue(false)
+                        }}>BEGIN</h5>
+                    </div>
+                </>
+            )
+        }
+    }
 
-    // const prologuePage3 = () => {
-    //     return (
-    //         <>
-    //             <h3>Prologue Page 2</h3>
-    //             <h5>Start Tutorial</h5>
-    //             {/* <h5 onClick={() => setPrologue(prologuePage4)}>Next Page</h5> */}
-    //         </>
-            
-    //     )
-    // }
-
-    useEffect(() => {setPrologue(beginPrologue())},[])
+    // useEffect(() => {setPrologue(beginPrologue(1))},[])
 
     const handleNewGame = () => {
         console.log('===== NEW GAME =====')
@@ -64,23 +104,42 @@ export default function Game(props) {
     }
 
     const handleContinueGame = () => {
-
+        console.log('===== CONTINUE GAME =====')
+        // let playerLoc = playerLocation
+        console.log('CONT current location:', playerLocation)
+        if (playerLocation === 'prologue1'){
+            setShowLanding(false)
+            setPrologue(beginPrologue(1))
+            setShowPrologue(true)
+        } else if (playerLocation === 'prologue2'){
+            setShowLanding(false)
+            setPrologue(beginPrologue(2))
+            setShowPrologue(true)
+        } else if (playerLocation === 'prologue3'){
+            setShowLanding(false)
+            setPrologue(beginPrologue(3))
+            setShowPrologue(true)
+        } else if(playerLocation === 'gate'){
+            props.setAtGate(true)
+            props.setAtPrologue(false)
+        }
     }
 
     const landing = () => {
+        // props.updatePlayer({"location":"prologue"})
+        // props.updatePlayer({"new_game":true})
         return (
             <>
-                <div className="col text-center">
+                <div className="front-page-title col text-center">
                     <h1>Lockwood</h1>
                     <h2>Mystery</h2>
-                    {findPlayerData("new_game") === true ? 
+                    {newGame === true ? 
                     <button className='btn btn-light fs-1 mt-4' onClick={() => {handleNewGame()}}>New Game</button>
                     :
                     <button className='btn btn-light fs-4 mt-3' onClick={() => {handleContinueGame()}}>Continue Game</button>
                     }
                     <br />
                 </div>
-                <div className="col"></div>
             </>
         )
     }
@@ -88,12 +147,31 @@ export default function Game(props) {
 
     return (
         <>
-        <div className="d-flex justify-content-center">
-            <div id="game" className='front-page row'>
-                {showLanding ? landing() : <></> }
-                {showPrologue ? beginPrologue() : <></>}
+        <div className="">
+            <div id="game" className='front-page row justify-content-center'>
+                <div className="column-test col-11">
+                    {showLanding ? landing() : <></> }
+                    {showPrologue ? prologue : <></>}
+                </div>
 
-
+                <div className="column-test2 col">
+                    <div className="hotbar row">item 1</div>
+                    <div className="hotbar row">item 1</div>
+                    <div className="hotbar row">item 1</div>
+                    <div className="hotbar row">item 1</div>
+                    <div className="hotbar row">item 1</div>
+                    <div className="hotbar row">item 1</div>
+                    <div className="hotbar row">item 1</div>
+                </div>
+                <div className="bottom-bar d-flex">
+                    <div className="character-commentary col justify-content-end">
+                        <h3 className="mt-3">{commentary}</h3>
+                    </div>
+                    <div className="hotbar-menu col-1">
+                        HINT
+                    </div>
+                    {/* <div className="hotbar-menu col-1">HINT?</div> */}
+                </div>
             </div>
         </div>
         </>

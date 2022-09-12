@@ -109,7 +109,7 @@ export default function SignupOrLogin(props) {
 
 
     const loginForm = () => {
-        console.log("clicked sign up");
+        // console.log("clicked sign up");
         return (
             <>
                 <h1 className='text-center text-light' id='formTitle'>Log In</h1>

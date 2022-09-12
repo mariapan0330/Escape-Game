@@ -8,7 +8,7 @@ export default function Landing(props) {
     return (
         <>
         <div className="d-flex justify-content-center">
-            <div id="landing" className='front-page row'>
+            <div id="landing" className='front-page front-page-title row'>
                 <div className="col text-center">
                     <h1>Lockwood</h1>
                     <h2>Mystery</h2>

@@ -16,7 +16,7 @@ class Player(db.Model):
     email = db.Column(db.String(150), nullable=False, unique=True)
     password = db.Column(db.String(256), nullable=False)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    current_location = db.Column(db.String(100), default='gate')
+    current_location = db.Column(db.String(100), default='prologue')
     is_admin = db.Column(db.Boolean, default=False)
     new_game = db.Column(db.Boolean, default=True)
     hotbar_slot_1 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), nullable=True)
