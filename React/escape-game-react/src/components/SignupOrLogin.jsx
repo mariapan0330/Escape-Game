@@ -42,7 +42,8 @@ export default function SignupOrLogin(props) {
     
     
     const handleLoginSubmit = e => {
-        if (e){e.preventDefault()
+        if (e){
+            e.preventDefault()
             console.log('Submit Log In Form');
         }
         console.log("Logging in...")
@@ -93,11 +94,11 @@ export default function SignupOrLogin(props) {
             .then(res => res.json())
             .then(data => {
                 if (!data.error){
-                    // navigate to the main game. Can i log in now too automatically instead of making the player do that
+                    // Show the main game. Can i log in now too automatically instead of making the player do that
                     console.log('sign up successful')
                     handleLoginSubmit()
-                    props.login()
-                    setShowSignUpForm(false)
+                    .then(props.login())
+                    .then(setShowSignUpForm(false))
 
                 } else if (data.error === "Player with that username or email already exists."){
                     setSignUpError(data.error)

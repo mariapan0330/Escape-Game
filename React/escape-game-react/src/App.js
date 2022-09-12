@@ -15,15 +15,22 @@ import basicKey from './key';
 function App() {
     const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true: false)
     const [editUser, setEditUser] = useState(false)
-    const [currentPlayerData, setCurrentPlayerData] = useState()
+    const [currentPlayerUsername, setCurrentPlayerUsername] = useState()
     
     const login = () => {
         setLoggedIn(true)
     }
 
     useEffect(() => {
-        findCurrentUser()
+        findCurrentPlayer()
     }, [loggedIn])
+
+    
+    useEffect(() => {
+        console.log('finding current user')
+        findCurrentPlayer()
+    }, [])
+
 
     const logout = () => {
         console.log(localStorage.getItem('token'), loggedIn)
@@ -32,7 +39,7 @@ function App() {
         console.log('logging out....', localStorage.getItem('token'), loggedIn)
     }
 
-    const findCurrentUser = () => {
+    const findCurrentPlayer = () => {
         let myHeaders = new Headers()
         myHeaders.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
 
@@ -42,10 +49,10 @@ function App() {
         })
             .then(res => res.json())
             .then(data => {
-                setCurrentPlayerData(data)
-                console.log('current Player Data:',currentPlayerData)
+                setCurrentPlayerUsername(data["username"])
+                console.log('current Player Data:',currentPlayerUsername)
             })
-            console.log('current Player Data2:',currentPlayerData)
+            // console.log('current Player Data2:',currentPlayerUsername)
     }
 
 
@@ -55,13 +62,13 @@ function App() {
                 {/* The hashlinks let you move within one page */}
                 {loggedIn ? 
                     <>
-                    <Game currentPlayerData={currentPlayerData} />
+                    <Game currentPlayerUsername={currentPlayerUsername} />
                     </>
                     : <>
                         <Landing loggedIn={loggedIn} logout={logout}
                             linkToSignUpLogin={<HashLink to="#signup-or-login"><p><i className="fa-regular fa-circle-play"></i></p></HashLink>}
                             linkToFooter={<HashLink to="#footer"><h1>New Game</h1></HashLink>} />
-                        <SignupOrLogin login={login} loggedIn={loggedIn} setCurrentPlayerData={setCurrentPlayerData} />
+                        <SignupOrLogin login={login} loggedIn={loggedIn} findCurrentPlayer={findCurrentPlayer} />
                     </>}
 
                 {editUser ? <EditUser setEditUser={setEditUser} /> : <></> }
@@ -72,7 +79,7 @@ function App() {
                 <Route path='/login' element={<Login login={login} />} />
                 <Route path='/game' element={<Game loggedIn={loggedIn} />} /> */}
             </div>
-            <Footer currentPlayerData={currentPlayerData} loggedIn={loggedIn} logout={logout} setEditUser={setEditUser} />
+            <Footer currentPlayerUsername={currentPlayerUsername} loggedIn={loggedIn} logout={logout} setEditUser={setEditUser} />
         </>
     );
 }

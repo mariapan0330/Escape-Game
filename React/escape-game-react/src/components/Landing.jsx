@@ -8,10 +8,10 @@ export default function Landing(props) {
     return (
         <>
         <div className="d-flex justify-content-center">
-            <div id="landing" className='row'>
+            <div id="landing" className='front-page row'>
                 <div className="col text-center">
                     <h1>Lockwood</h1>
-                    <h3>Mystery</h3>
+                    <h2>Mystery</h2>
                     {props.loggedIn ? props.linkToFooter : props.linkToSignUpLogin}
                 </div>
                 <div className="col"></div>
