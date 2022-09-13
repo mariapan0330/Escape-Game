@@ -16,6 +16,7 @@ export default function SignupOrLogin(props) {
     const [missingField, setMissingField] = useState(false)
     const [signUpError, setSignUpError] = useState()
     const [loginError, setLoginError] = useState()
+    const [playerId, setPlayerId] = useState()
     
 
     useEffect(() => {
@@ -39,7 +40,7 @@ export default function SignupOrLogin(props) {
     useEffect(() => {
         console.log('sign up error:', signUpError)
     }, [signUpError])
-    
+
     
     const handleLoginSubmit = e => {
         if (e){
@@ -96,6 +97,7 @@ export default function SignupOrLogin(props) {
                 if (!data.error){
                     // Show the main game. Can i log in now too automatically instead of making the player do that
                     console.log('sign up successful')
+                    setPlayerId(data['id'])
                     handleLoginSubmit()
                     .then(props.login())
                     .then(setShowSignUpForm(false))
@@ -104,7 +106,73 @@ export default function SignupOrLogin(props) {
                     setSignUpError(data.error)
                 }
             })
+        newPlayerPuzzles()
+    }
+    
+    const newPlayerPuzzles = () => {
+        // STEP 1: link the player to puzzle 1 (<<gate-keyhole>>), puzzle 2 (<<mailbox-box>>), and puzzle 3 (<<address-screws>>)
+        // STEP 2: a) link player's puzzle 1 to piece 3 (<key-a>)
+        //         b) link player's puzzle 2 to piece 4 (<address>)
+
+        // Step 1
+        for (let puzzId of [1,2,3]){
+            
+            let myHeaders = new Headers()
+            // myHeaders.append("Authorization", `Bearer ${localStorage.getItem('token')}`)
+            myHeaders.append("Content-Type", 'application/json')
+            
+            var playerPuzzleData = JSON.stringify({
+                "player_id": playerId,
+                "puzzle_id": puzzId,
+                "correct_combination": String(Math.floor(Math.random()*9999)),
+                "player_saw_puzzle": false,
+                "player_completed_puzzle":false
+            })
+            // create Player-Puzzle
+            fetch('http://127.0.0.1:5000/player_puzzle', {
+                method: "POST",
+                headers: myHeaders,
+                body: playerPuzzleData
+            })
+            .then(res => res.json())
+            .then(data => {
+                    if (data.ok){
+                        console.log('New player-puzzle:', playerId, '-', puzzId)
+                    }
+                })
+                
+                
+            // Step 2a:
+            if (puzzId === 1){
+                let myHeaders = new Headers()
+                myHeaders.append("Content-Type", 'application/json')
+                
+                var playerPuzzlePieceData = JSON.stringify({
+                    "player_id": playerId,
+                    "puzzle_id": puzzId,
+                    "correct_combination": String(Math.floor(Math.random()*9999)), 
+                    "player_saw_puzzle": false,
+                    "player_completed_puzzle":false
+                })
+
+                fetch('http://127.0.0.1:5000/player_puzzle', {
+                    method: "POST",
+                    headers: myHeaders,
+                    body: playerPuzzleData
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.ok){
+                            console.log('New player-puzzle:', playerId, '-', puzzId)
+                        }
+                    })
+            // Step 2b:
+            } else if (puzzId === 2){
+
+            }
         }
+        
+    }
 
 
 

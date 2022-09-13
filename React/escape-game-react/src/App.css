@@ -59,35 +59,42 @@ body {
     
 }
 
+/****************  GATE  ****************/
+#gate {
+    font-family: "Voces", sans-serif;
+    background-image: url('../public/images/gatePNG3.png');
+    background-size: 93% 90%;
+    background-position: top left;
+}
+
+
 .bottom-bar {
-    /* font-family: "Dokdo", sans-serif; */
-    border: 2px solid white;
+    border-top: 2px solid white;
+    border-radius: 1rem;
+
+    background-color: rgb(41, 35, 56);
     height: auto;
 }
 
 .character-commentary {
     font-family: "Sriracha", sans-serif;
-    /* font-size: 200%; */
-    /* border: 2px dashed lightpink; */
 }
 
-.column-test {
-    /* border: 2px solid white; */
-    /* border-radius: 1rem; */
+.main-gate {
     min-height: 75vh;
 }
 
-.column-test2 {
-    border: 2px solid white;
-}
-
 .hotbar {
-    border: 2px solid white;
+    background-color: rgb(84, 74, 111);
+    border-left: 5px ridge white;
+    border-bottom: 7px ridge white;
     min-height: 14.3%;
 }
 
-.hotbar-menu {
-    border: 2px solid white;
+.hint-box {
+    /* margin: 10px; */
+    /* max-height: 80%; */
+    border: 5px ridge white;
 }
 
 

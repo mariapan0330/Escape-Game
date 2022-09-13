@@ -63,6 +63,7 @@ def update_player(id):
     player = Player.query.get_or_404(id)
     data = request.json
     player.update(data)
+    print(id, data)
     return jsonify(player.to_dict())
 
 

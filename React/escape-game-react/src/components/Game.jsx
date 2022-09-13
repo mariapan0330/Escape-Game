@@ -27,10 +27,18 @@ export default function Game(props) {
         .then(data => {
             setNewGame(data["new_game"])
             setPlayerLocation(data['current_location'])
-            console.log('FindPlayerData: newGame:', newGame, 'location:', playerLocation)
+            // console.log('FindPlayerData: newGame:', newGame, 'location:', playerLocation)
             // console.log('GAME current Player Data for',attr,":",, 'saved as:', playerData)
         })
         // return playerData
+    }
+
+    const createPieces = () => {
+
+    }
+
+    const createPuzzles = () => {
+
     }
     
     const beginPrologue = (page) => {
@@ -88,7 +96,7 @@ export default function Game(props) {
                         <h5 className="fs-3" onClick={() => {
                             props.setAtGate(true)
                             props.setAtPrologue(false)
-                            // props.updatePlayer({'hotbar_slot_1':'this-is-test'})
+                            props.updatePlayer({'current_location':'gate'})
                         }}>BEGIN</h5>
                     </div>
                 </>
@@ -121,8 +129,8 @@ export default function Game(props) {
             setShowLanding(false)
             setPrologue(beginPrologue(3))
             setShowPrologue(true)
-        } else if(playerLocation === 'gate'){
-            props.updatePlayer({'hotbar_slot_1':2})
+        } else if(playerLocation === 'gate' || playerLocation === 'inspect-address'){
+            // props.updatePlayer({'hotbar_slot_1':2})
             props.setAtGate(true)
             props.setAtPrologue(false)
         }

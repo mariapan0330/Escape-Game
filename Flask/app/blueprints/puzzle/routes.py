@@ -17,8 +17,7 @@ from ..auth.http_auth import token_auth
 def create_puzzle():
     if token_auth.current_user().is_admin:
         data = request.json
-        for field in ['puzzle_name', 'puzzle_description',
-        'puzzle_image']:
+        for field in ['puzzle_name', 'puzzle_description']:
             if field not in data:
                 return jsonify({ "error": f"You are missing the {field} field." }), 400
         puzzle_name = data['puzzle_name']

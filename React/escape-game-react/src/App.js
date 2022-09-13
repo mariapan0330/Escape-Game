@@ -18,6 +18,9 @@ function App() {
     const [editUser, setEditUser] = useState(false)
     const [atGate, setAtGate] = useState(false)
     const [atPrologue, setAtPrologue] = useState(true)
+    const [houseNum, setHouseNum] = useState()
+    const [currentPlayerUsername, setCurrentPlayerUsername] = useState()
+    const [currentPlayerId, setCurrentPlayerId] = useState()
     
     const login = () => {
         setLoggedIn(true)
@@ -28,8 +31,9 @@ function App() {
     }, [loggedIn])
     
     
+    // TODO: will this also render on mount?
     useEffect(() => {
-        console.log('finding current user')
+        // console.log('finding current user')
         findCurrentPlayer()
     }, [])
 
@@ -57,8 +61,7 @@ function App() {
         })
         // console.log('current Player Data2:',currentPlayerUsername)
     }
-    const [currentPlayerUsername, setCurrentPlayerUsername] = useState(findCurrentPlayer())
-    const [currentPlayerId, setCurrentPlayerId] = useState(findCurrentPlayer())
+    
 
 
     const updatePlayer = (what) => {
@@ -87,11 +90,12 @@ function App() {
             <div className="container-fluid">
                 {/* The hashlinks let you move within one page */}
                 {loggedIn ? 
-                    atPrologue ? <Game 
-                                    currentPlayerUsername={currentPlayerUsername} 
-                                    setAtGate={setAtGate} 
-                                    setAtPrologue={setAtPrologue}
-                                    updatePlayer={updatePlayer} /> : <></>
+                    atPrologue ?
+                        <Game 
+                            currentPlayerUsername={currentPlayerUsername} 
+                            setAtGate={setAtGate} 
+                            setAtPrologue={setAtPrologue}
+                            updatePlayer={updatePlayer} /> : <></>
                     :
                     <>
                         <Landing loggedIn={loggedIn} logout={logout}

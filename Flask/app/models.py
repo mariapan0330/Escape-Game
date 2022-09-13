@@ -87,7 +87,20 @@ class Player(db.Model):
 
     def update(self, data):
         for field in data:
-            if field not in {'username', 'email', 'password', 'current_location', 'new_game', 'is_admin'}:
+            if field not in {'username', 
+                'email', 
+                'password', 
+                'current_location', 
+                'new_game', 
+                'is_admin', 
+                'hotbar_slot_1',
+                'hotbar_slot_2',
+                'hotbar_slot_3',
+                'hotbar_slot_4',
+                'hotbar_slot_5',
+                'hotbar_slot_6',
+                'hotbar_slot_7'
+                }:
                 continue
             if field == 'password':
                 setattr(self, field, gen_pw_hash(data[field]))
@@ -178,7 +191,7 @@ class Puzzle(db.Model):
     
     def update(self, data):
         for field in data:
-            if field not in {'puzzle_name', 'puzzle_description', 'puzzle_image'}:
+            if field not in {'puzzle_name', 'puzzle_description'}:
                 continue
             setattr(self, field, data[field])
         db.session.commit()
