@@ -1,6 +1,6 @@
 from . import player_puzzle_piece
 from flask import jsonify, request
-from ...models import PlayerPuzzlePiece
+from ...models import PlayerPuzzlePiece, PlayerPuzzle
 from ..auth.http_auth import token_auth
 
 ##### MUST BE LOGGED IN AND MARKED AS ADMIN TO CREATE, RETRIEVE, UPDATE, AND DEL PUZZLES #####
@@ -44,6 +44,26 @@ def view_all_player_puzzle_pieces():
     player_puzzle_pieces = PlayerPuzzlePiece.query.all()
     return jsonify([p.to_dict() for p in player_puzzle_pieces])
    
+
+# View all the player-puzzle-pieces of whoever holds the token
+@player_puzzle_piece.route('/current-player')
+@token_auth.login_required
+def view_current_user_ppp():
+    current_player = token_auth.current_user()
+
+    # filter the ones that have a player puzzle where the player ID is the same as the token_auth.current_user().id
+    # step 1: find the ids of all the current player's player-puzzles
+    player_puzzles = PlayerPuzzle.query.filter(PlayerPuzzle.player_id == current_player.id).all()
+    player_puzzle_ids = [p.player_puzzle_id for p in player_puzzles]
+    # print('PLAYER PUZZLES!! ', player_puzzle_ids)
+
+    # step 2: filter for the player-puzzle-pieces where the player-puzzle ids are the ones we found in step 1
+    player_puzzle_pieces = PlayerPuzzlePiece.query.filter(PlayerPuzzlePiece.player_puzzle_id.in_(player_puzzle_ids)).all()
+    # print('player puzz pieces',player_puzzle_pieces)
+    
+    # return those as json
+    return jsonify([p.to_dict() for p in player_puzzle_pieces])
+
 
 # View a player-puzzle by id
 @player_puzzle_piece.route('/<int:id>', methods=["GET"])

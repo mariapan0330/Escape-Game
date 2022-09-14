@@ -49,7 +49,7 @@ class Player(db.Model):
 
     
     def __repr__(self):
-        return f"<Player|{self.username}>"
+        return f"<Player | {self.id}: {self.username}>"
 
     def check_password(self, password):
         return check_pw_hash(self.password, password)
@@ -129,7 +129,7 @@ class Piece(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return f"<Piece|{self.piece_name}>"
+        return f"<Piece | {self.piece_id}: {self.piece_name}>"
     
     def to_dict(self):
         return {
@@ -173,7 +173,7 @@ class Puzzle(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return f"<Puzzle|{self.puzzle_name}>"
+        return f"<Puzzle | {self.puzzle_id}: {self.puzzle_name}>"
     
     def to_dict(self):
         return {
@@ -220,13 +220,13 @@ class PlayerPuzzle(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return f"<Player_Puzzle | {self.player_id}, {self.puzzle_id}>"
+        return f"<Player_Puzzle | {self.player_puzzle_id}: {self.player_id}, {self.puzzle_id}>"
     
     def to_dict(self):
         return {
-            'player_puzzle_id': self.puzzle_id,
-            'player': Player.query.get(self.player_id).to_dict(),
-            'puzzle': Puzzle.query.get(self.puzzle_id).to_dict(),
+            'player_puzzle_id': self.player_puzzle_id,
+            'player_id': Player.query.get(self.player_id).to_dict(),
+            'puzzle_id': Puzzle.query.get(self.puzzle_id).to_dict(),
             'player_saw_puzzle': self.player_saw_puzzle,
             'player_completed_puzzle': self.player_completed_puzzle,
             'combination_player_entered': self.combination_player_entered,
@@ -275,7 +275,7 @@ class PlayerPuzzlePiece(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return f"<Player_Puzzle_Piece | {self.player_puzzle_id}, {self.piece_id}>"
+        return f"<Player_Puzzle_Piece | {self.player_puzzle_piece_id}: {self.player_puzzle_id}, {self.piece_id}>"
     
     def to_dict(self):
         # should self.piece_id be here or in Player hotbar
