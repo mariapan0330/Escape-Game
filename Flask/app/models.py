@@ -62,6 +62,8 @@ class Player(db.Model):
     selected_green_gem = db.Column(db.Boolean, default=False)
     selected_yellow_gem = db.Column(db.Boolean, default=False)
     saw_fountain_bench_animals = db.Column(db.Boolean, default=False)
+    wall_fountains_correct_combination = db.Column(db.String(10), default="RYGB")
+    wall_fountains_combination_entered = db.Column(db.String(10), default="NNNN")
     solved_wall_fountains = db.Column(db.Boolean, default=False)
     
     # --- GAZEBO ---
@@ -97,7 +99,7 @@ class Player(db.Model):
     # flower tunnel
     saw_carved_trees = db.Column(db.Boolean, default=False)
     saw_compass_mosaic = db.Column(db.Boolean, default=False)
-    flower_gate_padlock_correct_combination = db.Column(db.String(10), default='4695')
+    flower_gate_padlock_correct_combination = db.Column(db.String(10), default='4685')
     flower_gate_padlock_combination_entered = db.Column(db.String(10), default='0000')
     solved_flower_gate_padlock = db.Column(db.Boolean, default=False)
 
@@ -161,6 +163,8 @@ class Player(db.Model):
             'selected_green_gem': self.selected_green_gem,
             'selected_yellow_gem': self.selected_yellow_gem,
             'saw_fountain_bench_animals': self.saw_fountain_bench_animals,
+            'wall_fountains_correct_combination': self.wall_fountains_correct_combination,
+            'wall_fountains_combination_entered': self.wall_fountains_combination_entered,
             'solved_wall_fountains': self.solved_wall_fountains,
 
             'has_telescope_lens': self.has_telescope_lens,
@@ -242,6 +246,8 @@ class Player(db.Model):
                 'selected_blue_gem',
                 'selected_green_gem',
                 'selected_yellow_gem',
+                'wall_fountains_correct_combination',
+                'wall_fountains_combination_entered',
                 'saw_fountain_bench_animals',
                 'solved_wall_fountains',
 

@@ -67,6 +67,9 @@ body {
     background-position: top left;
 }
 
+#gate h3 {
+    cursor: pointer;
+}
 
 .bottom-bar {
     border-top: 2px solid white;
