@@ -136,7 +136,59 @@ class Player(db.Model):
             'hotbar_slot_4': Piece.query.get(self.hotbar_slot_4).to_dict(),
             'hotbar_slot_5': Piece.query.get(self.hotbar_slot_5).to_dict(),
             'hotbar_slot_6': Piece.query.get(self.hotbar_slot_6).to_dict(),
-            'hotbar_slot_7': Piece.query.get(self.hotbar_slot_7).to_dict()
+            'hotbar_slot_7': Piece.query.get(self.hotbar_slot_7).to_dict(),
+
+            'has_key_a': self.has_key_a,
+            'selected_key_a': self.selected_key_a,
+            'solved_gate_keyhole': self.solved_gate_keyhole,
+
+            'has_coin': self.has_coin,
+            'selected_coin': self.selected_coin,
+            'solved_address_screws': self.solved_address_screws,
+
+            'saw_address': self.saw_address,
+            'saw_address_hidden_symbols': self.saw_address_hidden_symbols,
+            'mailbox_box_correct_combination': self.mailbox_box_correct_combination,
+            'mailbox_box_combination_entered': self.mailbox_box_combination_entered,
+            'solved_mailbox_box': self.solved_mailbox_box,
+
+            'has_red_gem': self.has_red_gem,
+            'has_blue_gem': self.has_blue_gem,
+            'has_green_gem': self.has_green_gem,
+            'has_yellow_gem': self.has_yellow_gem,
+            'selected_red_gem': self.selected_red_gem,
+            'selected_blue_gem': self.selected_blue_gem,
+            'selected_green_gem': self.selected_green_gem,
+            'selected_yellow_gem': self.selected_yellow_gem,
+            'saw_fountain_bench_animals': self.saw_fountain_bench_animals,
+            'solved_wall_fountains': self.solved_wall_fountains,
+
+            'has_telescope_lens': self.has_telescope_lens,
+            'selected_telescope_lens': self.selected_telescope_lens,
+            'solved_carved_trees_no_order': self.solved_carved_trees_no_order,
+
+            'solved_house_door_key': self.solved_house_door_key,
+
+            'saw_toolbox_note': self.saw_toolbox_note,
+            'has_magnet': self.has_magnet,
+            'selected_magnet': self.selected_magnet,
+            'has_key_b': self.has_key_b,
+            'selected_key_b': self.selected_key_b,
+            'solved_toolbox': self.solved_toolbox,
+
+            'has_key_c': self.has_key_c,
+            'selected_key_c': self.selected_key_c,
+            'solved_fountain_door': self.solved_fountain_door,
+
+            'has_knife': self.has_knife,
+            'selected_knife': self.selected_knife,
+            'solved_fountain_bench_pillow': self.solved_fountain_bench_pillow,
+
+            'saw_carved_trees': self.saw_carved_trees,
+            'saw_compass_mosaic': self.saw_compass_mosaic,            
+            'flower_gate_padlock_correct_combination': self.flower_gate_padlock_correct_combination,
+            'flower_gate_padlock_combination_entered': self.flower_gate_padlock_combination_entered,
+            'solved_flower_gate_padlock': self.solved_flower_gate_padlock
         }
 
     
@@ -166,7 +218,59 @@ class Player(db.Model):
                 'hotbar_slot_4',
                 'hotbar_slot_5',
                 'hotbar_slot_6',
-                'hotbar_slot_7'
+                'hotbar_slot_7',
+
+                'has_key_a',
+                'selected_key_a',
+                'solved_gate_keyhole',
+
+                'has_coin',
+                'selected_coin',
+                'solved_address_screws',
+
+                'saw_address',
+                'saw_address_hidden_symbols',
+                'mailbox_box_correct_combination',
+                'mailbox_box_combination_entered',
+                'solved_mailbox_box',
+
+                'has_red_gem',
+                'has_blue_gem',
+                'has_green_gem',
+                'has_yellow_gem',
+                'selected_red_gem',
+                'selected_blue_gem',
+                'selected_green_gem',
+                'selected_yellow_gem',
+                'saw_fountain_bench_animals',
+                'solved_wall_fountains',
+
+                'has_telescope_lens',
+                'selected_telescope_lens',
+                'solved_carved_trees_no_order',
+
+                'solved_house_door_key',
+
+                'saw_toolbox_note',
+                'has_magnet',
+                'selected_magnet',
+                'has_key_b',
+                'selected_key_b',
+                'solved_toolbox',
+
+                'has_key_c',
+                'selected_key_c',
+                'solved_fountain_door',
+
+                'has_knife',
+                'selected_knife',
+                'solved_fountain_bench_pillow',
+
+                'saw_carved_trees',
+                'saw_compass_mosaic',            
+                'flower_gate_padlock_correct_combination',
+                'flower_gate_padlock_combination_entered',
+                'solved_flower_gate_padlock'
                 }:
                 continue
             if field == 'password':

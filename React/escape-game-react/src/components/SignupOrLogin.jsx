@@ -1,7 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import basicKey from '../key.js'
-import { useNavigate } from 'react-router-dom'
 
 export default function SignupOrLogin(props) {
     // let navigate = useNavigate()

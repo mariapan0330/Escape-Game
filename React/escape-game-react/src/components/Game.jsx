@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 export default function Game(props) {
     // props.linkToSignUp
     // props.linkToFooter
-    const [playerData, setPlayerData] = useState()
     const [showLanding, setShowLanding] = useState(true)
     const [showPrologue, setShowPrologue] = useState(false)
     const [prologue, setPrologue] = useState()
@@ -33,13 +32,6 @@ export default function Game(props) {
         // return playerData
     }
 
-    const createPieces = () => {
-
-    }
-
-    const createPuzzles = () => {
-
-    }
     
     const beginPrologue = (page) => {
         if (page === 1){
