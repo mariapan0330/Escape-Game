@@ -71,6 +71,10 @@ body {
     cursor: pointer;
 }
 
+#hotbar-item:hover {
+    cursor: pointer;
+}
+
 .bottom-bar {
     border-top: 2px solid white;
     border-radius: 1rem;

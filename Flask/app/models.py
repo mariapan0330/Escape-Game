@@ -27,6 +27,8 @@ class Player(db.Model):
     hotbar_slot_6 = db.Column(db.Integer, default=1)
     hotbar_slot_7 = db.Column(db.Integer, default=1)
 
+    selected_item = db.Column(db.Integer, default=1)
+
     # the following makes it work for demonstration purposes, but it is truly awful and would probably be better to have multiple tables:
     # Create pieces for items
     # mark whether or not we have/saw them here.
@@ -36,12 +38,10 @@ class Player(db.Model):
     # --- GATE ---
     # gate door
     has_key_a = db.Column(db.Boolean, default=False)
-    selected_key_a = db.Column(db.Boolean, default=False)
     solved_gate_keyhole = db.Column(db.Boolean, default=False)
 
     # address sign has screws
     has_coin = db.Column(db.Boolean, default=False)
-    selected_coin = db.Column(db.Boolean, default=False)
     solved_address_screws = db.Column(db.Boolean, default=False)
 
     # box in mailbox
@@ -57,10 +57,6 @@ class Player(db.Model):
     has_blue_gem = db.Column(db.Boolean, default=False)
     has_green_gem = db.Column(db.Boolean, default=False)
     has_yellow_gem = db.Column(db.Boolean, default=False)
-    selected_red_gem = db.Column(db.Boolean, default=False)
-    selected_blue_gem = db.Column(db.Boolean, default=False)
-    selected_green_gem = db.Column(db.Boolean, default=False)
-    selected_yellow_gem = db.Column(db.Boolean, default=False)
     saw_fountain_bench_animals = db.Column(db.Boolean, default=False)
     wall_fountains_correct_combination = db.Column(db.String(10), default="RYGB")
     wall_fountains_combination_entered = db.Column(db.String(10), default="NNNN")
@@ -69,7 +65,6 @@ class Player(db.Model):
     # --- GAZEBO ---
     # telescope
     has_telescope_lens = db.Column(db.Boolean, default=False)
-    selected_telescope_lens = db.Column(db.Boolean, default=False)
     solved_carved_trees_no_order = db.Column(db.Boolean, default=False)
 
     #  --- PORCH ---
@@ -79,20 +74,16 @@ class Player(db.Model):
     # toolbox
     saw_toolbox_note = db.Column(db.Boolean, default=False)
     has_magnet = db.Column(db.Boolean, default=False)
-    selected_magnet = db.Column(db.Boolean, default=False)
     has_key_b = db.Column(db.Boolean, default=False)
-    selected_key_b = db.Column(db.Boolean, default=False)
     solved_toolbox = db.Column(db.Boolean, default=False)
 
     # FOUNTAIN
     # fountain door
     has_key_c = db.Column(db.Boolean, default=False)
-    selected_key_c = db.Column(db.Boolean, default=False)
     solved_fountain_door = db.Column(db.Boolean, default=False) #(blue gem)
     
     # fountain bench pillow
     has_knife = db.Column(db.Boolean, default=False)
-    selected_knife = db.Column(db.Boolean, default=False)
     solved_fountain_bench_pillow = db.Column(db.Boolean, default=False)
 
     # --- FLOWER TUNNEL --- 
@@ -139,13 +130,12 @@ class Player(db.Model):
             'hotbar_slot_5': Piece.query.get(self.hotbar_slot_5).to_dict(),
             'hotbar_slot_6': Piece.query.get(self.hotbar_slot_6).to_dict(),
             'hotbar_slot_7': Piece.query.get(self.hotbar_slot_7).to_dict(),
+            'selected_item': self.selected_item,
 
             'has_key_a': self.has_key_a,
-            'selected_key_a': self.selected_key_a,
             'solved_gate_keyhole': self.solved_gate_keyhole,
 
             'has_coin': self.has_coin,
-            'selected_coin': self.selected_coin,
             'solved_address_screws': self.solved_address_screws,
 
             'saw_address': self.saw_address,
@@ -158,34 +148,25 @@ class Player(db.Model):
             'has_blue_gem': self.has_blue_gem,
             'has_green_gem': self.has_green_gem,
             'has_yellow_gem': self.has_yellow_gem,
-            'selected_red_gem': self.selected_red_gem,
-            'selected_blue_gem': self.selected_blue_gem,
-            'selected_green_gem': self.selected_green_gem,
-            'selected_yellow_gem': self.selected_yellow_gem,
             'saw_fountain_bench_animals': self.saw_fountain_bench_animals,
             'wall_fountains_correct_combination': self.wall_fountains_correct_combination,
             'wall_fountains_combination_entered': self.wall_fountains_combination_entered,
             'solved_wall_fountains': self.solved_wall_fountains,
 
             'has_telescope_lens': self.has_telescope_lens,
-            'selected_telescope_lens': self.selected_telescope_lens,
             'solved_carved_trees_no_order': self.solved_carved_trees_no_order,
 
             'solved_house_door_key': self.solved_house_door_key,
 
             'saw_toolbox_note': self.saw_toolbox_note,
             'has_magnet': self.has_magnet,
-            'selected_magnet': self.selected_magnet,
             'has_key_b': self.has_key_b,
-            'selected_key_b': self.selected_key_b,
             'solved_toolbox': self.solved_toolbox,
 
             'has_key_c': self.has_key_c,
-            'selected_key_c': self.selected_key_c,
             'solved_fountain_door': self.solved_fountain_door,
 
             'has_knife': self.has_knife,
-            'selected_knife': self.selected_knife,
             'solved_fountain_bench_pillow': self.solved_fountain_bench_pillow,
 
             'saw_carved_trees': self.saw_carved_trees,
@@ -223,13 +204,12 @@ class Player(db.Model):
                 'hotbar_slot_5',
                 'hotbar_slot_6',
                 'hotbar_slot_7',
+                'selected_item',
 
                 'has_key_a',
-                'selected_key_a',
                 'solved_gate_keyhole',
 
                 'has_coin',
-                'selected_coin',
                 'solved_address_screws',
 
                 'saw_address',
@@ -242,34 +222,25 @@ class Player(db.Model):
                 'has_blue_gem',
                 'has_green_gem',
                 'has_yellow_gem',
-                'selected_red_gem',
-                'selected_blue_gem',
-                'selected_green_gem',
-                'selected_yellow_gem',
                 'wall_fountains_correct_combination',
                 'wall_fountains_combination_entered',
                 'saw_fountain_bench_animals',
                 'solved_wall_fountains',
 
                 'has_telescope_lens',
-                'selected_telescope_lens',
                 'solved_carved_trees_no_order',
 
                 'solved_house_door_key',
 
                 'saw_toolbox_note',
                 'has_magnet',
-                'selected_magnet',
                 'has_key_b',
-                'selected_key_b',
                 'solved_toolbox',
 
                 'has_key_c',
-                'selected_key_c',
                 'solved_fountain_door',
 
                 'has_knife',
-                'selected_knife',
                 'solved_fountain_bench_pillow',
 
                 'saw_carved_trees',

@@ -27,6 +27,9 @@ function App() {
     const hotbarSlots = [hotbar1, hotbar2, hotbar3, hotbar4, hotbar5, hotbar6, hotbar7]
     const [hotbar, setHotbar] = useState()
     const [rerenderHotbar, setRerenderHotbar] = useState(0)
+    const [color, setColor] = useState('light')
+
+    const [selectedKeyA, setSelectedKeyA] = useState(false)
 
     const [commentary, setCommentary] = useState(<>&nbsp;</>)
 
@@ -86,8 +89,28 @@ function App() {
     const renderHotbar = () => {
         return (
             <>
-            {hotbarSlots.filter((slot) => slot !== 'default-none').map((slot) => <div className="hotbar row text-warning">{slot}</div>)}
-            {hotbarSlots.filter((slot) => slot === 'default-none').map((slot) => <div className="hotbar row">{slot}</div>)}
+            {hotbarSlots.filter((slot) => slot !== 'default-none').map((slot) => 
+                <div className={`hotbar hotbar-item row text-${color} fs-5`} onClick={() => {
+                    // TODO: for the love of all things pls make this more efficient
+                    if (slot === 'key-a' && selectedKeyA){
+                        // if you had key a selected and you click it again, deselect it.
+                        setCommentary(<>&nbsp;</>)
+                        setColor('light')
+                        updatePlayer({'selected_item':1})
+                        setSelectedKeyA(false)
+                    } else if (slot === 'key-a' && !selectedKeyA) {
+                        // if you did not have key a selected and you click it, select it.
+                        setCommentary("A heavy wrought-iron key. I wonder what it's for.")
+                        setColor('warning')
+                        updatePlayer({'selected_item':3})
+                        setSelectedKeyA(true)
+                    }
+                }}>{slot}</div>)}
+            {hotbarSlots.filter((slot) => slot === 'default-none').map((slot) => 
+                <div className="hotbar row text-dark" onClick={() => {
+                    updatePlayer({'selected_item':1})
+                    setCommentary('EMPTY')
+                }}></div>)}
             </>
         )
     }
