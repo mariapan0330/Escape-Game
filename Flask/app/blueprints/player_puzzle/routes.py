@@ -55,6 +55,16 @@ def view_player_puzzle(id):
     return jsonify(player_puzzle.to_dict())
 
 
+# View current player's player-puzzles
+@player_puzzle.route('/current-player', methods=["GET"])
+@token_auth.login_required
+def view_current_player_puzzles():
+    current_player = token_auth.current_user()
+    player_puzzles = PlayerPuzzle.query.filter(PlayerPuzzle.player_id == current_player.id).all()
+    # player_puzzle_ids = [p.player_puzzle_id for p in player_puzzles]
+    return jsonify([p.to_dict() for p in player_puzzles])
+
+
 # update a player-puzzle by id
 @player_puzzle.route('/<int:id>', methods=["PUT"])
 # @token_auth.login_required

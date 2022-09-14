@@ -46,7 +46,7 @@ def view_all_player_puzzle_pieces():
    
 
 # View all the player-puzzle-pieces of whoever holds the token
-@player_puzzle_piece.route('/current-player')
+@player_puzzle_piece.route('/current-player', methods=["GET"])
 @token_auth.login_required
 def view_current_user_ppp():
     current_player = token_auth.current_user()
