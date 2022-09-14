@@ -27,15 +27,17 @@ function App() {
     }
 
     useEffect(() => {
-        findCurrentPlayer()
+        if (loggedIn === true){
+            findCurrentPlayer()
+        }
     }, [loggedIn])
     
     
     // TODO: will this also render on mount?
-    useEffect(() => {
+    // useEffect(() => {
         // console.log('finding current user')
-        findCurrentPlayer()
-    }, [])
+    //     findCurrentPlayer()
+    // }, [])
 
     
     const logout = () => {

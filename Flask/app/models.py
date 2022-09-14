@@ -26,13 +26,80 @@ class Player(db.Model):
     hotbar_slot_5 = db.Column(db.Integer, default=1)
     hotbar_slot_6 = db.Column(db.Integer, default=1)
     hotbar_slot_7 = db.Column(db.Integer, default=1)
-    # hotbar_slot_1 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), default=1)
-    # hotbar_slot_2 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), default=1)
-    # hotbar_slot_3 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), default=1)
-    # hotbar_slot_4 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), default=1)
-    # hotbar_slot_5 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), default=1)
-    # hotbar_slot_6 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), default=1)
-    # hotbar_slot_7 = db.Column(db.Integer, db.ForeignKey('piece.piece_id'), default=1)
+
+    # the following makes it work for demonstration purposes, but it is truly awful and would probably be better to have multiple tables:
+    # Create pieces for items
+    # mark whether or not we have/saw them here.
+    # (they are grouped by puzzle, except the house door which has no solution yet.)
+    # --- Uppercase are places. ---
+
+    # --- GATE ---
+    # gate door
+    has_key_a = db.Column(db.Boolean, default=False)
+    selected_key_a = db.Column(db.Boolean, default=False)
+    solved_gate_keyhole = db.Column(db.Boolean, default=False)
+
+    # address sign has screws
+    has_coin = db.Column(db.Boolean, default=False)
+    selected_coin = db.Column(db.Boolean, default=False)
+    solved_address_screws = db.Column(db.Boolean, default=False)
+
+    # box in mailbox
+    saw_address = db.Column(db.Boolean, default=False)
+    saw_address_hidden_symbols = db.Column(db.Boolean, default=False)
+    mailbox_box_correct_combination = db.Column(db.String(10), default="8237")
+    mailbox_box_combination_entered = db.Column(db.String(10), default='0000')
+    solved_mailbox_box = db.Column(db.Boolean, default=False) # (red gem inside)
+
+    # --- PLAZA ---
+    # wall fountains
+    has_red_gem = db.Column(db.Boolean, default=False)
+    has_blue_gem = db.Column(db.Boolean, default=False)
+    has_green_gem = db.Column(db.Boolean, default=False)
+    has_yellow_gem = db.Column(db.Boolean, default=False)
+    selected_red_gem = db.Column(db.Boolean, default=False)
+    selected_blue_gem = db.Column(db.Boolean, default=False)
+    selected_green_gem = db.Column(db.Boolean, default=False)
+    selected_yellow_gem = db.Column(db.Boolean, default=False)
+    saw_fountain_bench_animals = db.Column(db.Boolean, default=False)
+    solved_wall_fountains = db.Column(db.Boolean, default=False)
+    
+    # --- GAZEBO ---
+    # telescope
+    has_telescope_lens = db.Column(db.Boolean, default=False)
+    selected_telescope_lens = db.Column(db.Boolean, default=False)
+    solved_carved_trees_no_order = db.Column(db.Boolean, default=False)
+
+    #  --- PORCH ---
+    # house door
+    solved_house_door_key = db.Column(db.Boolean, default=False) # (currently no solution)
+
+    # toolbox
+    saw_toolbox_note = db.Column(db.Boolean, default=False)
+    has_magnet = db.Column(db.Boolean, default=False)
+    selected_magnet = db.Column(db.Boolean, default=False)
+    has_key_b = db.Column(db.Boolean, default=False)
+    selected_key_b = db.Column(db.Boolean, default=False)
+    solved_toolbox = db.Column(db.Boolean, default=False)
+
+    # FOUNTAIN
+    # fountain door
+    has_key_c = db.Column(db.Boolean, default=False)
+    selected_key_c = db.Column(db.Boolean, default=False)
+    solved_fountain_door = db.Column(db.Boolean, default=False) #(blue gem)
+    
+    # fountain bench pillow
+    has_knife = db.Column(db.Boolean, default=False)
+    selected_knife = db.Column(db.Boolean, default=False)
+    solved_fountain_bench_pillow = db.Column(db.Boolean, default=False)
+
+    # --- FLOWER TUNNEL --- 
+    # flower tunnel
+    saw_carved_trees = db.Column(db.Boolean, default=False)
+    saw_compass_mosaic = db.Column(db.Boolean, default=False)
+    flower_gate_padlock_correct_combination = db.Column(db.String(10), default='4695')
+    flower_gate_padlock_combination_entered = db.Column(db.String(10), default='0000')
+    solved_flower_gate_padlock = db.Column(db.Boolean, default=False)
 
     token = db.Column(db.String(32), unique=True, index=True)
     # token_expiration = db.Column(db.DateTime)

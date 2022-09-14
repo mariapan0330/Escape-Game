@@ -37,9 +37,9 @@ export default function SignupOrLogin(props) {
     }, [email, username, pw, confirmPw])
 
 
-    useEffect(() => {
-        console.log('sign up error:', signUpError)
-    }, [signUpError])
+    // useEffect(() => {
+    //     console.log('sign up error:', signUpError)
+    // }, [signUpError])
 
     
     const handleLoginSubmit = e => {
@@ -77,32 +77,21 @@ export default function SignupOrLogin(props) {
             return
         }
 
-        // STEP 1: Create New Player
-        const createNewPlayer = new Promise((resolve, reject) => {
-            resolve(newPlayer())
-        })
-        
-        // STEP 1: Create New Player-Puzzles
-        const createNewPlayerPuzzles = new Promise((resolve, reject) => {
-            resolve(newPlayerPuzzles())
-        })
-
-
-        // newPlayerPuzzles()
+        newPlayer()
     }
     
-    // STEP 1: Create New Player
     // post request to api -> create Player
     const newPlayer = () => {
         let myHeaders = new Headers()
         myHeaders.append('Content-Type', 'application/json')
-
+        
         var formData = JSON.stringify({
             username: username,
             email: email,
             password: pw
         })
-
+        
+        // let newPlayerId;
         fetch('http://127.0.0.1:5000/auth/players', {
             method: "post",
             headers: myHeaders,
@@ -114,142 +103,18 @@ export default function SignupOrLogin(props) {
                     // Show the main game. Can i log in now too automatically instead of making the player do that
                     console.log('sign up successful')
                     setPlayerId(data['id'])
+                    // newPlayerId = data['id']
                     handleLoginSubmit()
                     .then(props.login())
                     .then(setShowSignUpForm(false))
 
                 } else if (data.error === "Player with that username or email already exists."){
+                    console.log(146)
                     setSignUpError(data.error)
+                    // newPlayerId = 'error'
                 }
-            })
-        return ('STEP 1: Create New Player')
-    }
-
-
-    
-    const createRandomOrder = (comboLength) => {
-/*
-        Generates a random order for combinations of a given length. 
-        This represents the order in which the player has to enter the symbols they find.
-        The numbers must be unique.
-        There are no combinations over 6 characters long. (yet...)
-        For instance: 
-            Player may find letters A, B, C, and D in one location,
-            and in another location find that the letters should be arranded in the (randomly generated) order 1,4,2,3
-            This means that they would have to enter the combination as A, D, B, C. 
-*/
-
-
-        // TODO: actually make this work
-        // let allNums = ['1', '2', '3', '4', '5', '6']
-        // let comboNums = allNums.slice(0, comboLength)
-        // let result = ''
-        // while (comboNums !== []){
-        //     let rand = Math.floor(Math.random()*comboNums.length) // generate random number between 0 and length of the remaining list
-        //     result += comboNums[rand] // add the element at that random index to the result
-        //     comboNums.splice(rand,1) // remove the element at that index from the unique numbers
-        // }
-
-        // this technically works but clunky:
-        // let num1 = ''
-        //         let num2 = ''
-        //         let num3 = ''
-        //         let num4 = ''
-
-        //         num1 = String(Math.floor(Math.random()*4) + 1)
-        //         do {
-        //             num2 = String(Math.floor(Math.random()*4) + 1)
-        //             num3 = String(Math.floor(Math.random()*4) + 1)
-        //             num4 = String(Math.floor(Math.random()*4) + 1)
-        //         } while (([num2, num3, num4]).includes(num1) || ([num1, num3, num4]).includes(num2)
-        //          || ([num1, num2, num4]).includes(num3) || ([num1, num2, num3]).includes(num4))
-        //         console.log(num1 + num2 + num3 + num4)
-
-        // simulate returning a random order:
-        return '1432'
-    }
-
-    
-    // STEP 2: link the player to puzzle 1 (<<gate-keyhole>>), puzzle 2 (<<mailbox-box>>), and puzzle 3 (<<address-screws>>)
-    // post request to api -> link Player to Puzzles
-    const newPlayerPuzzles = () => {
-        let createdPlayerPuzzles = []
-        for (let puzzId of [1,2,3]){
-            
-            let myHeaders = new Headers()
-            // myHeaders.append("Authorization", `Bearer ${localStorage.getItem('token')}`)
-            myHeaders.append("Content-Type", 'application/json')
-
-            let correctCombo = ''
-            if (puzzId === 1){
-                correctCombo = 'use-key-a-on-gate-keyhole'
-            } else if (puzzId === 2){
-                correctCombo = createRandomOrder(4)
-            } else if (puzzId === 3){
-                correctCombo = 'use-coin-on-address-screws'
-            }
-            
-            var playerPuzzleData = JSON.stringify({
-                "player_id": playerId,
-                "puzzle_id": puzzId,
-                "correct_combination": correctCombo,
-                "player_saw_puzzle": false,
-                "player_completed_puzzle":false
-            })
-            // create Player-Puzzle
-            fetch('http://127.0.0.1:5000/player_puzzle', {
-                method: "POST",
-                headers: myHeaders,
-                body: playerPuzzleData
-            })
-            .then(res => res.json())
-            .then(data => {
-                    if (data.ok){
-                        console.log('New player-puzzle:', playerId, '-', puzzId)
-                        createdPlayerPuzzles.push(data['player_puzzle_id'])
-                    }
-                })
-        }
-        return createdPlayerPuzzles
-    }
-
-    // STEP 3: a) link player's puzzle 1 (<<gate-keyhole>>) to piece 3 (<key-a>)
-    //         b) link player's puzzle 2 (<<mailbox-box>>) to piece 4 (<address>)
-    const newPlayerPuzzlePieces = () => {
-        // This has to change when I introduce puzzles with multiple pieces each.
-        // TODO: how do i know what the curren player's puzzle ids are.
-        let playerPuzzleIds = [1,2]
-        for (let playerPuzzleId of playerPuzzleIds){
-            var myHeaders = new Headers()
-            myHeaders.append('Content-Type', 'application/json')
-
-            let pieceId;
-            if (playerPuzzleId === 1){
-                // link <<gate-keyhole>> to <key-a>
-                pieceId = 3
-            } else if (playerPuzzleId === 2){
-                // link <<mailbox-box>> to <address>
-                pieceId = 4
-            }
-
-            var sendData = JSON.stringify({
-                "player_puzzle_id": playerPuzzleId,
-                "piece_id": pieceId,
-                "player_saw_piece": false,
-                "player_has_piece": false
-            })
-
-            fetch('http://127.0.0.1:5000/player_puzzle_piece', {
-                method: "POST",
-                headers: myHeaders,
-                body: sendData
-            })
-            .then(res => res.json())
-            .then(data => {
-                console.log('Linking player-puzzle:', playerPuzzleId, 'to piece:', pieceId)
-            })
-        }
-        return "STEP3: Create New Player-Puzzle-Pieces"
+            }).then(() => {console.log('signing up player #',playerId)})
+        return playerId
     }
 
 

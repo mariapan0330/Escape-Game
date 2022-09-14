@@ -3,9 +3,6 @@ from flask import jsonify, request
 from ...models import PlayerPuzzle
 from ..auth.http_auth import token_auth
 
-##### MUST BE LOGGED IN AND MARKED AS ADMIN TO CREATE, RETRIEVE, UPDATE, AND DEL PUZZLES #####
-
-
 # @player_puzzle.route('/')
 # def index():
 #     return "You've found the player puzzle route!"
@@ -17,6 +14,7 @@ from ..auth.http_auth import token_auth
 def create_player_puzzle():
     # if token_auth.current_user().is_admin:
     data = request.json
+    print(1)
     for field in [
         'player_id', 
         'puzzle_id',
@@ -24,14 +22,20 @@ def create_player_puzzle():
         'player_completed_puzzle',
         'correct_combination']:
         if field not in data:
+            print(2)
             return jsonify({ "error": f"You are missing the {field} field." }), 400
+    print(3)
     player_id = data['player_id']
     puzzle_id = data['puzzle_id']
     player_puzzle_exists = PlayerPuzzle.query.filter((PlayerPuzzle.player_id == player_id) & (PlayerPuzzle.puzzle_id == puzzle_id)).all()
+    print(4)
     if player_puzzle_exists:
+        print(5)
         return jsonify({'error': f"Player-Puzzle combo of {player_id}, {puzzle_id} already exists."}), 400
 
+    print(6)
     new_player_puzzle = PlayerPuzzle(**data)
+    print(7)
     return jsonify(new_player_puzzle.to_dict())
 
 
@@ -61,7 +65,6 @@ def view_player_puzzle(id):
 def view_current_player_puzzles():
     current_player = token_auth.current_user()
     player_puzzles = PlayerPuzzle.query.filter(PlayerPuzzle.player_id == current_player.id).all()
-    # player_puzzle_ids = [p.player_puzzle_id for p in player_puzzles]
     return jsonify([p.to_dict() for p in player_puzzles])
 
 
