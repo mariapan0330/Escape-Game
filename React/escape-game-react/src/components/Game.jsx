@@ -153,8 +153,8 @@ export default function Game(props) {
         return (
             <>
                 <div className="front-page-title col text-center">
-                    <h1>Lockwood</h1>
-                    <h2>Mystery</h2>
+                    <h1 className='main-title'>Lockwood</h1>
+                    <h2 className='main-title'>Mystery</h2>
                     {newGame === true ? 
                     <button className='btn btn-light fs-1 mt-4' onClick={() => {handleNewGame()}}>New Game</button>
                     :

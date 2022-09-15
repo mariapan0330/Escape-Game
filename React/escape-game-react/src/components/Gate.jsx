@@ -6,7 +6,6 @@ export default function Gate(props) {
     const [inspectAddressSign, setInspectAddressSign] = useState(false)
     const [inspectStone, setInspectStone] = useState(false)
     const [inspectMailbox, setInspectMailbox] = useState(false)
-    const [addressSign, setAddressSign] = useState(<>(screw) 3412 (screw)</>)
 
 
     const [mailboxBoxCorrectCombination, setMailboxBoxCorrectCombination] = useState()
@@ -107,11 +106,14 @@ export default function Gate(props) {
                                     props.setSolvedAddressScrews(true)
                                     props.dropItem('coin')
                                     props.updatePlayer({'solved_address_screws':true})
-                                } else if (!props.solvedAddressScrews) {
-                                    // otherwise if you clicked it and you haven't selected the coin
+                                } else if (props.selectedItem !== 'default-none'){
+                                    // if they are selecting anything that's not the key (and not none)
+                                    props.setCommentary("That didn't work.")
+                                } else if (props.selectedItem === 'default-none' && !props.solvedAddressScrews) {
+                                    // otherwise if you clicked it and you haven't selected anything
                                     props.setCommentary("I can't unscrew it with my bare hands.")
                                 }
-                            }}><i className="fa-solid fa-circle-minus" /> <span className='text-danger'>3412</span> (|)</span></button>
+                            }}><i className="fa-solid fa-circle-minus" /> <span className='text-danger'>3412</span><i className="fa-solid fa-circle-minus" /></span></button>
                             <button onClick={()=>{
                                 props.setCommentary(<>&nbsp;</>)
                                 setInspectAddressSign(false)
@@ -228,7 +230,7 @@ export default function Gate(props) {
 
                         <button><h3 onClick={() => {
                         if (props.selectedItem === 'key-a' && !props.solvedGateKeyhole){
-                            props.setCommentary("It's open.")
+                            props.setCommentary("It's open!")
                             props.setSolvedGateKeyhole(true)
                             props.dropItem('key-a')
                             props.updatePlayer({'solved_gate_keyhole':true})
@@ -236,7 +238,7 @@ export default function Gate(props) {
                         } else if (!props.solvedGateKeyhole) {
                             props.setCommentary("It's locked.")
                         } else if (props.solvedGateKeyhole){
-                            props.setCommentary("It's open.")
+                            props.setCommentary("Open garden gate")
                             // setLockedSymbol(<i className="fa-solid fa-lock-open" />)
                         }}}>Gate Door {lockedSymbol}</h3></button>
                     </div>
@@ -253,11 +255,12 @@ export default function Gate(props) {
                             <br />
                             <br />
                             <br />
-                            <button><h3 onClick={() => {
+                            <button className='btn-primary'><h3 onClick={() => {
                                 props.setAtGate(false)
                                 props.setAtGarden(true)
+                                props.setCommentary(<>&nbsp;</>)
                                 props.updatePlayer({'current_location':'garden'})
-                            }}>ENTER GATE <i className="text-success fa-solid fa-arrow-up" /></h3></button>
+                            }}>ENTER GATE <i className="fa-solid fa-arrow-up" /></h3></button>
                             </div>
                         </>
                         :
@@ -290,7 +293,7 @@ export default function Gate(props) {
                                     props.pickupItem(3)
                                     props.setRerenderHotbar(props.rerenderHotbar+1)
                                     props.setCommentary('The security at this place is astounding')
-                                }}>KEY-A</span></button>
+                                }}>KEY-A <i class="fa-solid fa-key" /></span></button>
                                 <button onClick={()=>{
                                     setInspectStone(false)
                                     props.setCommentary(<>&nbsp;</>)

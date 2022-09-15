@@ -144,18 +144,18 @@ function App() {
                         setColor('light')
                         updatePlayer({'selected_item':1})
                         setSelectedItem('default-none')
-                    } else if (slot === 'key-a') {
+                    } else if (slot === 'key-a' && selectedItem === 'default-none') {
                         // if you did not have key a selected and you click it, select it.
                         setCommentary("A heavy wrought-iron key. I wonder what it's for.")
                         setColor('warning fw-bold')
-                        updatePlayer({'selected_item':3})
                         setSelectedItem('key-a')
+                        updatePlayer({'selected_item':3})
                     } else if (slot === 'coin'){
                         // if it was not selected, select it
                         setCommentary('A big shiny iron coin. Pretty sturdy but not worth much.')
                         setColor('warning fw-bold')
-                        updatePlayer({'selected_item':9})
                         setSelectedItem('coin')
+                        updatePlayer({'selected_item':9})
                         // deselect magnet, key-b, knife, blue gem, key-c, and telescope lens
                     }
                 }}>{slot}</div>)}
@@ -246,7 +246,7 @@ function App() {
 
 
     const updatePlayer = (what) => {
-        findCurrentPlayer()
+        // findCurrentPlayer()
         let myHeaders = new Headers()
         myHeaders.append("Authorization", `Bearer ${localStorage.getItem('token')}`)
         myHeaders.append('Content-Type',"application/json")
@@ -347,17 +347,26 @@ function App() {
                         // if not at the fountain, am I at the plaza?
                         atPlaza ? <Plaza
                             setAtPlaza={setAtPlaza}
-                            setAtGarden={setAtGarden} />
+                            setAtGarden={setAtGarden}
+                            renderHotbarAndCommentary={renderHotbarAndCommentary}
+                            setCommentary={setCommentary}
+                             />
                         :
                         // if not at the plaza, am I at the flower tunnel?
                         atFlowerTunnel ? <FlowerTunnel
                             setAtFlowerTunnel={setAtFlowerTunnel}
-                            setAtGarden={setAtGarden} />
+                            setAtGarden={setAtGarden}
+                            renderHotbarAndCommentary={renderHotbarAndCommentary}
+                            setCommentary={setCommentary}
+                             />
                         :
                         // if not at the flower Tunnel, am I at the gazebo?
                         atGazebo ? <Gazebo
                             setAtGazebo={setAtGazebo}
-                            setAtPlaza={setAtPlaza} />
+                            setAtPlaza={setAtPlaza}
+                            renderHotbarAndCommentary={renderHotbarAndCommentary}
+                            setCommentary={setCommentary}
+                             />
                         :
                         // if not at any of these:
                         <>

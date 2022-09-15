@@ -17,6 +17,7 @@ export default function Garden(props) {
 
 
                         <button className='ms-5 btn-primary' onClick={() => {
+                            props.setCommentary(<>&nbsp;</>)
                             props.setAtPlaza(true)
                             props.setAtGarden(false)
                             props.updatePlayer({'current_location':'plaza'})
@@ -26,6 +27,7 @@ export default function Garden(props) {
 
                         <div className="d-flex justify-content-between">
                             <button className='btn-primary' onClick={() => { 
+                                props.setCommentary(<>&nbsp;</>)
                                 props.setAtFountain(true)
                                 props.setAtGarden(false)
                                 props.updatePlayer({'current_location':'fountain'})
@@ -33,6 +35,7 @@ export default function Garden(props) {
 
 
                             <button className='btn-primary'onClick={() => {
+                                props.setCommentary(<>&nbsp;</>)
                                 props.setAtFlowerTunnel(true)
                                 props.setAtGarden(false)
                                 props.updatePlayer({'current_location':'flower-tunnel'})
@@ -42,6 +45,7 @@ export default function Garden(props) {
 
                         <div className="d-flex justify-content-around">
                             <button className='ms-5 btn-primary' onClick={() => {
+                                props.setCommentary(<>&nbsp;</>)
                                 props.setAtGarden(false)
                                 props.setAtGate(true)
                                 props.updatePlayer({'current_location':'gate'})

@@ -8,9 +8,14 @@ body {
 }
 
 /**************** LANDING and GAME LANDING ****************/
+.main-title {
+    font-family: "Sedgwick Ave Display", sans-serif;
+}
 
 .front-page {
-    font-family: "Sedgwick Ave Display", sans-serif;
+    /* this is the font for all the locations and the hotbar: */
+    /* font-family: "Voces", sans-serif; */
+    font-family: "Reem Kufi Fun", sans-serif;
     color:white;
     /* padding: 5rem; */
     min-height: 98vh; 
@@ -55,7 +60,6 @@ body {
 
 /****************  GAME  ****************/
 #prologue {
-    font-family: "Voces", sans-serif;
     padding: 10vw;
 }
 
@@ -66,8 +70,7 @@ body {
 
 /****************  GATE  ****************/
 #gate {
-    font-family: "Voces", sans-serif;
-    background-image: url('../public/images/gatePNG4.png');
+    background-image: url('../public/images/gatePNG5.png');
     background-size: 93% 90%;
     background-position: top left;
 }
@@ -113,7 +116,6 @@ body {
 /****************  GARDEN  ****************/
 
 #garden {
-    font-family: "Voces", sans-serif;
     background-image: url('../public/images/gardenPNG.png');
     background-size: 93% 90%;
     background-position: top left;
@@ -138,13 +140,45 @@ body {
 
 
 
-/****************  GARDEN  ****************/
+/****************  FOUNTAIN  ****************/
 #fountain {
-    font-family: "Voces", sans-serif;
-    /* background-image: url('../public/images/gardenPNG.png'); */
+    background-image: url('../public/images/fountainPNG.png');
     background-size: 93% 90%;
     background-position: top left;
 }
+
+#fountain h2 {
+    color: rgb(38, 59, 35);
+}
+
+
+/****************  FLOWER TUNNEL  ****************/
+#flower-tunnel {
+    background-image: url('../public/images/flowertunnelPNG.png');
+    background-size: 93% 90%;
+    background-position: top left;
+}
+
+#flower-tunnel h2 {
+    color: rgb(38, 59, 35);
+}
+
+#flower-tunnel-buttons {
+    margin-top: 45vh;
+}
+
+/****************  PLAZA  ****************/
+#plaza {
+    /* background-image: url('../public/images/flowertunnelPNG.png'); */
+    background-size: 93% 90%;
+    background-position: top left;
+}
+
+#plaza h2 {
+    /* color: rgb(38, 59, 35); */
+}
+
+
 
 
 /****************  SIGN UP OR LOG IN  ****************/
