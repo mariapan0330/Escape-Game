@@ -46,6 +46,11 @@ body {
     /* cursor: url('../public/images/question_pointerPNG.png'), grab; */
 }
 
+.back-to-top p{
+    text-decoration:none;
+    color:white;
+}
+
 
 
 /****************  GAME  ****************/
@@ -136,7 +141,7 @@ body {
 
 #signup-or-login{
     margin-top: 3vh;
-    min-height: 98vh;
+    min-height: 95vh;
     min-width: 97vw;
 }
 

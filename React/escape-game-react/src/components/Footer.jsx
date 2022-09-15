@@ -16,22 +16,6 @@ export default function Footer(props) {
         props.setEditUser(true)
     }
 
-    // useEffect(() => {
-    //     let myHeaders = new Headers()
-    //     myHeaders.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
-
-    //     fetch("http://127.0.0.1:5000/auth/current-player", {
-    //         method: "GET",
-    //         headers: myHeaders
-    //     })
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             setCurrentPlayerData(data.username)
-    //             console.log('Footer current player',currentPlayerData)
-    //         })
-    //         // console.log('current Player Data2:',currentPlayerData)
-    // }, [])
-
 
     return (
         <>

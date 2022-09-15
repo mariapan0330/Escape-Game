@@ -328,10 +328,16 @@ function App() {
                     // if not logged in, show the landing page and sign up/sign in
                     :
                     <>
-                        <Landing loggedIn={loggedIn} logout={logout}
+                        <Landing
+                            loggedIn={loggedIn} logout={logout}
                             linkToSignUpLogin={<HashLink to="#signup-or-login"><p><i className="fa-regular fa-circle-play"></i></p></HashLink>}
                             linkToFooter={<HashLink to="#footer"><h1>New Game</h1></HashLink>} />
-                        <SignupOrLogin login={login} loggedIn={loggedIn} findCurrentPlayer={findCurrentPlayer} />
+                        <SignupOrLogin 
+                            login={login} 
+                            loggedIn={loggedIn} 
+                            findCurrentPlayer={findCurrentPlayer}
+                            linkToLanding={<HashLink to='#landing'><p><i className="fa-solid fa-arrow-up"/>Back to top</p></HashLink>}
+                            />
                     </>
                 }
 

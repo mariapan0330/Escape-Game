@@ -175,9 +175,9 @@ export default function SignupOrLogin(props) {
     return (
         <>
             <div className="d-flex justify-content-center">
-                <div id="signup-or-login" className='row align-content-center'>
+                <div id="signup-or-login" className='row align-items-center'>
                     {/* first column: images and such */}
-                    <div className="col">
+                    <div className="col align-items-center">
                         <h1 className="text-light">SOME IMAGE</h1>
                     </div>
 
@@ -186,6 +186,9 @@ export default function SignupOrLogin(props) {
                         {showSignUpForm ? signUpForm() : loginForm()}
                     </div>
                 </div>
+            </div>
+            <div className='row back-to-top text-center text-light'>
+                {props.linkToLanding}
             </div>
         </>
     )
