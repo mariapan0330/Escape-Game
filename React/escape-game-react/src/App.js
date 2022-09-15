@@ -13,6 +13,7 @@ import Fountain from './components/Fountain';
 import Plaza from './components/Plaza';
 import FlowerTunnel from './components/FlowerTunnel';
 import Gazebo from './components/Gazebo';
+import Porch from './components/Porch';
 // This one has all the routes which you make in your components folder.
 // The user is called "Player" not user (but they do have a "username" not "playername").
 
@@ -103,6 +104,7 @@ function App() {
                 break
             }
         }
+        setRerenderHotbar(rerenderHotbar++)
         setHotbar(renderHotbar())
     }
 
@@ -126,6 +128,7 @@ function App() {
                 break
             }
         }
+        setHotbar(renderHotbar())
     }
 
 
@@ -159,6 +162,12 @@ function App() {
                         setSelectedItem('coin')
                         updatePlayer({'selected_item':9})
                         // deselect magnet, key-b, knife, blue gem, key-c, and telescope lens
+                    } else if (slot === 'red-gem'){
+                        setCommentary('A shiny red gem')
+                        setColor('warning fw-bold')
+                        setSelectedItem('red-gem')
+                        updatePlayer({'selected_item':12})
+                        
                     }
                 }}>{slot}</div>)}
             {hotbarSlots.filter((slot) => slot === 'default-none').map((slot) => 
@@ -282,20 +291,11 @@ function App() {
                                 currentPlayerUsername={currentPlayerUsername} 
                                 updatePlayer={updatePlayer} 
                                 setAtLocation={setAtLocation}
-                                // setAtGate={setAtGate} 
-                                // setAtPrologue={setAtPrologue}
-                                // setAtGarden={setAtGarden}
-                                // setAtFountain={setAtFountain}
-                                // setAtPlaza={setAtPlaza}
-                                // setAtGazebo={setAtGazebo}
-                                // setAtFlowerTunnel={setAtFlowerTunnel}
                                 /> 
                             : 
                         // if not at prologue, am i at the gate?
                         atLocation === 'gate' ? <Gate
                                     setAtLocation={setAtLocation}
-                                    // setAtGate={setAtGate}
-                                    // setAtGarden={setAtGarden}
 
                                     hotbarAndCommentary={hotbarAndCommentary}
                                     renderHotbarAndCommentary={renderHotbarAndCommentary}
@@ -310,8 +310,6 @@ function App() {
                                     dropItem={dropItem}
 
                                     selectedItem={selectedItem}
-                                    // selectedKeyA={selectedKeyA}
-                                    // selectedCoin={selectedCoin}
 
                                     solvedAddressScrews={solvedAddressScrews}
                                     setSolvedAddressScrews={setSolvedAddressScrews}
@@ -323,12 +321,6 @@ function App() {
                         // if not at the gate, am I at the garden?
                         atLocation === 'garden' ? <Garden
                             setAtLocation={setAtLocation}
-                            // setAtGate={setAtGate}
-                            // setAtGarden={setAtGarden}
-                            // setAtFountain={setAtFountain}
-                            // setAtPlaza={setAtPlaza}
-                            // setAtFlowerTunnel={setAtFlowerTunnel}
-                            // setAtGazebo={setAtGazebo}
 
                             updatePlayer={updatePlayer}
                             hotbarSlots={hotbarSlots}
@@ -340,40 +332,42 @@ function App() {
                         // if not at the garden, am I at the fountain?
                         atLocation === 'fountain' ? <Fountain
                             setAtLocation={setAtLocation}
-                            // setAtFountain={setAtFountain}
-                            // setAtGarden={setAtGarden}
+
+                            updatePlayer={updatePlayer}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             pickupItem={pickupItem}
                             setCommentary={setCommentary}
-                            updatePlayer={updatePlayer}
                             selectedItem={selectedItem}
                              />
                         :
                         // if not at the fountain, am I at the plaza?
                         atLocation === 'plaza' ? <Plaza
+                            updatePlayer={updatePlayer}
                             setAtLocation={setAtLocation}
-                            // setAtPlaza={setAtPlaza}
-                            // setAtGarden={setAtGarden}
-                            // setAtGazebo={setAtGazebo}
-                            // setAtPorch={setAtPorch}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             setCommentary={setCommentary}
                              />
                         :
                         // if not at the plaza, am I at the flower tunnel?
                         atLocation === 'flower-tunnel' ? <FlowerTunnel
+                            updatePlayer={updatePlayer}
                             setAtLocation={setAtLocation}
-                            // setAtFlowerTunnel={setAtFlowerTunnel}
-                            // setAtGarden={setAtGarden}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             setCommentary={setCommentary}
                              />
                         :
                         // if not at the flower Tunnel, am I at the gazebo?
                         atLocation === 'gazebo' ? <Gazebo
+                            updatePlayer={updatePlayer}
                             setAtLocation={setAtLocation}
-                            // setAtGazebo={setAtGazebo}
-                            // setAtPlaza={setAtPlaza}
+                            renderHotbarAndCommentary={renderHotbarAndCommentary}
+                            setCommentary={setCommentary}
+                             />
+                        :
+                        // if not at the gazebo, am I at the porch?
+                        atLocation === 'porch' ? <Porch
+                            updatePlayer={updatePlayer}
+                            setAtLocation={setAtLocation}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             setCommentary={setCommentary}
                              />

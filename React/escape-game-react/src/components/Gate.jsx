@@ -106,6 +106,7 @@ export default function Gate(props) {
                                     props.setSolvedAddressScrews(true)
                                     props.dropItem('coin')
                                     props.updatePlayer({'solved_address_screws':true})
+                                    props.setCommentary("That worked!")
                                 } else if (props.selectedItem !== 'default-none'){
                                     // if they are selecting anything that's not the key (and not none)
                                     props.setCommentary("That didn't work.")

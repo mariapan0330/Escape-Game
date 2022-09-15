@@ -48,7 +48,11 @@ export default function Plaza(props) {
                             <h2>COURTYARD</h2>
 
                             <div className="text-center">
-                                <button className='btn-primary'><h3>PORCH <i className='fa-solid fa-arrow-up'/></h3></button>
+                                <button className='btn-primary' onClick={() => {
+                                    props.setAtLocation('porch')
+                                    props.setCommentary(<>&nbsp;</>)
+                                    props.updatePlayer({'current_location':'porch'})
+                                }}><h3>PORCH <i className='fa-solid fa-arrow-up'/></h3></button>
                                 <br />
 
                                 <button className='btn-success'><h3>Bush</h3></button>
@@ -56,7 +60,11 @@ export default function Plaza(props) {
                             </div>
 
                             <div className="text-end">
-                                <button className='btn-primary'><h3>GAZEBO &nbsp;<i className='fa-solid fa-arrow-turn-up'/> </h3></button>
+                                <button className='btn-primary' onClick={() => {
+                                    props.setAtLocation('gazebo')
+                                    props.setCommentary(<>&nbsp;</>)
+                                    props.updatePlayer({'current_location':'gazebo'})
+                                }}><h3>GAZEBO &nbsp;<i className='fa-solid fa-arrow-turn-up'/> </h3></button>
                                 <br />
                             </div>
 
@@ -74,7 +82,6 @@ export default function Plaza(props) {
                                     setInspectMosaic(true)
                                     props.setCommentary("Nice mosaic.")
                                 }}><h3>Mosaic</h3></button>
-                                {/* <button className='btn-success'><h3>&#8712;&#8715;&#8721;&#8756;&#8834;&#8745;&#8853;&#936;</h3></button> */}
                                 <br />
 
                                 <button className='btn-primary' onClick={() => {

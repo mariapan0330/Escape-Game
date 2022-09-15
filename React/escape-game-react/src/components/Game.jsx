@@ -135,6 +135,8 @@ export default function Game(props) {
             props.setAtLocation('gazebo')
         } else if(playerLocation === 'flower-tunnel'){
             props.setAtLocation('flower-tunnel')
+        } else if(playerLocation === 'porch'){
+            props.setAtLocation('porch')
         }
 
     }

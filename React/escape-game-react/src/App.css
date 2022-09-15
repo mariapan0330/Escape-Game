@@ -195,6 +195,29 @@ body {
 }
 
 
+/****************  GAZEBO  ****************/
+#gazebo {
+    background-image: url('../public/images/gazeboPNG.png');
+    background-size: 93% 90%;
+    background-position: top left;
+}
+
+#gazebo h2 {
+    color: rgb(51, 43, 125);
+}
+
+/****************  GAZEBO  ****************/
+#porch {
+    background-image: url('../public/images/porchPNG.png');
+    background-size: 93% 90%;
+    background-position: top left;
+}
+
+#porch h2 {
+    color: rgb(51, 43, 125);
+}
+
+
 
 
 /****************  SIGN UP OR LOG IN  ****************/

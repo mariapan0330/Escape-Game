@@ -20,7 +20,7 @@ export default function Garden(props) {
                             props.setCommentary(<>&nbsp;</>)
                             props.setAtLocation('plaza')
                             props.updatePlayer({'current_location':'plaza'})
-                        }}><h3>PLAZA <i class="fa-solid fa-arrow-up"/></h3></button>
+                        }}><h3>COURTYARD <i class="fa-solid fa-arrow-up"/></h3></button>
                         <br />
 
 
