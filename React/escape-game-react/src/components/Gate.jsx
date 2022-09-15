@@ -210,7 +210,9 @@ export default function Gate(props) {
                             <br />
                             <br />
                             <button><h3 onClick={() => {
-                                props.setCommentary('ENTERING GATE')
+                                props.setAtGate(false)
+                                props.setAtGarden(true)
+                                props.updatePlayer({'current_location':'garden'})
                             }}>ENTER GATE <i className="fa-solid fa-arrow-up" /></h3></button>
                             </div>
                         </>

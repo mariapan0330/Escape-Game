@@ -62,7 +62,7 @@ body {
 /****************  GATE  ****************/
 #gate {
     font-family: "Voces", sans-serif;
-    background-image: url('../public/images/gatePNG3.png');
+    background-image: url('../public/images/gatePNG4.png');
     background-size: 93% 90%;
     background-position: top left;
 }
@@ -105,7 +105,31 @@ body {
 }
 
 
+/****************  GARDEN  ****************/
 
+#garden {
+    font-family: "Voces", sans-serif;
+    background-image: url('../public/images/gardenPNG.png');
+    background-size: 93% 90%;
+    background-position: top left;
+}
+
+#garden h2 {
+    color:black;
+    text-shadow: 2px 2px 2px rgb(20, 69, 20);
+}
+
+#garden h3 {
+    cursor: pointer;
+}
+
+.bushes {
+    background-color: white;
+}
+
+.directions {
+    margin-top: 20rem;
+}
 
 
 /****************  SIGN UP OR LOG IN  ****************/

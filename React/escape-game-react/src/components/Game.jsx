@@ -125,6 +125,10 @@ export default function Game(props) {
             // props.updatePlayer({'hotbar_slot_1':2})
             props.setAtGate(true)
             props.setAtPrologue(false)
+        } else if(playerLocation === 'garden'){
+            props.setAtGate(false)
+            props.setAtPrologue(false)
+            props.setAtGarden(true)
         }
     }
 

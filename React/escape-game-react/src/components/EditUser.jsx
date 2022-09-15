@@ -10,8 +10,8 @@ export default function EditUser(props) {
 
     return (
         <>
-            <h1 className='text-center text-light' id='formTitle'>Edit User</h1>
-            <form id='signUpForm' onSubmit={handleEditUserSubmit}>
+            <h1 className='text-center text-light mt-5' id='formTitle'>Edit User</h1>
+            <form id='signUpForm' className='mb-4' onSubmit={handleEditUserSubmit}>
                 <p className='text-start mb-0 ms-3 fs-5'>Email</p>
                 {/* <input type="email" className="form-control mb-3 p-3" placeholder="Email" name='username' value={props.username} onChange={(e) => setUsername(e.target.value)}/> */}
                 <p className='text-start mb-0 ms-3 fs-5'>Username</p>
@@ -21,7 +21,7 @@ export default function EditUser(props) {
                 {/* {loginError ? <h5 className='text-danger'>{loginError}</h5> : <></>} */}
                 {/* <h4 className='py-1 mx-4' id='switch-signup-login' onClick={() => setShowEdit(true)}>Newcomer? Sign Up here!</h4> */}
                 <div className="d-flex justify-content-center">
-                    <button type="submit" className="btn btn-warning mb-4 fs-3" id='submitSignup'>Log In</button>
+                    <button type="submit" className="btn btn-warning mb-4 fs-3" id='submitSignup'>Submit</button>
                     <button className="mx-3 btn btn-dark mb-4 fs-3" onClick={() => {props.setEditUser(false)}}>Cancel</button>
                 </div>
             </form>

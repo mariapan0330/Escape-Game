@@ -8,6 +8,7 @@ import EditUser from './components/EditUser';
 import Game from './components/Game';
 // import basicKey from './key';
 import Gate from './components/Gate';
+import Garden from './components/Garden';
 // This one has all the routes which you make in your components folder.
 // The user is called "Player" not user (but they do have a "username" not "playername").
 
@@ -16,6 +17,7 @@ function App() {
     const [editUser, setEditUser] = useState(false)
     const [atGate, setAtGate] = useState(false)
     const [atPrologue, setAtPrologue] = useState(true)
+    const [atGarden, setAtGarden] = useState(false)
     
     const [hotbar1, setHotbar1] = useState()
     const [hotbar2, setHotbar2] = useState()
@@ -189,13 +191,17 @@ function App() {
             return data['current_location']
         })
         .then((currentLocation) => {
-            if (currentLocation === 'prologue'){
-                setAtPrologue(true)
-                setAtGate(false)
-            } else if (currentLocation === 'gate'){
-                setAtPrologue(false)
-                setAtGate(true)
-            }
+            // if (currentLocation === 'prologue'){
+            //     setAtPrologue(true)
+            //     setAtGate(false)
+            // } else if (currentLocation === 'gate'){
+            //     setAtPrologue(false)
+            //     setAtGate(true)
+            // } else if (currentLocation === 'garden'){
+            //     setAtPrologue(false)
+            //     setAtGate(false)
+            //     setAtGarden(true)
+            // }
         })
         // console.log('current Player Data2:',currentPlayerUsername)
     }
@@ -237,6 +243,7 @@ function App() {
                             currentPlayerUsername={currentPlayerUsername} 
                             setAtGate={setAtGate} 
                             setAtPrologue={setAtPrologue}
+                            setAtGarden={setAtGarden}
                             updatePlayer={updatePlayer} /> 
                             : 
                         // if not at prologue, am i at the gate?
@@ -252,9 +259,22 @@ function App() {
                                     setSolvedGateKeyhole={setSolvedGateKeyhole}
                                     solvedGateKeyhole={solvedGateKeyhole}
                                     dropItem={dropItem}
+                                    setAtGate={setAtGate}
+                                    setAtGarden={setAtGarden}
                                     />
-                        // if also not at the gate:
-                        : <>
+                                    : 
+                        // if not at the gate, am I at the garden?
+                        atGarden ? <Garden
+                            updatePlayer={updatePlayer}
+                            hotbarSlots={hotbarSlots}
+                            setCommentary={setCommentary}
+                            rerenderHotbar={rerenderHotbar}
+                            setAtGate={setAtGate}
+                            setAtGarden={setAtGarden}
+                            renderHotbarAndCommentary={renderHotbarAndCommentary}/>
+                        // if not at any of these:
+                        :
+                        <>
                         {/* PURGATORY */}
                         {setAtPrologue(true)}
                         </>
