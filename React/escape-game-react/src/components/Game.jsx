@@ -49,7 +49,7 @@ export default function Game(props) {
                         Lady Macaroni, a philanthropist and movie star and Lockwood's richest citizen...<br/>
                         has been murdered!</h3>
                         <br />
-                        <h5 className="fs-3" onClick={() => setPrologue(beginPrologue(2))}>Next Page</h5>
+                        <button><h5 className="fs-3" onClick={() => setPrologue(beginPrologue(2))}>Next Page</h5></button>
                     </div>
                 </div>
                 </>
@@ -66,7 +66,7 @@ export default function Game(props) {
                         <h3 className="fs-2">The authorities found Farmer Fettuccine guilty. <br />
                         They sentenced him to 30 years in prison.</h3>
                         <br />
-                        <h5 className="fs-2" onClick={() => setPrologue(beginPrologue(3))}>Next Page</h5>
+                        <button><h5 className="fs-2" onClick={() => setPrologue(beginPrologue(3))}>Next Page</h5></button>
                     </div>
                 </>
             )
@@ -85,11 +85,11 @@ export default function Game(props) {
                         <h3 className="dig-deeper fs-1 ms-5">DIG DEEPER.</h3>
                         <h3 className="fs-3 ms-5">(Picture of Lady Macaroni's mansion)</h3>
                         <br />
-                        <h5 className="fs-3" onClick={() => {
+                        <button><h5 className="fs-3" onClick={() => {
                             props.setAtGate(true)
                             props.setAtPrologue(false)
                             props.updatePlayer({'current_location':'gate'})
-                        }}>BEGIN</h5>
+                        }}>BEGIN</h5></button>
                     </div>
                 </>
             )

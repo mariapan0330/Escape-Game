@@ -59,12 +59,13 @@ export default function SignupOrLogin(props) {
             .then(data => {
                 if (data.token){
                     localStorage.setItem('token', data.token)
-                    props.login()
+                    // props.login()
                     console.log('LOGIN SUCCESSFUL')
                 } else {
                     setLoginError("That didn't work.")
                 }
             })
+            .then(()=> {props.login()})
     }
 
     
@@ -73,6 +74,7 @@ export default function SignupOrLogin(props) {
         e.preventDefault()
 
         if (missingField){
+            console.log('Missing a field')
             return
         }
 
@@ -81,7 +83,7 @@ export default function SignupOrLogin(props) {
     
     // post request to api -> create Player
     const newPlayer = () => {
-        let myHeaders = new Headers()
+        let myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json')
         
         var formData = JSON.stringify({
@@ -92,7 +94,7 @@ export default function SignupOrLogin(props) {
         
         // let newPlayerId;
         fetch('http://127.0.0.1:5000/auth/players', {
-            method: "post",
+            method: "POST",
             headers: myHeaders,
             body: formData
         })
@@ -100,19 +102,24 @@ export default function SignupOrLogin(props) {
             .then(data => {
                 if (!data.error){
                     // Show the main game. Can i log in now too automatically instead of making the player do that
-                    console.log('sign up successful')
+                    console.log('sign up successful:', data['id'])
                     setPlayerId(data['id'])
                     // newPlayerId = data['id']
-                    handleLoginSubmit()
-                    .then(props.login())
-                    .then(setShowSignUpForm(false))
-
+                    
                 } else if (data.error === "Player with that username or email already exists."){
                     console.log(146)
                     setSignUpError(data.error)
+                    return 'error'
                     // newPlayerId = 'error'
                 }
-            }).then(() => {console.log('signing up player #',playerId)})
+            })
+            .then((msg) => {
+                if (msg !== 'error'){
+                    console.log('signing up player #',playerId)
+                    handleLoginSubmit() // handleLoginSubmit will login and do a props.login() when it is done
+                }
+            })
+            // .then(() => props.login())
         return playerId
     }
 

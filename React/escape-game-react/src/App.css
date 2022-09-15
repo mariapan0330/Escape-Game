@@ -71,7 +71,7 @@ body {
     cursor: pointer;
 }
 
-#hotbar-item:hover {
+.hotbar-item:hover {
     cursor: pointer;
 }
 

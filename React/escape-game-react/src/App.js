@@ -30,6 +30,7 @@ function App() {
     const [color, setColor] = useState('light')
 
     const [selectedKeyA, setSelectedKeyA] = useState(false)
+    const [solvedGateKeyhole, setSolvedGateKeyhole] = useState(false)
 
     const [commentary, setCommentary] = useState(<>&nbsp;</>)
 
@@ -38,7 +39,10 @@ function App() {
     const [currentPlayerId, setCurrentPlayerId] = useState()
     
     const login = () => {
-        setLoggedIn(true)
+        const loginPromise = new Promise(() =>
+            setLoggedIn(true)
+        );
+        loginPromise.then(() => findCurrentPlayer())
     }
 
     useEffect(() => {
@@ -85,6 +89,23 @@ function App() {
         setHotbar(renderHotbar())
     }
 
+    const dropItem = (itemName) => {
+        console.log('== TRYING TO DROP ITEM', itemName, "==")
+        for (let slot in hotbarSlots){
+            console.log(hotbarSlots[slot])
+            if (hotbarSlots[slot] === itemName){
+                slot++
+                if (slot === 1){
+                    updatePlayer({"hotbar_slot_1":1})
+                } else if (slot === 2){
+                    updatePlayer({"hotbar_slot_2":1})
+                }
+                console.log('Dropped itemName:', itemName, 'from slot',slot)
+                break
+            }
+        }
+    }
+
 
     const renderHotbar = () => {
         return (
@@ -101,7 +122,7 @@ function App() {
                     } else if (slot === 'key-a' && !selectedKeyA) {
                         // if you did not have key a selected and you click it, select it.
                         setCommentary("A heavy wrought-iron key. I wonder what it's for.")
-                        setColor('warning')
+                        setColor('warning fw-bold')
                         updatePlayer({'selected_item':3})
                         setSelectedKeyA(true)
                     }
@@ -125,7 +146,7 @@ function App() {
                 
                 <div className="bottom-bar d-flex align-items-center">
                     <div className="character-commentary col justify-content-end">
-                        <h3 className="mt-3">{commentary}</h3>
+                        <h4 className="mt-3 fs-3">{commentary}</h4>
                     </div>
                     <div className="hint-box col-1" onClick={() => {setCommentary('I don\'t know either, man.')}}>
                         {/* {playerLocation} */}
@@ -163,7 +184,18 @@ function App() {
             setHotbar7(data['hotbar_slot_7']['piece_name'])
             setCurrentPlayerUsername(data["username"])
             setCurrentPlayerId(data["id"])
+            setSolvedGateKeyhole(data['solved_gate_keyhole'])
             console.log('current Player Data:',currentPlayerUsername, currentPlayerId)
+            return data['current_location']
+        })
+        .then((currentLocation) => {
+            if (currentLocation === 'prologue'){
+                setAtPrologue(true)
+                setAtGate(false)
+            } else if (currentLocation === 'gate'){
+                setAtPrologue(false)
+                setAtGate(true)
+            }
         })
         // console.log('current Player Data2:',currentPlayerUsername)
     }
@@ -196,28 +228,46 @@ function App() {
         <>
             <div className="container-fluid">
                 {/* The hashlinks let you move within one page */}
-                {loggedIn ? 
+                {
+                // Am i logged in?
+                loggedIn ? 
+                    // if logged in, am i at prologue?
                     atPrologue ?
                         <Game 
                             currentPlayerUsername={currentPlayerUsername} 
                             setAtGate={setAtGate} 
                             setAtPrologue={setAtPrologue}
-                            updatePlayer={updatePlayer} /> : <></>
+                            updatePlayer={updatePlayer} /> 
+                            : 
+                        // if not at prologue, am i at the gate?
+                        atGate ? <Gate hotbarAndCommentary={hotbarAndCommentary}
+                                    renderHotbarAndCommentary={renderHotbarAndCommentary}
+                                    updatePlayer={updatePlayer}
+                                    hotbarSlots={hotbarSlots}
+                                    setCommentary={setCommentary}
+                                    rerenderHotbar={rerenderHotbar}
+                                    setRerenderHotbar={setRerenderHotbar}
+                                    pickupItem={pickupItem}
+                                    selectedKeyA={selectedKeyA}
+                                    setSolvedGateKeyhole={setSolvedGateKeyhole}
+                                    solvedGateKeyhole={solvedGateKeyhole}
+                                    dropItem={dropItem}
+                                    />
+                        // if also not at the gate:
+                        : <>
+                        {/* PURGATORY */}
+                        {setAtPrologue(true)}
+                        </>
+
+                    // if not logged in, show the landing page and sign up/sign in
                     :
                     <>
                         <Landing loggedIn={loggedIn} logout={logout}
                             linkToSignUpLogin={<HashLink to="#signup-or-login"><p><i className="fa-regular fa-circle-play"></i></p></HashLink>}
                             linkToFooter={<HashLink to="#footer"><h1>New Game</h1></HashLink>} />
                         <SignupOrLogin login={login} loggedIn={loggedIn} findCurrentPlayer={findCurrentPlayer} />
-                    </>}
-                {atGate ? <Gate hotbarAndCommentary={hotbarAndCommentary}
-                                renderHotbarAndCommentary={renderHotbarAndCommentary}
-                                updatePlayer={updatePlayer}
-                                hotbarSlots={hotbarSlots}
-                                setCommentary={setCommentary}
-                                rerenderHotbar={rerenderHotbar}
-                                setRerenderHotbar={setRerenderHotbar}
-                                pickupItem={pickupItem} /> : <></>}
+                    </>
+                }
 
                 {editUser ? <EditUser setEditUser={setEditUser} /> : <></> }
             </div>

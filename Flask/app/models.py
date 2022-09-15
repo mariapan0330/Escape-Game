@@ -48,7 +48,7 @@ class Player(db.Model):
     saw_address = db.Column(db.Boolean, default=False)
     saw_address_hidden_symbols = db.Column(db.Boolean, default=False)
     mailbox_box_correct_combination = db.Column(db.String(10), default="8237")
-    mailbox_box_combination_entered = db.Column(db.String(10), default='0000')
+    mailbox_box_combination_entered = db.Column(db.String(10), default='1111')
     solved_mailbox_box = db.Column(db.Boolean, default=False) # (red gem inside)
 
     # --- PLAZA ---
@@ -91,7 +91,7 @@ class Player(db.Model):
     saw_carved_trees = db.Column(db.Boolean, default=False)
     saw_compass_mosaic = db.Column(db.Boolean, default=False)
     flower_gate_padlock_correct_combination = db.Column(db.String(10), default='4685')
-    flower_gate_padlock_combination_entered = db.Column(db.String(10), default='0000')
+    flower_gate_padlock_combination_entered = db.Column(db.String(10), default='1111')
     solved_flower_gate_padlock = db.Column(db.Boolean, default=False)
 
     token = db.Column(db.String(32), unique=True, index=True)
