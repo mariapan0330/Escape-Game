@@ -5,7 +5,7 @@ export default function Garden(props) {
     const [inspectBushes, setInspectBushes] = useState(false)
     
 
- return (
+    return (
         <>
         <div className="">
             <div id="garden" className='front-page row justify-content-center'>
@@ -14,12 +14,32 @@ export default function Garden(props) {
                     <div className="directions">
                         <span>&emsp;&emsp;&emsp;&emsp;</span>
                         <span>&emsp;&emsp;&emsp;&emsp;</span>
-                        <button className='ms-5 btn-primary'><h3>PLAZA <i class="fa-solid fa-arrow-up"/></h3></button>
+
+
+                        <button className='ms-5 btn-primary' onClick={() => {
+                            props.setAtPlaza(true)
+                            props.setAtGarden(false)
+                            props.updatePlayer({'current_location':'plaza'})
+                        }}><h3>PLAZA <i class="fa-solid fa-arrow-up"/></h3></button>
                         <br />
+
+
                         <div className="d-flex justify-content-between">
-                            <button className='btn-primary'><h3>FOUNTAIN <i class="fa-solid fa-arrow-left"/></h3></button>
-                            <button className='btn-primary'><h3>FLOWER TUNNEL <i class="fa-solid fa-arrow-right"/></h3></button>
+                            <button className='btn-primary' onClick={() => { 
+                                props.setAtFountain(true)
+                                props.setAtGarden(false)
+                                props.updatePlayer({'current_location':'fountain'})
+                                }}><h3>FOUNTAIN <i class="fa-solid fa-arrow-left"/></h3></button>
+
+
+                            <button className='btn-primary'onClick={() => {
+                                props.setAtFlowerTunnel(true)
+                                props.setAtGarden(false)
+                                props.updatePlayer({'current_location':'flower-tunnel'})
+                            }}><h3>FLOWER TUNNEL <i class="fa-solid fa-arrow-right"/></h3></button>
                         </div>
+
+                        
                         <div className="d-flex justify-content-around">
                             <button className='ms-5 btn-primary' onClick={() => {
                                 props.setAtGarden(false)

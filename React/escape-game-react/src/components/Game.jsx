@@ -107,29 +107,44 @@ export default function Game(props) {
 
     const handleContinueGame = () => {
         console.log('===== CONTINUE GAME =====')
-        // let playerLoc = playerLocation
+        // let playerLoc = playerLocationprops.setAtPrologue(false)
         console.log('CONT current location:', playerLocation)
+        props.setAtPrologue(false)
+        props.setAtGate(false)
+        props.setAtGarden(false)
+        props.setAtFountain(false)
+        props.setAtPlaza(false)
+        props.setAtGazebo(false)
+        props.setAtFlowerTunnel(false)
         if (playerLocation === 'prologue1'){
+            props.setAtPrologue(false)
             setShowLanding(false)
             setPrologue(beginPrologue(1))
             setShowPrologue(true)
         } else if (playerLocation === 'prologue2'){
+            props.setAtPrologue(false)
             setShowLanding(false)
             setPrologue(beginPrologue(2))
             setShowPrologue(true)
         } else if (playerLocation === 'prologue3'){
+            props.setAtPrologue(false)
             setShowLanding(false)
             setPrologue(beginPrologue(3))
             setShowPrologue(true)
         } else if(playerLocation === 'gate' || playerLocation === 'inspect-address'){
-            // props.updatePlayer({'hotbar_slot_1':2})
             props.setAtGate(true)
-            props.setAtPrologue(false)
         } else if(playerLocation === 'garden'){
-            props.setAtGate(false)
-            props.setAtPrologue(false)
             props.setAtGarden(true)
+        } else if(playerLocation === 'fountain'){
+            props.setAtFountain(true)
+        } else if(playerLocation === 'plaza'){
+            props.setAtPlaza(true)
+        } else if(playerLocation === 'gazebo'){
+            props.setAtGazebo(true)
+        } else if(playerLocation === 'flower-tunnel'){
+            props.setAtFlowerTunnel(true)
         }
+
     }
 
     const landing = () => {

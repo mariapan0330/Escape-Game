@@ -9,15 +9,24 @@ import Game from './components/Game';
 // import basicKey from './key';
 import Gate from './components/Gate';
 import Garden from './components/Garden';
+import Fountain from './components/Fountain';
+import Plaza from './components/Plaza';
+import FlowerTunnel from './components/FlowerTunnel';
+import Gazebo from './components/Gazebo';
 // This one has all the routes which you make in your components folder.
 // The user is called "Player" not user (but they do have a "username" not "playername").
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true: false)
     const [editUser, setEditUser] = useState(false)
+
     const [atGate, setAtGate] = useState(false)
     const [atPrologue, setAtPrologue] = useState(true)
     const [atGarden, setAtGarden] = useState(false)
+    const [atFountain, setAtFountain] = useState(false)
+    const [atPlaza, setAtPlaza] = useState(false)
+    const [atFlowerTunnel, setAtFlowerTunnel] = useState(false)
+    const [atGazebo, setAtGazebo] = useState(false)
     
     const [hotbar1, setHotbar1] = useState()
     const [hotbar2, setHotbar2] = useState()
@@ -190,22 +199,26 @@ function App() {
             console.log('current Player Data:',currentPlayerUsername, currentPlayerId)
             return data['current_location']
         })
-        .then((currentLocation) => {
-            // if (currentLocation === 'prologue'){
-            //     setAtPrologue(true)
-            //     setAtGate(false)
-            // } else if (currentLocation === 'gate'){
-            //     setAtPrologue(false)
-            //     setAtGate(true)
-            // } else if (currentLocation === 'garden'){
-            //     setAtPrologue(false)
-            //     setAtGate(false)
-            //     setAtGarden(true)
-            // }
-        })
         // console.log('current Player Data2:',currentPlayerUsername)
     }
     
+
+    const deletePlayer = () => {
+        console.log('=== DELETING PLAYER', currentPlayerId, '===')
+        let myHeaders = new Headers()
+        myHeaders.append('Authorization', `Bearer ${localStorage.getItem('token')}`)
+        fetch(`http://127.0.0.1:5000/auth/players/${currentPlayerId}`, {
+            method: 'DELETE',
+            headers: myHeaders
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success){
+                    console.log('Successfully deleted')
+                }
+            })
+        logout()
+    }
 
 
     const updatePlayer = (what) => {
@@ -238,16 +251,25 @@ function App() {
                 // Am i logged in?
                 loggedIn ? 
                     // if logged in, am i at prologue?
-                    atPrologue ?
-                        <Game 
-                            currentPlayerUsername={currentPlayerUsername} 
-                            setAtGate={setAtGate} 
-                            setAtPrologue={setAtPrologue}
-                            setAtGarden={setAtGarden}
-                            updatePlayer={updatePlayer} /> 
+                        atPrologue ?
+                            <Game 
+                                currentPlayerUsername={currentPlayerUsername} 
+                                updatePlayer={updatePlayer} 
+
+                                setAtGate={setAtGate} 
+                                setAtPrologue={setAtPrologue}
+                                setAtGarden={setAtGarden}
+                                setAtFountain={setAtFountain}
+                                setAtPlaza={setAtPlaza}
+                                setAtGazebo={setAtGazebo}
+                                setAtFlowerTunnel={setAtFlowerTunnel}
+                                /> 
                             : 
                         // if not at prologue, am i at the gate?
-                        atGate ? <Gate hotbarAndCommentary={hotbarAndCommentary}
+                        atGate ? <Gate
+                                    setAtGate={setAtGate}
+                                    setAtGarden={setAtGarden}
+                                    hotbarAndCommentary={hotbarAndCommentary}
                                     renderHotbarAndCommentary={renderHotbarAndCommentary}
                                     updatePlayer={updatePlayer}
                                     hotbarSlots={hotbarSlots}
@@ -259,21 +281,45 @@ function App() {
                                     setSolvedGateKeyhole={setSolvedGateKeyhole}
                                     solvedGateKeyhole={solvedGateKeyhole}
                                     dropItem={dropItem}
-                                    setAtGate={setAtGate}
-                                    setAtGarden={setAtGarden}
                                     />
                                     : 
                         // if not at the gate, am I at the garden?
                         atGarden ? <Garden
+                            setAtGate={setAtGate}
+                            setAtGarden={setAtGarden}
+                            setAtFountain={setAtFountain}
+                            setAtPlaza={setAtPlaza}
+                            setAtFlowerTunnel={setAtFlowerTunnel}
+
                             updatePlayer={updatePlayer}
                             hotbarSlots={hotbarSlots}
                             setCommentary={setCommentary}
                             rerenderHotbar={rerenderHotbar}
-                            setAtGate={setAtGate}
-                            setAtGarden={setAtGarden}
-                            renderHotbarAndCommentary={renderHotbarAndCommentary}/>
-                        // if not at any of these:
+                            setAtGazebo={setAtGazebo}
+                            renderHotbarAndCommentary={renderHotbarAndCommentary}
+                            />
+                            :
+                        // if not at the garden, am I at the fountain?
+                        atFountain ? <Fountain
+                            setAtFountain={setAtFountain}
+                            setAtGarden={setAtGarden} />
                         :
+                        // if not at the fountain, am I at the plaza?
+                        atPlaza ? <Plaza
+                            setAtPlaza={setAtPlaza}
+                            setAtGarden={setAtGarden} />
+                        :
+                        // if not at the plaza, am I at the flower tunnel?
+                        atFlowerTunnel ? <FlowerTunnel
+                            setAtFlowerTunnel={setAtFlowerTunnel}
+                            setAtGarden={setAtGarden} />
+                        :
+                        // if not at the flower Tunnel, am I at the gazebo?
+                        atGazebo ? <Gazebo
+                            setAtGazebo={setAtGazebo}
+                            setAtPlaza={setAtPlaza} />
+                        :
+                        // if not at any of these:
                         <>
                         {/* PURGATORY */}
                         {setAtPrologue(true)}
@@ -289,7 +335,7 @@ function App() {
                     </>
                 }
 
-                {editUser ? <EditUser setEditUser={setEditUser} /> : <></> }
+                {editUser ? <EditUser setEditUser={setEditUser} deletePlayer={deletePlayer} /> : <></> }
             </div>
             <Footer currentPlayerUsername={currentPlayerUsername}
                 loggedIn={loggedIn} 
