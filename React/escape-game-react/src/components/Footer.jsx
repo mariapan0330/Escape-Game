@@ -7,7 +7,7 @@ export default function Footer(props) {
 
     const logout= () => {
         console.log('clicked LOG OUT');
-        props.setAtGate(false)
+        props.setAtLocation('prologue')
         props.logout()
     }
 

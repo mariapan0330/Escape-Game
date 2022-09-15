@@ -21,8 +21,7 @@ export default function FlowerTunnel(props) {
                     <div id="flower-tunnel-buttons" className='text-center d-flex justify-content-around'>
                         <button className='btn-primary' onClick={() => {
                             props.setCommentary(<>&nbsp;</>)
-                            props.setAtFlowerTunnel(false)
-                            props.setAtGarden(true)
+                            props.setAtLocation('garden')
                             props.updatePlayer({'current_location':'garden'})
                         }}><h3>GARDEN <i className="fa-solid fa-arrow-down" /></h3></button>
                         

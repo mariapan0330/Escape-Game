@@ -169,13 +169,29 @@ body {
 
 /****************  PLAZA  ****************/
 #plaza {
-    /* background-image: url('../public/images/flowertunnelPNG.png'); */
+    background-image: url('../public/images/plazaPNG.png');
     background-size: 93% 90%;
     background-position: top left;
 }
 
 #plaza h2 {
-    /* color: rgb(38, 59, 35); */
+    color: rgb(51, 43, 125);
+}
+
+#mosaic {
+    background-image: url('../public/images/mosaicPNG.png');
+    background-size: 93% 90%;
+    background-position: top left;
+}
+
+.back-button {
+    margin-top: 50vh;
+}
+
+#wall-fountains {
+    background-image: url('../public/images/statuesPNG.png');
+    background-size: 93% 90%;
+    background-position: top left;
 }
 
 

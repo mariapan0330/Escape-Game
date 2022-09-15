@@ -20,13 +20,15 @@ function App() {
     const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true: false)
     const [editUser, setEditUser] = useState(false)
 
-    const [atGate, setAtGate] = useState(false)
-    const [atPrologue, setAtPrologue] = useState(true)
-    const [atGarden, setAtGarden] = useState(false)
-    const [atFountain, setAtFountain] = useState(false)
-    const [atPlaza, setAtPlaza] = useState(false)
-    const [atFlowerTunnel, setAtFlowerTunnel] = useState(false)
-    const [atGazebo, setAtGazebo] = useState(false)
+    // const [atGate, setAtGate] = useState(false)
+    // const [atPrologue, setAtPrologue] = useState(true)
+    // const [atGarden, setAtGarden] = useState(false)
+    // const [atFountain, setAtFountain] = useState(false)
+    // const [atPlaza, setAtPlaza] = useState(false)
+    // const [atFlowerTunnel, setAtFlowerTunnel] = useState(false)
+    // const [atGazebo, setAtGazebo] = useState(false)
+    // const [atPorch, setAtPorch] = useState(false)
+    const [atLocation, setAtLocation] = useState('prologue')
     
     const [hotbar1, setHotbar1] = useState()
     const [hotbar2, setHotbar2] = useState()
@@ -275,24 +277,25 @@ function App() {
                 // Am i logged in?
                 loggedIn ? 
                     // if logged in, am i at prologue?
-                        atPrologue ?
+                        atLocation === 'prologue' ?
                             <Game 
                                 currentPlayerUsername={currentPlayerUsername} 
                                 updatePlayer={updatePlayer} 
-
-                                setAtGate={setAtGate} 
-                                setAtPrologue={setAtPrologue}
-                                setAtGarden={setAtGarden}
-                                setAtFountain={setAtFountain}
-                                setAtPlaza={setAtPlaza}
-                                setAtGazebo={setAtGazebo}
-                                setAtFlowerTunnel={setAtFlowerTunnel}
+                                setAtLocation={setAtLocation}
+                                // setAtGate={setAtGate} 
+                                // setAtPrologue={setAtPrologue}
+                                // setAtGarden={setAtGarden}
+                                // setAtFountain={setAtFountain}
+                                // setAtPlaza={setAtPlaza}
+                                // setAtGazebo={setAtGazebo}
+                                // setAtFlowerTunnel={setAtFlowerTunnel}
                                 /> 
                             : 
                         // if not at prologue, am i at the gate?
-                        atGate ? <Gate
-                                    setAtGate={setAtGate}
-                                    setAtGarden={setAtGarden}
+                        atLocation === 'gate' ? <Gate
+                                    setAtLocation={setAtLocation}
+                                    // setAtGate={setAtGate}
+                                    // setAtGarden={setAtGarden}
 
                                     hotbarAndCommentary={hotbarAndCommentary}
                                     renderHotbarAndCommentary={renderHotbarAndCommentary}
@@ -318,25 +321,27 @@ function App() {
                                     />
                                     : 
                         // if not at the gate, am I at the garden?
-                        atGarden ? <Garden
-                            setAtGate={setAtGate}
-                            setAtGarden={setAtGarden}
-                            setAtFountain={setAtFountain}
-                            setAtPlaza={setAtPlaza}
-                            setAtFlowerTunnel={setAtFlowerTunnel}
+                        atLocation === 'garden' ? <Garden
+                            setAtLocation={setAtLocation}
+                            // setAtGate={setAtGate}
+                            // setAtGarden={setAtGarden}
+                            // setAtFountain={setAtFountain}
+                            // setAtPlaza={setAtPlaza}
+                            // setAtFlowerTunnel={setAtFlowerTunnel}
+                            // setAtGazebo={setAtGazebo}
 
                             updatePlayer={updatePlayer}
                             hotbarSlots={hotbarSlots}
                             setCommentary={setCommentary}
                             rerenderHotbar={rerenderHotbar}
-                            setAtGazebo={setAtGazebo}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             />
                             :
                         // if not at the garden, am I at the fountain?
-                        atFountain ? <Fountain
-                            setAtFountain={setAtFountain}
-                            setAtGarden={setAtGarden}
+                        atLocation === 'fountain' ? <Fountain
+                            setAtLocation={setAtLocation}
+                            // setAtFountain={setAtFountain}
+                            // setAtGarden={setAtGarden}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             pickupItem={pickupItem}
                             setCommentary={setCommentary}
@@ -345,25 +350,30 @@ function App() {
                              />
                         :
                         // if not at the fountain, am I at the plaza?
-                        atPlaza ? <Plaza
-                            setAtPlaza={setAtPlaza}
-                            setAtGarden={setAtGarden}
+                        atLocation === 'plaza' ? <Plaza
+                            setAtLocation={setAtLocation}
+                            // setAtPlaza={setAtPlaza}
+                            // setAtGarden={setAtGarden}
+                            // setAtGazebo={setAtGazebo}
+                            // setAtPorch={setAtPorch}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             setCommentary={setCommentary}
                              />
                         :
                         // if not at the plaza, am I at the flower tunnel?
-                        atFlowerTunnel ? <FlowerTunnel
-                            setAtFlowerTunnel={setAtFlowerTunnel}
-                            setAtGarden={setAtGarden}
+                        atLocation === 'flower-tunnel' ? <FlowerTunnel
+                            setAtLocation={setAtLocation}
+                            // setAtFlowerTunnel={setAtFlowerTunnel}
+                            // setAtGarden={setAtGarden}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             setCommentary={setCommentary}
                              />
                         :
                         // if not at the flower Tunnel, am I at the gazebo?
-                        atGazebo ? <Gazebo
-                            setAtGazebo={setAtGazebo}
-                            setAtPlaza={setAtPlaza}
+                        atLocation === 'gazebo' ? <Gazebo
+                            setAtLocation={setAtLocation}
+                            // setAtGazebo={setAtGazebo}
+                            // setAtPlaza={setAtPlaza}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             setCommentary={setCommentary}
                              />
@@ -371,7 +381,7 @@ function App() {
                         // if not at any of these:
                         <>
                         {/* PURGATORY */}
-                        {setAtPrologue(true)}
+                        {setAtLocation('prologue')}
                         </>
 
                     // if not logged in, show the landing page and sign up/sign in
@@ -392,10 +402,12 @@ function App() {
 
                 {editUser ? <EditUser setEditUser={setEditUser} deletePlayer={deletePlayer} /> : <></> }
             </div>
-            <Footer currentPlayerUsername={currentPlayerUsername}
+            <Footer
+                setAtLocation={setAtLocation}
+                currentPlayerUsername={currentPlayerUsername}
                 loggedIn={loggedIn} 
-                setAtPrologue={setAtPrologue} 
-                setAtGate={setAtGate} 
+                // setAtPrologue={setAtPrologue} 
+                // setAtGate={setAtGate} 
                 logout={logout} 
                 setEditUser={setEditUser} />
         </>

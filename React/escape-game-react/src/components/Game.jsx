@@ -86,8 +86,7 @@ export default function Game(props) {
                         <h3 className="fs-3 ms-5">(Picture of Lady Macaroni's mansion)</h3>
                         <br />
                         <button><h5 className="fs-3" onClick={() => {
-                            props.setAtGate(true)
-                            props.setAtPrologue(false)
+                            props.setAtLocation('gate')
                             props.updatePlayer({'current_location':'gate'})
                         }}>BEGIN</h5></button>
                     </div>
@@ -109,40 +108,33 @@ export default function Game(props) {
         console.log('===== CONTINUE GAME =====')
         // let playerLoc = playerLocationprops.setAtPrologue(false)
         console.log('CONT current location:', playerLocation)
-        props.setAtPrologue(false)
-        props.setAtGate(false)
-        props.setAtGarden(false)
-        props.setAtFountain(false)
-        props.setAtPlaza(false)
-        props.setAtGazebo(false)
-        props.setAtFlowerTunnel(false)
         if (playerLocation === 'prologue1'){
-            props.setAtPrologue(false)
+            props.setAtLocation('prologue')
             setShowLanding(false)
             setPrologue(beginPrologue(1))
             setShowPrologue(true)
         } else if (playerLocation === 'prologue2'){
-            props.setAtPrologue(false)
+            props.setAtLocation('prologue')
             setShowLanding(false)
             setPrologue(beginPrologue(2))
             setShowPrologue(true)
         } else if (playerLocation === 'prologue3'){
-            props.setAtPrologue(false)
+            props.setAtLocation('prologue')
             setShowLanding(false)
             setPrologue(beginPrologue(3))
             setShowPrologue(true)
         } else if(playerLocation === 'gate' || playerLocation === 'inspect-address'){
-            props.setAtGate(true)
+            props.setAtLocation('gate')
         } else if(playerLocation === 'garden'){
-            props.setAtGarden(true)
+            props.setAtLocation('garden')
         } else if(playerLocation === 'fountain'){
-            props.setAtFountain(true)
+            props.setAtLocation('fountain')
         } else if(playerLocation === 'plaza'){
-            props.setAtPlaza(true)
+            props.setAtLocation('plaza')
         } else if(playerLocation === 'gazebo'){
-            props.setAtGazebo(true)
+            props.setAtLocation('gazebo')
         } else if(playerLocation === 'flower-tunnel'){
-            props.setAtFlowerTunnel(true)
+            props.setAtLocation('flower-tunnel')
         }
 
     }

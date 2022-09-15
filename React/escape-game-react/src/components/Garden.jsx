@@ -18,8 +18,7 @@ export default function Garden(props) {
 
                         <button className='ms-5 btn-primary' onClick={() => {
                             props.setCommentary(<>&nbsp;</>)
-                            props.setAtPlaza(true)
-                            props.setAtGarden(false)
+                            props.setAtLocation('plaza')
                             props.updatePlayer({'current_location':'plaza'})
                         }}><h3>PLAZA <i class="fa-solid fa-arrow-up"/></h3></button>
                         <br />
@@ -28,16 +27,14 @@ export default function Garden(props) {
                         <div className="d-flex justify-content-between">
                             <button className='btn-primary' onClick={() => { 
                                 props.setCommentary(<>&nbsp;</>)
-                                props.setAtFountain(true)
-                                props.setAtGarden(false)
+                                props.setAtLocation('fountain')
                                 props.updatePlayer({'current_location':'fountain'})
                                 }}><h3>FOUNTAIN <i class="fa-solid fa-arrow-left"/></h3></button>
 
 
                             <button className='btn-primary'onClick={() => {
                                 props.setCommentary(<>&nbsp;</>)
-                                props.setAtFlowerTunnel(true)
-                                props.setAtGarden(false)
+                                props.setAtLocation('flower-tunnel')
                                 props.updatePlayer({'current_location':'flower-tunnel'})
                             }}><h3>FLOWER TUNNEL <i class="fa-solid fa-arrow-right"/></h3></button>
                         </div>
@@ -46,8 +43,7 @@ export default function Garden(props) {
                         <div className="d-flex justify-content-around">
                             <button className='ms-5 btn-primary' onClick={() => {
                                 props.setCommentary(<>&nbsp;</>)
-                                props.setAtGarden(false)
-                                props.setAtGate(true)
+                                props.setAtLocation('gate')
                                 props.updatePlayer({'current_location':'gate'})
                             }}><h3>GATE <i class="fa-solid fa-arrow-down"/></h3></button>
 

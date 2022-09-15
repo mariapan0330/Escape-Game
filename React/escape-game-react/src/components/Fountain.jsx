@@ -73,7 +73,7 @@ export default function Fountain(props) {
                     <span className='bg-light py-2' onClick={() => props.setCommentary('Cute decorative animals.')}>
                         <span className='fs-4 text-success'> moose </span>
                         <span className='fs-4 text-warning'>beetle </span>
-                        <span className='fs-4 text-primary'>crocodile </span>
+                        <span className='fs-4 text-primary'>otter </span>
                         <span className='fs-4 text-danger'>bison </span>
                     </span>
                     <br />
@@ -189,8 +189,7 @@ export default function Fountain(props) {
 
 
                 <button className='btn-primary' onClick={() => {
-                    props.setAtFountain(false)
-                    props.setAtGarden(true)
+                    props.setAtLocation('garden')
                     props.updatePlayer({'current_location':'garden'})
                 }}><h3>GARDEN <i class="fa-solid fa-arrow-down"/></h3></button>
                 </div>
