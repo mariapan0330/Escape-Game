@@ -36,12 +36,18 @@ function App() {
     const [hotbar6, setHotbar6] = useState()
     const [hotbar7, setHotbar7] = useState()
     const hotbarSlots = [hotbar1, hotbar2, hotbar3, hotbar4, hotbar5, hotbar6, hotbar7]
+
     const [hotbar, setHotbar] = useState()
     const [rerenderHotbar, setRerenderHotbar] = useState(0)
     const [color, setColor] = useState('light')
 
-    const [selectedKeyA, setSelectedKeyA] = useState(false)
+    // const [selectedKeyA, setSelectedKeyA] = useState(false)
+    const [selectedItem, setSelectedItem] = useState('default-none')
     const [solvedGateKeyhole, setSolvedGateKeyhole] = useState(false)
+
+    // const [selectedCoin, setSelectedCoin] = useState(false)
+    const [solvedAddressScrews, setSolvedAddressScrews] = useState(false)
+    const [solvedMailboxBox, setSolvedMailboxBox] = useState(false)
 
     const [commentary, setCommentary] = useState(<>&nbsp;</>)
 
@@ -49,6 +55,7 @@ function App() {
     const [currentPlayerUsername, setCurrentPlayerUsername] = useState()
     const [currentPlayerId, setCurrentPlayerId] = useState()
     
+
     const login = () => {
         const loginPromise = new Promise(() =>
             setLoggedIn(true)
@@ -71,13 +78,8 @@ function App() {
         }
     }, [loggedIn])
     
-    
-    // TODO: will this also render on mount?
-    // useEffect(() => {
-        // console.log('finding current user')
-    //     findCurrentPlayer()
-    // }, [])
 
+    // pick up an item by the item's id
     const pickupItem = (item) => {
         console.log('== TRYING TO PICK UP ITEM', item, '==')
         for (let slot in hotbarSlots){
@@ -93,6 +95,8 @@ function App() {
                     updatePlayer({"hotbar_slot_1":`${item}`})
                 } else if (slot === 2){
                     updatePlayer({"hotbar_slot_2":`${item}`})
+                } else if (slot === 3){
+                    updatePlayer({"hotbar_slot_3":`${item}`})
                 }
                 break
             }
@@ -100,6 +104,8 @@ function App() {
         setHotbar(renderHotbar())
     }
 
+
+    // drop an item by the item name
     const dropItem = (itemName) => {
         console.log('== TRYING TO DROP ITEM', itemName, "==")
         for (let slot in hotbarSlots){
@@ -110,8 +116,11 @@ function App() {
                     updatePlayer({"hotbar_slot_1":1})
                 } else if (slot === 2){
                     updatePlayer({"hotbar_slot_2":1})
+                } else if (slot === 3){
+                    updatePlayer({"hotbar_slot_3":1})
                 }
-                console.log('Dropped itemName:', itemName, 'from slot',slot)
+                console.log('Dropped itemName:', itemName, 'from slot', slot)
+                setSelectedItem('default-none')
                 break
             }
         }
@@ -124,18 +133,30 @@ function App() {
             {hotbarSlots.filter((slot) => slot !== 'default-none').map((slot) => 
                 <div className={`hotbar hotbar-item row text-${color} fs-5`} onClick={() => {
                     // TODO: for the love of all things pls make this more efficient
-                    if (slot === 'key-a' && selectedKeyA){
-                        // if you had key a selected and you click it again, deselect it.
+                    // if you clicked the one that is key-a
+                        // if it was previously selected, de-select it
+                        // if it was previously NOT selected, select it (and deselect everything else)
+
+
+                    if (selectedItem !== 'default-none'){
+                        // if you had something that's not default-none selected and you click it again, deselect it.
                         setCommentary(<>&nbsp;</>)
                         setColor('light')
                         updatePlayer({'selected_item':1})
-                        setSelectedKeyA(false)
-                    } else if (slot === 'key-a' && !selectedKeyA) {
+                        setSelectedItem('default-none')
+                    } else if (slot === 'key-a') {
                         // if you did not have key a selected and you click it, select it.
                         setCommentary("A heavy wrought-iron key. I wonder what it's for.")
                         setColor('warning fw-bold')
                         updatePlayer({'selected_item':3})
-                        setSelectedKeyA(true)
+                        setSelectedItem('key-a')
+                    } else if (slot === 'coin'){
+                        // if it was not selected, select it
+                        setCommentary('A big shiny iron coin. Pretty sturdy but not worth much.')
+                        setColor('warning fw-bold')
+                        updatePlayer({'selected_item':9})
+                        setSelectedItem('coin')
+                        // deselect magnet, key-b, knife, blue gem, key-c, and telescope lens
                     }
                 }}>{slot}</div>)}
             {hotbarSlots.filter((slot) => slot === 'default-none').map((slot) => 
@@ -196,6 +217,9 @@ function App() {
             setCurrentPlayerUsername(data["username"])
             setCurrentPlayerId(data["id"])
             setSolvedGateKeyhole(data['solved_gate_keyhole'])
+            setSolvedAddressScrews(data['solved_address_screws'])
+            setSelectedItem(data['selected_item'])
+            // setSolvedAddressScrews, setSolvedMailboxBox
             console.log('current Player Data:',currentPlayerUsername, currentPlayerId)
             return data['current_location']
         })
@@ -269,18 +293,28 @@ function App() {
                         atGate ? <Gate
                                     setAtGate={setAtGate}
                                     setAtGarden={setAtGarden}
+
                                     hotbarAndCommentary={hotbarAndCommentary}
                                     renderHotbarAndCommentary={renderHotbarAndCommentary}
+
                                     updatePlayer={updatePlayer}
                                     hotbarSlots={hotbarSlots}
                                     setCommentary={setCommentary}
                                     rerenderHotbar={rerenderHotbar}
                                     setRerenderHotbar={setRerenderHotbar}
+                                    
                                     pickupItem={pickupItem}
-                                    selectedKeyA={selectedKeyA}
-                                    setSolvedGateKeyhole={setSolvedGateKeyhole}
-                                    solvedGateKeyhole={solvedGateKeyhole}
                                     dropItem={dropItem}
+
+                                    selectedItem={selectedItem}
+                                    // selectedKeyA={selectedKeyA}
+                                    // selectedCoin={selectedCoin}
+
+                                    solvedAddressScrews={solvedAddressScrews}
+                                    setSolvedAddressScrews={setSolvedAddressScrews}
+
+                                    solvedGateKeyhole={solvedGateKeyhole}
+                                    setSolvedGateKeyhole={setSolvedGateKeyhole}
                                     />
                                     : 
                         // if not at the gate, am I at the garden?
@@ -302,7 +336,13 @@ function App() {
                         // if not at the garden, am I at the fountain?
                         atFountain ? <Fountain
                             setAtFountain={setAtFountain}
-                            setAtGarden={setAtGarden} />
+                            setAtGarden={setAtGarden}
+                            renderHotbarAndCommentary={renderHotbarAndCommentary}
+                            pickupItem={pickupItem}
+                            setCommentary={setCommentary}
+                            updatePlayer={updatePlayer}
+                            selectedItem={selectedItem}
+                             />
                         :
                         // if not at the fountain, am I at the plaza?
                         atPlaza ? <Plaza

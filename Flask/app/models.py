@@ -47,7 +47,7 @@ class Player(db.Model):
     # box in mailbox
     saw_address = db.Column(db.Boolean, default=False)
     saw_address_hidden_symbols = db.Column(db.Boolean, default=False)
-    mailbox_box_correct_combination = db.Column(db.String(10), default="8237")
+    mailbox_box_correct_combination = db.Column(db.String(10), default="8167")
     mailbox_box_combination_entered = db.Column(db.String(10), default='1111')
     solved_mailbox_box = db.Column(db.Boolean, default=False) # (red gem inside)
 

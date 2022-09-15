@@ -6,6 +6,8 @@ export default function Gate(props) {
     const [inspectAddressSign, setInspectAddressSign] = useState(false)
     const [inspectStone, setInspectStone] = useState(false)
     const [inspectMailbox, setInspectMailbox] = useState(false)
+    const [addressSign, setAddressSign] = useState(<>(screw) 3412 (screw)</>)
+
 
     const [mailboxBoxCorrectCombination, setMailboxBoxCorrectCombination] = useState()
     const [boxCode1, setBoxCode1] = useState(0)
@@ -15,10 +17,11 @@ export default function Gate(props) {
 
     const [hasKeyA, setHasKeyA] = useState()
     // (inspectMailbox, solvedMailboxBox, hasRedGem)
-    const [solvedMailbox, setSolvedMailbox] = useState()
-    const [hasRedGem, setHasRedGem] = useState()
+    const [solvedMailbox, setSolvedMailbox] = useState(false)
+    // const [solvedAddressScrews, setSolvedAddressScrews] = useState()
+    const [hasRedGem, setHasRedGem] = useState(false)
+    const [lockedSymbol, setLockedSymbol] = useState(props.solvedGateKeyhole ? <i className="text-success fa-solid fa-lock-open" /> : <i className="text-primary fa-solid fa-lock" />)
     
-
 
     const findPlayerData = () => {
         let myHeaders = new Headers()
@@ -34,6 +37,8 @@ export default function Gate(props) {
             setPlayerLocation(data['current_location'])
             setHasKeyA(data['has_key_a'])
             setMailboxBoxCorrectCombination(String(data['mailbox_box_correct_combination']))
+            setHasRedGem(data['has_red_gem'])
+            setSolvedMailbox(data['solved_mailbox_box'])
             let mailboxComboEntered = String(data['mailbox_box_combination_entered'])
             // console.log(mailboxComboEntered)
             setBoxCode1(mailboxComboEntered.slice(0,1))
@@ -76,25 +81,53 @@ export default function Gate(props) {
                     <h2>GATE</h2>
 
                     {
-                    inspectAddressSign ? 
-                    <>
+                        // am i inspecting the address sign? 
+                        inspectAddressSign ? 
+                        // if yes, have i solved the address screws? 
+                            props.solvedAddressScrews ? 
+                            // if yes, show the hidden symbols
+                            <>
+                                <button onClick={() => props.setCommentary('There are some numbers written on the brick under the sign')}>
+                                    <h3 className='text-primary'>6781</h3>
+                                    <span className='fs-5'>House Address: <span className='text-danger'>3412</span></span>
+                                </button>
+
+                                <button onClick={()=>{
+                                props.setCommentary(<>&nbsp;</>)
+                                setInspectAddressSign(false)
+                                }}><i className="text-danger fa-solid fa-xmark"/></button>
+                            </>
+                            :
+                            // if no, set it up so i can solve it if i have selected the coin
+                            <>
                             <br />
                             <button><span className='fs-3' onClick={()=>{
-                                props.setCommentary("I can't unscrew it with my bare hands.")
-                            }}>(screw) 3412 (screw)</span></button>
-                            
+                                if (props.selectedItem === 'coin'){
+                                    // if you clicked it and have selected the coin:
+                                    props.setSolvedAddressScrews(true)
+                                    props.dropItem('coin')
+                                    props.updatePlayer({'solved_address_screws':true})
+                                } else if (!props.solvedAddressScrews) {
+                                    // otherwise if you clicked it and you haven't selected the coin
+                                    props.setCommentary("I can't unscrew it with my bare hands.")
+                                }
+                            }}><i className="fa-solid fa-circle-minus" /> <span className='text-danger'>3412</span> (|)</span></button>
                             <button onClick={()=>{
                                 props.setCommentary(<>&nbsp;</>)
                                 setInspectAddressSign(false)
                             }}><i className="text-danger fa-solid fa-xmark"/></button>
-                    </>
-                    : 
-                    <>
-                    <br/>
-                    <button><h3 onClick={() => {
-                        props.setCommentary('There seem to be some symbols behind this sign.')
-                        setInspectAddressSign(true)}}>House Address: 3412</h3></button>
-                    </>
+                            </>
+                            :
+                        // if not inspecting, there is an address sign available to click on.
+                        <>
+                        <br/>
+                        <button><h3 onClick={() => {
+                            if (!props.solvedAddressScrews){
+                                props.setCommentary('There seem to be some symbols hidden behind this sign. How can I get to them ?')
+                            }
+                            setInspectAddressSign(true)
+                            }}>House Address: 3412 </h3></button>
+                        </>
                     }
 
 
@@ -107,7 +140,14 @@ export default function Gate(props) {
                                 // if yes, then do i have the red gem?
                                 hasRedGem ?
                                     // if yes, "There's nothing else here"
-                                    props.setCommentary("There's nothing else here.")
+                                    <>
+                                    {props.setCommentary("There's nothing else in the mailbox.")}
+                                    <br/>
+                                    <button onClick={() => {
+                                        setInspectMailbox(false)
+                                        props.setCommentary(<>&nbsp;</>)
+                                        }}><h3><i className="fa-regular fa-envelope-open" /> <i className='text-danger fa-solid fa-xmark' /></h3></button>
+                                    </>
                                     :
                                     // if no, then the red gem is in there.
                                     <>
@@ -115,9 +155,10 @@ export default function Gate(props) {
                                     <button><span className='fs-3' onClick={() => {
                                         props.updatePlayer({'has_red_gem': true})
                                         setHasRedGem(true)
+                                        setSolvedMailbox(true)
                                         props.pickupItem(12)
                                         props.setRerenderHotbar(props.rerenderHotbar+1)
-                                    }}>Red Gem</span></button>
+                                    }}>Red Gem <i className="text-danger fa-regular fa-gem" /></span></button>
                                     <button onClick={()=>
                                         setInspectMailbox(false)
                                     }><i className="text-danger fa-solid fa-xmark"/></button>
@@ -125,48 +166,50 @@ export default function Gate(props) {
                                 :
                                 // if no then there is a box there with 4 wavy symbols, and clicking on each symbol gives me a different symbol of a set of 9.
                                 <>
-                                <br />
-                                <h3 className="fs-3 text-dark" onClick={() => {
-                                    props.setCommentary("I don't know the combination.")
-                                }}>Box inside Mailbox </h3>
+                                    <br />
+                                    <h3 className="fs-3 text-dark" onClick={() => {
+                                        props.setCommentary("I have to enter the right combination.")
+                                    }}>Box inside Mailbox </h3>
 
-                                <button onClick={() => {
-                                    let comboEntered = String(String(boxCode1) + String(boxCode2) + String(boxCode3) + String(boxCode4))
-                                    props.setCommentary("That didn't work.")
-                                    // if (comboEntered !== mailboxBoxCorrectCombination){
-                                    //     props.setCommentary("That didn't work.")
-                                    // } else {
-                                    //     props.setCommentary("It's open!")
-                                    // }
-                                    props.updatePlayer({'mailbox_box_combination_entered': comboEntered})
-                                }}><i className="text-success fa-solid fa-check"/></button>
+                                    <button onClick={() => {
+                                        let comboEntered = String(String(boxCode1) + String(boxCode2) + String(boxCode3) + String(boxCode4))
+                                        // props.setCommentary("That didn't work.")
+                                        if (comboEntered !== '8167'){
+                                            props.setCommentary("That didn't work.")
+                                        } else {
+                                            props.setCommentary("It's open!")
+                                            setSolvedMailbox(true)
+                                            props.updatePlayer({'solved_mailbox_box':true})
+                                        }
+                                        props.updatePlayer({'mailbox_box_combination_entered': comboEntered})
+                                    }}><i className="text-success fa-solid fa-check"/></button>
 
-                                <span>&ensp;&ensp;</span>
+                                    <span>&ensp;&ensp;</span>
 
-                                <button onClick={() => { 
-                                    boxCode1 === 9 ? setBoxCode1(0) : setBoxCode1(Number(boxCode1) + 1)
-                                    props.setCommentary(<>&nbsp;</>)
-                                }}>{boxCode1}</button>
-                                <button onClick={() => { 
-                                    boxCode2 === 9 ? setBoxCode2(0) : setBoxCode2(Number(boxCode2) + 1)
-                                    props.setCommentary(<>&nbsp;</>)
-                                }}>{boxCode2}</button>
-                                <button onClick={() => { 
-                                    boxCode3 === 9 ? setBoxCode3(0) : setBoxCode3(Number(boxCode3) + 1)
-                                    props.setCommentary(<>&nbsp;</>)
-                                }}>{boxCode3}</button>
-                                <button onClick={() => { 
-                                    boxCode4 === 9 ? setBoxCode4(0) : setBoxCode4(Number(boxCode4) + 1)
-                                    props.setCommentary(<>&nbsp;</>)
-                                }}>{boxCode4}</button>
-                                
-                                <span>&ensp;&ensp;</span>
+                                    <button onClick={() => { 
+                                        boxCode1 === 9 ? setBoxCode1(0) : setBoxCode1(Number(boxCode1) + 1)
+                                        props.setCommentary(<>&nbsp;</>)
+                                    }}>{boxCode1}</button>
+                                    <button onClick={() => { 
+                                        boxCode2 === 9 ? setBoxCode2(0) : setBoxCode2(Number(boxCode2) + 1)
+                                        props.setCommentary(<>&nbsp;</>)
+                                    }}>{boxCode2}</button>
+                                    <button onClick={() => { 
+                                        boxCode3 === 9 ? setBoxCode3(0) : setBoxCode3(Number(boxCode3) + 1)
+                                        props.setCommentary(<>&nbsp;</>)
+                                    }}>{boxCode3}</button>
+                                    <button onClick={() => { 
+                                        boxCode4 === 9 ? setBoxCode4(0) : setBoxCode4(Number(boxCode4) + 1)
+                                        props.setCommentary(<>&nbsp;</>)
+                                    }}>{boxCode4}</button>
+                                    
+                                    <span>&ensp;&ensp;</span>
 
-                                <button onClick={() => {
-                                    setInspectMailbox(false)
-                                    props.setCommentary(<>&nbsp;</>)
-                                    props.updatePlayer({'mailbox_box_combination_entered': String(boxCode1) + String(boxCode2) + String(boxCode3) + String(boxCode4)})
-                                    }}><i className="text-danger fa-solid fa-xmark"/></button>
+                                    <button onClick={() => {
+                                        setInspectMailbox(false)
+                                        props.setCommentary(<>&nbsp;</>)
+                                        props.updatePlayer({'mailbox_box_combination_entered': String(boxCode1) + String(boxCode2) + String(boxCode3) + String(boxCode4)})
+                                        }}><i className="text-danger fa-solid fa-xmark"/></button>
                                 </>
                             // if no, there is a closed mailbox there which onClick sets inspectMailbox to true
                             :
@@ -184,17 +227,18 @@ export default function Gate(props) {
                     <div className="text-center">
 
                         <button><h3 onClick={() => {
-                        if (props.selectedKeyA && !props.solvedGateKeyhole){
+                        if (props.selectedItem === 'key-a' && !props.solvedGateKeyhole){
                             props.setCommentary("It's open.")
                             props.setSolvedGateKeyhole(true)
-                            // props.setSelectedKeyA(false)
                             props.dropItem('key-a')
                             props.updatePlayer({'solved_gate_keyhole':true})
+                            setLockedSymbol(<i className="fa-solid fa-lock-open" />)
                         } else if (!props.solvedGateKeyhole) {
                             props.setCommentary("It's locked.")
                         } else if (props.solvedGateKeyhole){
                             props.setCommentary("It's open.")
-                        }}}>Gate Door</h3></button>
+                            // setLockedSymbol(<i className="fa-solid fa-lock-open" />)
+                        }}}>Gate Door {lockedSymbol}</h3></button>
                     </div>
 
 
@@ -213,7 +257,7 @@ export default function Gate(props) {
                                 props.setAtGate(false)
                                 props.setAtGarden(true)
                                 props.updatePlayer({'current_location':'garden'})
-                            }}>ENTER GATE <i className="fa-solid fa-arrow-up" /></h3></button>
+                            }}>ENTER GATE <i className="text-success fa-solid fa-arrow-up" /></h3></button>
                             </div>
                         </>
                         :
@@ -233,7 +277,7 @@ export default function Gate(props) {
                                 <button onClick={()=>{
                                     setInspectStone(false)
                                     props.setCommentary(<>&nbsp;</>)
-                                }}><i className="text-danger fa-solid fa-xmark"/></button>
+                                }}><h3><i className="fa-solid fa-hill-rockslide" /> <i className="text-danger fa-solid fa-xmark"/></h3></button>
                                 </>
                                 :
                             // if no, then there is a key there.
@@ -263,7 +307,7 @@ export default function Gate(props) {
                                 } else {
                                     props.setCommentary("There's nothing else under this rock.")
                                 }
-                            }}>Stone</h3></button>
+                            }}>Stone <i className="fa-solid fa-hill-rockslide" /></h3></button>
                         </>
                     }
                     </div>

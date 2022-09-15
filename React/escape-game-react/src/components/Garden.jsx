@@ -39,7 +39,7 @@ export default function Garden(props) {
                             }}><h3>FLOWER TUNNEL <i class="fa-solid fa-arrow-right"/></h3></button>
                         </div>
 
-                        
+
                         <div className="d-flex justify-content-around">
                             <button className='ms-5 btn-primary' onClick={() => {
                                 props.setAtGarden(false)
@@ -71,7 +71,7 @@ export default function Garden(props) {
                         </div>
                     </div>
                 </div>
-                    {props.renderHotbarAndCommentary()}
+                {props.renderHotbarAndCommentary()}
             </div>
         </div>
         </>
