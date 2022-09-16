@@ -112,7 +112,7 @@ export default function Fountain(props) {
                             <button><span className='fs-3' onClick={() => {
                                 props.updatePlayer({'has_telescope_lens': true})
                                 setHasTelescopeLens(true)
-                                props.pickupItem(15)
+                                props.pickupItem(15, 'telescope-lens')
                                 props.setRerenderHotbar(props.rerenderHotbar+1)
                                 props.setCommentary('A glass lens with some weird tiny symbols on it. Hmm...')
                             }}>Glass Lens</span></button>
@@ -170,7 +170,7 @@ export default function Fountain(props) {
                                 <button className='btn-success' onClick={() => {
                                     setHasCoin(true)
                                     props.updatePlayer({'has_coin': true})
-                                    props.pickupItem(9)
+                                    props.pickupItem(9, 'coin')
                                     props.setCommentary("Don't mind if I do...")
                                     }}><h3>Coins</h3></button>
                                 <button onClick={() => {

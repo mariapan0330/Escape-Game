@@ -159,7 +159,7 @@ export default function Gate(props) {
                                         props.updatePlayer({'has_red_gem': true})
                                         setHasRedGem(true)
                                         setSolvedMailbox(true)
-                                        props.pickupItem(12)
+                                        props.pickupItem(12, 'red-gem')
                                         props.setRerenderHotbar(props.rerenderHotbar+1)
                                     }}>Red Gem <i className="text-danger fa-regular fa-gem" /></span></button>
                                     <button onClick={()=>
@@ -290,7 +290,7 @@ export default function Gate(props) {
                                     // onClick, pick up the key and set hasKey to true in the db and here.
                                     props.updatePlayer({'has_key_a': true})
                                     setHasKeyA(true)
-                                    props.pickupItem(3)
+                                    props.pickupItem(3, 'key-a')
                                     props.setRerenderHotbar(props.rerenderHotbar+1)
                                     props.setCommentary('The security at this place is astounding')
                                 }}>KEY-A <i class="fa-solid fa-key" /></span></button>

@@ -42,7 +42,7 @@ function App() {
 
     const [hotbar, setHotbar] = useState()
     const [rerenderHotbar, setRerenderHotbar] = useState(0)
-    const [color, setColor] = useState('light')
+    const [color, setColor] = useState("light")
 
     // const [selectedKeyA, setSelectedKeyA] = useState(false)
     const [selectedItem, setSelectedItem] = useState('default-none')
@@ -67,8 +67,9 @@ function App() {
     }
 
     useEffect(() => {
+        console.log('using effect to rerender hotbar')
         const render = new Promise((resolve, reject) => {
-            setHotbar(renderHotbar())
+            // setHotbar(renderHotbar())
             resolve('rendered hotbar')
         })
         render.then(setHotbarAndCommentary(renderHotbarAndCommentary()))
@@ -83,29 +84,34 @@ function App() {
     
 
     // pick up an item by the item's id
-    const pickupItem = (item) => {
+    const pickupItem = (item, name) => {
         console.log('== TRYING TO PICK UP ITEM', item, '==')
-        for (let slot in hotbarSlots){
-            if (hotbarSlots[slot] !== 'default-none'){
-                console.log('checking hotbar slot', slot, ":", hotbarSlots[slot])
-                continue
-            } else {
-                console.log('we found an empty slot:', slot)
-                // let slotString = `hotbar_slot_${Number(slot)+1}`
-                
-                slot++
-                if (slot === 1){
-                    updatePlayer({"hotbar_slot_1":`${item}`})
-                } else if (slot === 2){
-                    updatePlayer({"hotbar_slot_2":`${item}`})
-                } else if (slot === 3){
-                    updatePlayer({"hotbar_slot_3":`${item}`})
+        let pickup = new Promise(() => {
+            for (let slot in hotbarSlots){
+                if (hotbarSlots[slot] !== 'default-none'){
+                    console.log('checking hotbar slot', slot, ":", hotbarSlots[slot])
+                    continue
+                } else {
+                    console.log('we found an empty slot:', slot)
+                    // let slotString = `hotbar_slot_${Number(slot)+1}`
+                    
+                    slot++
+                    if (slot === 1){
+                        updatePlayer({"hotbar_slot_1":`${item}`})
+                        setHotbar1(name)
+                    } else if (slot === 2){
+                        updatePlayer({"hotbar_slot_2":`${item}`})
+                        setHotbar2(name)
+                    } else if (slot === 3){
+                        updatePlayer({"hotbar_slot_3":`${item}`})
+                        setHotbar3(name)
+                    }
+                    break
                 }
-                break
-            }
-        }
-        setRerenderHotbar(rerenderHotbar++)
-        setHotbar(renderHotbar())
+            }  
+        })
+        pickup.then(()=> setHotbarAndCommentary(renderHotbarAndCommentary()))
+        // setHotbar(renderHotbar())
     }
 
 
@@ -118,73 +124,99 @@ function App() {
                 slot++
                 if (slot === 1){
                     updatePlayer({"hotbar_slot_1":1})
+                    setHotbar1('default-none')
                 } else if (slot === 2){
                     updatePlayer({"hotbar_slot_2":1})
+                    setHotbar2('default-none')
                 } else if (slot === 3){
                     updatePlayer({"hotbar_slot_3":1})
+                    setHotbar3('default-none')
                 }
                 console.log('Dropped itemName:', itemName, 'from slot', slot)
-                setSelectedItem('default-none')
                 break
             }
         }
-        setHotbar(renderHotbar())
+        // setHotbar(renderHotbar())
     }
 
-
-    const renderHotbar = () => {
-        return (
-            <>
-            {hotbarSlots.filter((slot) => slot !== 'default-none').map((slot) => 
-                <div className={`hotbar hotbar-item row text-${color} fs-5`} onClick={() => {
-                    // TODO: for the love of all things pls make this more efficient
-                    // if you clicked the one that is key-a
-                        // if it was previously selected, de-select it
-                        // if it was previously NOT selected, select it (and deselect everything else)
-
-
-                    if (selectedItem !== 'default-none'){
-                        // if you had something that's not default-none selected and you click it again, deselect it.
-                        setCommentary(<>&nbsp;</>)
-                        setColor('light')
-                        updatePlayer({'selected_item':1})
-                        setSelectedItem('default-none')
-                    } else if (slot === 'key-a' && selectedItem === 'default-none') {
-                        // if you did not have key a selected and you click it, select it.
-                        setCommentary("A heavy wrought-iron key. I wonder what it's for.")
-                        setColor('warning fw-bold')
-                        setSelectedItem('key-a')
-                        updatePlayer({'selected_item':3})
-                    } else if (slot === 'coin'){
-                        // if it was not selected, select it
-                        setCommentary('A big shiny iron coin. Pretty sturdy but not worth much.')
-                        setColor('warning fw-bold')
-                        setSelectedItem('coin')
-                        updatePlayer({'selected_item':9})
-                        // deselect magnet, key-b, knife, blue gem, key-c, and telescope lens
-                    } else if (slot === 'red-gem'){
-                        setCommentary('A shiny red gem')
-                        setColor('warning fw-bold')
-                        setSelectedItem('red-gem')
-                        updatePlayer({'selected_item':12})
-                        
-                    }
-                }}>{slot}</div>)}
-            {hotbarSlots.filter((slot) => slot === 'default-none').map((slot) => 
-                <div className="hotbar row text-dark" onClick={() => {
-                    updatePlayer({'selected_item':1})
-                    setCommentary('EMPTY')
-                }}></div>)}
-            </>
-        )
-    }
 
     const renderHotbarAndCommentary = () => {
         return (
             <>
                 {/* HOTBAR */}
                 <div className="hotbar col">
-                {hotbar}
+                {hotbarSlots.filter((slot) => slot !== 'default-none').map((slot) => 
+                    <div className={`hotbar hotbar-item row text-${color} fs-5`} onClick={() => {
+                        
+                        // TODO: this logic is not right
+                        if (selectedItem === 'key-a' || selectedItem === 'coin' || selectedItem === 'red-gem' || selectedItem === 'magnet'){
+                            // if you had something that's not default-none selected and you click it again, deselect it.
+                            setCommentary(<>&nbsp;</>)
+                            setColor('light')
+                            setSelectedItem('default-none')
+                            updatePlayer({'selected_item':1})
+                        } else if (slot === 'key-a') {
+                            // if you did not have key a selected and you click it, select it.
+                            setCommentary("A heavy wrought-iron key. I wonder what it's for.")
+                            setColor('warning fw-bold')
+                            setSelectedItem('key-a')
+                            updatePlayer({'selected_item':3})
+
+                        } else if (slot === 'coin'){
+                            // if it was not selected, select it
+                            setCommentary('A big shiny iron coin. Pretty sturdy but not worth much.')
+                            setColor('warning fw-bold')
+                            setSelectedItem('coin')
+                            updatePlayer({'selected_item':9})
+
+                        } else if (slot === 'red-gem'){
+                            setCommentary('A shiny red gem.')
+                            setColor('warning fw-bold')
+                            setSelectedItem('red-gem')
+                            updatePlayer({'selected_item':12})
+                        } else if (slot === 'key-b'){
+                            setCommentary('A small metal key')
+                            setColor('warning fw-bold')
+                            setSelectedItem('key-b')
+                            updatePlayer({'selected_item':10})   
+
+                        } else if (slot === 'magnet'){
+                            setCommentary('A sturdy magnet.')
+                            setColor('warning fw-bold')
+                            setSelectedItem('magnet')
+                            updatePlayer({'selected_item':6})   
+
+                        } else if (slot === 'knife'){
+                            setCommentary('A pretty sharp knife.')
+                            setColor('warning fw-bold')
+                            setSelectedItem('knife')
+                            updatePlayer({'selected_item':13})   
+
+                        } else if (slot === 'blue-gem'){
+                            setCommentary('A shiny blue gem.')
+                            setColor('warning fw-bold')
+                            setSelectedItem('blue-gem')
+                            updatePlayer({'selected_item':16})   
+
+                        } else if (slot === 'key-c'){
+                            setCommentary('A small stone key.')
+                            setColor('warning fw-bold')
+                            setSelectedItem('key-c')
+                            updatePlayer({'selected_item':14})   
+
+                        } else if (slot === 'telescope-lens'){
+                            setCommentary("A round glass disc with some markings etched in, too small to make out.")
+                            setColor('warning fw-bold')
+                            setSelectedItem('telescope-lens')
+                            updatePlayer({'selected_item':15})   
+                        }
+                    }}>{slot}</div>)}
+                {hotbarSlots.filter((slot) => slot === 'default-none').map((slot) => 
+                    <div className="hotbar row text-dark" onClick={() => {
+                        updatePlayer({'selected_item':1})
+                        setCommentary('EMPTY')
+                    }}></div>)}
+                {console.log("Rerendering hotbar...")}
                 </div>
                 
                 <div className="bottom-bar d-flex align-items-center">
@@ -273,7 +305,7 @@ function App() {
             .then(data => {
                 if (!data.error){
                     console.log('Player', currentPlayerId, 'has been updated with:', what)
-                    setRerenderHotbar(rerenderHotbar+1)
+                    setHotbarAndCommentary(renderHotbarAndCommentary())
                 }
             })
     }
@@ -342,8 +374,13 @@ function App() {
                         :
                         // if not at the fountain, am I at the plaza?
                         atLocation === 'plaza' ? <Plaza
+                            selectedItem={selectedItem}
+                            pickupItem={pickupItem}
+                            dropItem={dropItem}
                             updatePlayer={updatePlayer}
                             setAtLocation={setAtLocation}
+                            rerenderHotbar={rerenderHotbar}
+                            setRerenderHotbar={setRerenderHotbar}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             setCommentary={setCommentary}
                              />
