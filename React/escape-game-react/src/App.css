@@ -189,6 +189,10 @@ body {
     margin-top: 45vh;
 }
 
+.back-button {
+    margin-top: 45vh;
+}
+
 #wall-fountains {
     background-image: url('../public/images/statuesPNG.png');
     background-size: 93% 90%;
@@ -207,7 +211,7 @@ body {
     color: rgb(51, 43, 125);
 }
 
-/****************  GAZEBO  ****************/
+/****************  PORCH  ****************/
 #porch {
     background-image: url('../public/images/porchPNG.png');
     background-size: 93% 90%;
@@ -217,6 +221,27 @@ body {
 #porch h2 {
     color: rgb(51, 43, 125);
 }
+
+
+/****************  TELESCOPE NO LENS  ****************/
+#telescope-no-lens {
+    background-image: url('../public/images/telescopePNG.png');
+    background-size: 93% 90%;
+    background-position: top left;
+}
+
+.telescope-back-button {
+    margin-top: 60vh;
+}
+
+
+/****************  TELESCOPE YES LENS  ****************/
+#telescope-yes-lens {
+    background-image: url('../public/images/telescopeWithKeyPNG.png');
+    background-size: 93% 90%;
+    background-position: top left;
+}
+
 
 
 

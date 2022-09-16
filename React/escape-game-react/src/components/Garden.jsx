@@ -3,6 +3,27 @@ import React, { useState, useEffect } from 'react'
 
 export default function Garden(props) {
     const [inspectBushes, setInspectBushes] = useState(false)
+    const [solvedBerryBush, setSolvedBerryBush] = useState(false)
+
+    useEffect(() => {
+        findPlayerData()
+    }, [])
+
+
+    const findPlayerData = () => {
+        let myHeaders = new Headers()
+        myHeaders.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
+
+        fetch("http://127.0.0.1:5000/auth/current-player", {
+            method: "GET",
+            headers: myHeaders
+        })
+        .then(res => res.json())
+        .then(data => {
+            // setPlayerLocation(data['current_location'])
+            setSolvedBerryBush(data['solved_berry_bush'])            
+        })
+    }
     
 
     return (
@@ -48,21 +69,50 @@ export default function Garden(props) {
                             }}><h3>GATE <i class="fa-solid fa-arrow-down"/></h3></button>
 
                             {
+                                // if yes, have i solved berry bush
                                 inspectBushes ? 
-                                <>
-                                    <span>
-                                        <span className='bushes fs-3 text-success fw-bold'>Bushes</span>
+                                    solvedBerryBush ? 
+                                    // yes solved berry bush
+                                    <>
+                                        <span>
+                                            <span className='bushes fs-3 text-success fw-bold'>Bushes</span>
+                                            <button onClick={()=>{
+                                                props.setCommentary(<>&nbsp;</>)
+                                                setInspectBushes(false)
+                                            }}><i className="text-danger fa-solid fa-xmark"/></button>
+                                        </span>
+                                    </>
+                                    :
+                                    // no not yet solved
+                                    <>
+                                        <span>
+                                        {/* <button className='ms-5 btn-success' onClick={()=>{
+                                            props.setCommentary('Ooh neat berry bushes.')
+                                            setInspectBushes(true)
+                                        }}><h3>Bushes</h3></button> */}
+                                        <span className='bush my-2 bg-light fs-3 text-success fw-bold'>Bushes</span>
                                         <button onClick={()=>{
-                                            props.setCommentary(<>&nbsp;</>)
-                                            setInspectBushes(false)
-                                        }}><i className="text-danger fa-solid fa-xmark"/></button>
-                                    </span>
-                                </>
+                                                props.setCommentary(<>&nbsp;</>)
+                                                setInspectBushes(false)
+                                            }}><i className="text-danger fa-solid fa-xmark"/></button>
+                                        </span>
+                                    </>
                                 :
+                                //not inspecting bushes
                                 <>
                                     <button className='ms-5 btn-success' onClick={()=>{
-                                        props.setCommentary('Ooh neat berry bushes.')
-                                        setInspectBushes(true)
+                                        if (props.selectedItem === 'magnet'){
+                                            props.setCommentary("It worked! I have the key now.")
+                                            props.dropItem('magnet')
+                                            props.pickupItem(10, 'key-b')
+                                            setSolvedBerryBush(true)
+                                            props.updatePlayer({'solved_berry_bush': true})
+                                            props.setSelectedItem('key-b')
+                                            setInspectBushes(true)
+                                        } else {
+                                            props.setCommentary('Ooh neat berry bushes.')
+                                            setInspectBushes(true)
+                                        }
                                     }}><h3>Bushes</h3></button>
                                 </>
 

@@ -149,45 +149,50 @@ function App() {
                     <div className={`hotbar hotbar-item row text-${color} fs-5`} onClick={() => {
                         
                         // TODO: this logic is not right
-                        if (selectedItem === 'key-a' || selectedItem === 'coin' || selectedItem === 'red-gem' || selectedItem === 'magnet'){
+                        if (selectedItem === 'key-b' || selectedItem === 'key-a' ||
+                            selectedItem === 'coin' || selectedItem === 'red-gem' ||
+                            selectedItem === 'magnet' || selectedItem === 'knife' ||
+                            selectedItem === 'key-c' || selectedItem === 'telescope-lens'){
                             // if you had something that's not default-none selected and you click it again, deselect it.
                             setCommentary(<>&nbsp;</>)
                             setColor('light')
                             setSelectedItem('default-none')
                             updatePlayer({'selected_item':1})
+
                         } else if (slot === 'key-a') {
                             // if you did not have key a selected and you click it, select it.
-                            setCommentary("A heavy wrought-iron key. I wonder what it's for.")
+                            setCommentary(<><i class="fa-solid fa-key"></i> A heavy wrought-iron key. I wonder what it's for.</>)
                             setColor('warning fw-bold')
                             setSelectedItem('key-a')
                             updatePlayer({'selected_item':3})
 
                         } else if (slot === 'coin'){
                             // if it was not selected, select it
-                            setCommentary('A big shiny iron coin. Pretty sturdy but not worth much.')
+                            setCommentary(<><i class="fa-regular fa-coin text-warning"></i> A big shiny iron coin. Pretty sturdy but not worth much.</>)
                             setColor('warning fw-bold')
                             setSelectedItem('coin')
                             updatePlayer({'selected_item':9})
 
                         } else if (slot === 'red-gem'){
-                            setCommentary('A shiny red gem.')
+                            setCommentary(<><i className="text-danger fa-regular fa-gem"/> A shiny red gem.</>)
                             setColor('warning fw-bold')
                             setSelectedItem('red-gem')
                             updatePlayer({'selected_item':12})
+
                         } else if (slot === 'key-b'){
-                            setCommentary('A small metal key')
+                            setCommentary(<><i class="text-warning fa-solid fa-key"></i> A small metal key</>)
                             setColor('warning fw-bold')
                             setSelectedItem('key-b')
                             updatePlayer({'selected_item':10})   
 
                         } else if (slot === 'magnet'){
-                            setCommentary('A sturdy magnet.')
+                            setCommentary(<><i class="fa-solid fa-magnet text-danger" /> A sturdy magnet.</>)
                             setColor('warning fw-bold')
                             setSelectedItem('magnet')
-                            updatePlayer({'selected_item':6})   
+                            updatePlayer({'selected_item':6})
 
                         } else if (slot === 'knife'){
-                            setCommentary('A pretty sharp knife.')
+                            setCommentary(<>&#128298; A pretty sharp knife.</>)
                             setColor('warning fw-bold')
                             setSelectedItem('knife')
                             updatePlayer({'selected_item':13})   
@@ -199,13 +204,13 @@ function App() {
                             updatePlayer({'selected_item':16})   
 
                         } else if (slot === 'key-c'){
-                            setCommentary('A small stone key.')
+                            setCommentary(<><i class="fa-solid fa-key"/> A small stone key.</>)
                             setColor('warning fw-bold')
                             setSelectedItem('key-c')
                             updatePlayer({'selected_item':14})   
 
                         } else if (slot === 'telescope-lens'){
-                            setCommentary("A round glass disc with some markings etched in, too small to make out.")
+                            setCommentary(<>A round glass disc with some markings etched in, too small to make out."</>)
                             setColor('warning fw-bold')
                             setSelectedItem('telescope-lens')
                             updatePlayer({'selected_item':15})   
@@ -353,6 +358,10 @@ function App() {
                         // if not at the gate, am I at the garden?
                         atLocation === 'garden' ? <Garden
                             setAtLocation={setAtLocation}
+                            dropItem={dropItem}
+                            pickupItem={pickupItem}
+                            selectedItem={selectedItem}
+                            setSelectedItem={setSelectedItem}
 
                             updatePlayer={updatePlayer}
                             hotbarSlots={hotbarSlots}
@@ -364,10 +373,10 @@ function App() {
                         // if not at the garden, am I at the fountain?
                         atLocation === 'fountain' ? <Fountain
                             setAtLocation={setAtLocation}
-                            
                             updatePlayer={updatePlayer}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             pickupItem={pickupItem}
+                            dropItem={dropItem}
                             setCommentary={setCommentary}
                             selectedItem={selectedItem}
                              />
@@ -396,6 +405,7 @@ function App() {
                         // if not at the flower Tunnel, am I at the gazebo?
                         atLocation === 'gazebo' ? <Gazebo
                             updatePlayer={updatePlayer}
+                            dropItem={dropItem}
                             setAtLocation={setAtLocation}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             setCommentary={setCommentary}
@@ -404,6 +414,9 @@ function App() {
                         // if not at the gazebo, am I at the porch?
                         atLocation === 'porch' ? <Porch
                             updatePlayer={updatePlayer}
+                            pickupItem={pickupItem}
+                            dropItem={dropItem}
+                            selectedItem={selectedItem}
                             setAtLocation={setAtLocation}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             setCommentary={setCommentary}

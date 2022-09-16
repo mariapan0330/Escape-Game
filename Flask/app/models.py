@@ -74,6 +74,8 @@ class Player(db.Model):
     # toolbox
     saw_toolbox_note = db.Column(db.Boolean, default=False)
     has_magnet = db.Column(db.Boolean, default=False)
+    solved_berry_bush = db.Column(db.Boolean, default=False)
+
     has_key_b = db.Column(db.Boolean, default=False)
     solved_toolbox = db.Column(db.Boolean, default=False)
 
@@ -160,6 +162,7 @@ class Player(db.Model):
 
             'saw_toolbox_note': self.saw_toolbox_note,
             'has_magnet': self.has_magnet,
+            'solved_berry_bush': self.solved_berry_bush,
             'has_key_b': self.has_key_b,
             'solved_toolbox': self.solved_toolbox,
 
@@ -234,6 +237,7 @@ class Player(db.Model):
 
                 'saw_toolbox_note',
                 'has_magnet',
+                'solved_berry_bush',
                 'has_key_b',
                 'solved_toolbox',
 
