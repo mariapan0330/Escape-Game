@@ -107,10 +107,11 @@ export default function Gate(props) {
                                     props.dropItem('coin')
                                     props.updatePlayer({'solved_address_screws':true})
                                     props.setCommentary("That worked!")
-                                } else if (props.selectedItem !== 'default-none'){
+                                } else if (props.selectedItem !== 'default-none' && props.selectedItem !== 1){
                                     // if they are selecting anything that's not the key (and not none)
+                                    console.log('selected:: ',props.selectedItem)
                                     props.setCommentary("That didn't work.")
-                                } else if (props.selectedItem === 'default-none' && !props.solvedAddressScrews) {
+                                } else if (!props.solvedAddressScrews) {
                                     // otherwise if you clicked it and you haven't selected anything
                                     props.setCommentary("I can't unscrew it with my bare hands.")
                                 }
@@ -190,21 +191,21 @@ export default function Gate(props) {
                                     <span>&ensp;&ensp;</span>
 
                                     <button onClick={() => { 
-                                        boxCode1 === 9 ? setBoxCode1(0) : setBoxCode1(Number(boxCode1) + 1)
+                                        boxCode1 >= 9 ? setBoxCode1(0) : setBoxCode1(Number(boxCode1) + 1)
                                         props.setCommentary(<>&nbsp;</>)
-                                    }}>{boxCode1}</button>
+                                    }}><h3 className='fs-2'>{boxCode1}</h3></button>
                                     <button onClick={() => { 
-                                        boxCode2 === 9 ? setBoxCode2(0) : setBoxCode2(Number(boxCode2) + 1)
+                                        boxCode2 >= 9 ? setBoxCode2(0) : setBoxCode2(Number(boxCode2) + 1)
                                         props.setCommentary(<>&nbsp;</>)
-                                    }}>{boxCode2}</button>
+                                    }}><h3 className='fs-2'>{boxCode2}</h3></button>
                                     <button onClick={() => { 
-                                        boxCode3 === 9 ? setBoxCode3(0) : setBoxCode3(Number(boxCode3) + 1)
+                                        boxCode3 >= 9 ? setBoxCode3(0) : setBoxCode3(Number(boxCode3) + 1)
                                         props.setCommentary(<>&nbsp;</>)
-                                    }}>{boxCode3}</button>
+                                    }}><h3 className='fs-2'>{boxCode3}</h3></button>
                                     <button onClick={() => { 
-                                        boxCode4 === 9 ? setBoxCode4(0) : setBoxCode4(Number(boxCode4) + 1)
+                                        boxCode4 >= 9 ? setBoxCode4(0) : setBoxCode4(Number(boxCode4) + 1)
                                         props.setCommentary(<>&nbsp;</>)
-                                    }}>{boxCode4}</button>
+                                    }}><h3 className='fs-2'>{boxCode4}</h3></button>
                                     
                                     <span>&ensp;&ensp;</span>
 

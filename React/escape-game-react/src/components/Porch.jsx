@@ -51,36 +51,48 @@ export default function Porch(props) {
                         // am i inspecting toolbox?
                         inspectToolbox ? 
                             // if looking, have I solved toolbox?
+                            solvedToolbox ?
                                 // if solved, did i take the knife?
                                 hasKnife ? 
                                     // if ive taken the knife, there is no knife in there.
-                                <>
-                                </>
-                                :
-                                // if I have not taken the knife, there is a knife in there I can pick up.
-                                <>
-                                <button className='btn-success' onClick={()=>{
-                                    setHasKnife(true)
-                                    props.pickupItem(13,'knife')
-                                    props.updatePlayer({'has_knife': true})
-                                }}><h3>Knife &#128298;</h3></button>
-                                <br />
-                                </>
+                                    <>
+                                    <button className="btn-success" onClick={()=> {
+                                        props.setCommentary("I took everything I need from the toolbox.")
+                                    }}><h3>Toolbox</h3></button>
+                                    <br />
+                                    </>
+                                    :
+                                    // if I have not taken the knife, there is a knife in there I can pick up.
+                                    <>
+                                    <button className='btn-success' onClick={()=>{
+                                        setHasKnife(true)
+                                        props.pickupItem(13,'knife')
+                                        props.updatePlayer({'has_knife': true})
+                                    }}><h3>Knife &#128298;</h3></button>
+                                    <br />
+                                    </>
                             :
+                            // if not solved, can solve 
+                            <>
+                                <button className="btn-success" onClick={() => {
+                                    if (props.selectedItem === 'key-b'){
+                                        props.setCommentary("That worked! It's open.")
+                                        setSolvedToolbox(true)
+                                        props.dropItem('key-b')
+                                        props.updatePlayer({'solved_toolbox': true})
+                                    } else if (props.selectedItem === 'magnet' || props.selectedItem === 'red-gem'){
+                                        props.setCommentary("That didn't work.")
+                                    } else {
+                                        props.setCommentary("It's locked.")
+                                    }
+                                }}><h3>Toolbox</h3></button>
+                                <br />
+                            </>
+                        :
                         // if not inspecting, there is a toolbox there.
                         <>
                             <button className="btn-success" onClick={() => {
-                                if (props.selectedItem === 'key-b'){
-                                    props.setCommentary("That worked! It's open.")
-                                    setInspectToolbox(true)
-                                    setSolvedToolbox(true)
-                                    props.dropItem('key-b')
-                                    props.updatePlayer({'solved_toolbox': true})
-                                } else if (props.selectedItem === 'magnet' || props.selectedItem === 'red-gem'){
-                                    props.setCommentary("That didn't work.")
-                                } else {
-                                    props.setCommentary("It's locked.")
-                                }
+                                setInspectToolbox(true)
                             }}><h3>Toolbox</h3></button>
                             <br />
                         </>

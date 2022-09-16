@@ -153,7 +153,8 @@ function App() {
                         if (selectedItem === 'key-b' || selectedItem === 'key-a' ||
                             selectedItem === 'coin' || selectedItem === 'red-gem' ||
                             selectedItem === 'magnet' || selectedItem === 'knife' ||
-                            selectedItem === 'key-c' || selectedItem === 'telescope-lens'){
+                            selectedItem === 'key-c' || selectedItem === 'telescope-lens' ||
+                            selectedItem === 'blue-gem'){
                             // if you had something that's not default-none selected and you click it again, deselect it.
                             setCommentary(<>&nbsp;</>)
                             setColor('light')
@@ -169,7 +170,7 @@ function App() {
 
                         } else if (slot === 'coin'){
                             // if it was not selected, select it
-                            setCommentary(<><i class="fa-regular fa-coin text-warning"></i> A big shiny iron coin. Pretty sturdy but not worth much.</>)
+                            setCommentary(<><i class="fa-solid fa-coin text-warning"></i> &#128191;A big shiny iron coin. Pretty sturdy but not worth much.</>)
                             setColor('warning fw-bold')
                             setSelectedItem('coin')
                             updatePlayer({'selected_item':9})

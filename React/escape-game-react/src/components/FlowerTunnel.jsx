@@ -61,14 +61,8 @@ export default function FlowerTunnel(props) {
                     <h2>Flower Tunnel</h2>
                     <br />
                     <br />
-                    <div id="flower-tunnel-buttons" className='text-center d-flex justify-content-around'>
-                        <button className='btn-primary' onClick={() => {
-                            props.setCommentary(<>&nbsp;</>)
-                            props.setAtLocation('garden')
-                            props.updatePlayer({'current_location':'garden'})
-                            props.updatePlayer({'flower_gate_padlock_combination_entered': fullCombo})
-                        }}><h3>GARDEN <i className="fa-solid fa-arrow-down" /></h3></button>
-                        
+                    <div id="flower-tunnel-buttons" className='text-center'>
+                        <div className="text-end">
                         {
                             inspectLock ? 
                             <>
@@ -86,7 +80,7 @@ export default function FlowerTunnel(props) {
                                             props.setAtLocation('ending')
                                         }
                                         props.updatePlayer({'flower_gate_padlock_combination_entered': fullCombo})
-                                    }}><i className="text-success fa-solid fa-check"/></button>
+                                    }}><h3><i className="text-success fa-solid fa-check"/></h3></button>
 
                                     <span>&ensp;&ensp;</span>
 
@@ -94,22 +88,22 @@ export default function FlowerTunnel(props) {
                                     <button onClick={() => { 
                                         gateCode1 >= 8 ? setGateCode1(1) : setGateCode1(Number(gateCode1) + 1)
                                         props.setCommentary(<>&nbsp;</>)
-                                    }}><h3>{translateNumber(gateCode1)}</h3></button>
+                                    }}><h2>{translateNumber(gateCode1)}</h2></button>
 
                                     <button onClick={() => { 
                                         gateCode2 >= 8 ? setGateCode2(1) : setGateCode2(Number(gateCode2) + 1)
                                         props.setCommentary(<>&nbsp;</>)
-                                    }}><h3>{translateNumber(gateCode2)}</h3></button>
+                                    }}><h2>{translateNumber(gateCode2)}</h2></button>
 
                                     <button onClick={() => { 
                                         gateCode3 >= 8 ? setGateCode3(1) : setGateCode3(Number(gateCode3) + 1)
                                         props.setCommentary(<>&nbsp;</>)
-                                    }}><h3>{translateNumber(gateCode3)}</h3></button>
+                                    }}><h2>{translateNumber(gateCode3)}</h2></button>
 
                                     <button onClick={() => { 
                                         gateCode4 >= 8 ? setGateCode4(1) : setGateCode4(Number(gateCode4) + 1)
                                         props.setCommentary(<>&nbsp;</>)
-                                    }}><h3>{translateNumber(gateCode4)}</h3></button>
+                                    }}><h2>{translateNumber(gateCode4)}</h2></button>
                                     
                                     <span>&ensp;&ensp;</span>
 
@@ -117,7 +111,7 @@ export default function FlowerTunnel(props) {
                                         setInspectLock(false)
                                         props.setCommentary(<>&nbsp;</>)
                                         props.updatePlayer({'flower_gate_padlock_combination_entered': fullCombo})
-                                        }}><i className="text-danger fa-solid fa-xmark"/></button>
+                                        }}><h3><i className="text-danger fa-solid fa-xmark"/></h3></button>
                                     </span>
                                 </> 
                             :
@@ -126,6 +120,17 @@ export default function FlowerTunnel(props) {
                                 props.setCommentary("It's locked. Looks like it takes a combination of 4 symbols.")
                             }}><h3>Gate Lock <i className="fa-solid fa-lock" /></h3></button>
                         }
+                        </div>
+                        <br />
+
+                        <div className="text-start">
+                            <button className='btn-primary' onClick={() => {
+                                props.setCommentary(<>&nbsp;</>)
+                                props.setAtLocation('garden')
+                                props.updatePlayer({'current_location':'garden'})
+                                props.updatePlayer({'flower_gate_padlock_combination_entered': fullCombo})
+                            }}><h3>GARDEN <i className="fa-solid fa-arrow-down" /></h3></button>
+                        </div>
                         {/* <br /> */}
                     </div>
                 </div>

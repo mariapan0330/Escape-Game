@@ -90,24 +90,23 @@ export default function Gazebo(props) {
                                         props.dropItem('telescope-lens')
                                         setSolvedCarvedTreesNoOrder(true)
                                         props.updatePlayer({'solved_carved_trees_no_order': true})
+                                    } else if (props.selectedItem !== 'default-none'){
+                                        props.setCommentary("That didn't work.")
                                     } else {
                                         props.setCommentary("I wonder why there's an extra slot on this telescope...")
                                     }
-                                    // props.setCommentary('I wonder why this telescope is aimed so low.')
                                 }}><h3>Telescope Slot {solvedCarvedTreesNoOrder ? <> with Lens <i className="fa-regular fa-circle" /></> : <></>}</h3></button>
                                 <span>&emsp;</span>
 
                                 <button className="btn-success" onClick={() =>{
                                     setInspectTelescopeView(true)
                                     props.setCommentary(<>&nbsp;</>)
-                                    // props.setCommentary('I wonder why this telescope is aimed so low.')
                                 }}><h3>Look through telescope</h3></button>
                                 <span>&emsp;</span>
 
                                 <button className="text-danger" onClick={() =>{
                                     setInspectTelescope(false)
                                     props.setCommentary(<>&nbsp;</>)
-                                    // props.setCommentary('I wonder why this telescope is aimed so low.')
                                 }}><h3><i className='fa-solid fa-xmark'/></h3></button>
                                 <br />
 
