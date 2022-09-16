@@ -14,6 +14,7 @@ import Plaza from './components/Plaza';
 import FlowerTunnel from './components/FlowerTunnel';
 import Gazebo from './components/Gazebo';
 import Porch from './components/Porch';
+import End from './components/End';
 // This one has all the routes which you make in your components folder.
 // The user is called "Player" not user (but they do have a "username" not "playername").
 
@@ -210,7 +211,7 @@ function App() {
                             updatePlayer({'selected_item':14})   
 
                         } else if (slot === 'telescope-lens'){
-                            setCommentary(<>A round glass disc with some markings etched in, too small to make out."</>)
+                            setCommentary(<><i className="fa-regular fa-circle"/> A round glass disc with some markings etched in, too small to make out.</>)
                             setColor('warning fw-bold')
                             setSelectedItem('telescope-lens')
                             updatePlayer({'selected_item':15})   
@@ -328,6 +329,7 @@ function App() {
                                 currentPlayerUsername={currentPlayerUsername} 
                                 updatePlayer={updatePlayer} 
                                 setAtLocation={setAtLocation}
+                                setCommentary={setCommentary}
                                 /> 
                             : 
                         // if not at prologue, am i at the gate?
@@ -372,13 +374,13 @@ function App() {
                             :
                         // if not at the garden, am I at the fountain?
                         atLocation === 'fountain' ? <Fountain
+                            selectedItem={selectedItem}
                             setAtLocation={setAtLocation}
                             updatePlayer={updatePlayer}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             pickupItem={pickupItem}
                             dropItem={dropItem}
                             setCommentary={setCommentary}
-                            selectedItem={selectedItem}
                              />
                         :
                         // if not at the fountain, am I at the plaza?
@@ -405,6 +407,7 @@ function App() {
                         // if not at the flower Tunnel, am I at the gazebo?
                         atLocation === 'gazebo' ? <Gazebo
                             updatePlayer={updatePlayer}
+                            selectedItem={selectedItem}
                             dropItem={dropItem}
                             setAtLocation={setAtLocation}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
@@ -421,6 +424,11 @@ function App() {
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             setCommentary={setCommentary}
                              />
+                        :
+                        atLocation === 'ending' ? <End
+                            setAtLocation={setAtLocation}
+                            updatePlayer={updatePlayer}
+                            />
                         :
                         // if not at any of these:
                         <>

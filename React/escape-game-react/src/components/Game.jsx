@@ -88,6 +88,7 @@ export default function Game(props) {
                         <button><h5 className="fs-3" onClick={() => {
                             props.setAtLocation('gate')
                             props.updatePlayer({'current_location':'gate'})
+                            props.setCommentary(<>&nbsp;</>)
                         }}>BEGIN</h5></button>
                     </div>
                 </>
@@ -137,6 +138,8 @@ export default function Game(props) {
             props.setAtLocation('flower-tunnel')
         } else if(playerLocation === 'porch'){
             props.setAtLocation('porch')
+        } else if(playerLocation === 'ending'){
+            props.setAtLocation('ending')
         }
 
     }

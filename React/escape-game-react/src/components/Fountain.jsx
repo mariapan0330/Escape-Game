@@ -7,6 +7,10 @@ export default function Fountain(props) {
     const [inspectBushes, setInspectBushes] = useState(false)
     const [inspectBrick, setInspectBrick] = useState(false)
     const [solvedFountainDoor, setSolvedFountainDoor] = useState(false)
+    const [solvedPillow, setSolvedPillow] = useState(false)
+
+    const [hasBlueGem, setHasBlueGem] = useState(false)
+    const [hasKeyC, setHasKeyC] = useState(false)
     const [hasTelescopeLens, setHasTelescopeLens] = useState(false)
     const [hotbarSlot1, setHotbarSlot1] = useState()
     const [hotbarSlot2, setHotbarSlot2] = useState()
@@ -29,7 +33,10 @@ export default function Fountain(props) {
             // setPlayerLocation(data['current_location'])
             setHasCoin(data['has_coin'])
             setSolvedFountainDoor(data['solved_fountain_door'])
+            setSolvedPillow(data['solved_fountain_bench_pillow'])
             setHasTelescopeLens(data['has_telescope_lens'])
+            setHasBlueGem(data['has_blue_gem'])
+            setHasKeyC(data['has_key_c'])
             setHotbarSlot1(data['hotbar_slot_1']['piece_name'])
             setHotbarSlot2(data['hotbar_slot_2']['piece_name'])
             setHotbarSlot3(data['hotbar_slot_3']['piece_name'])
@@ -83,9 +90,48 @@ export default function Fountain(props) {
                         <span className='fs-4 text-danger'>bison </span>
                     </span>
                     <br />
-                    <button className='btn-light fs-4 me-1' onClick={() => {
-                        props.setCommentary("Hmm... I can feel something inside this pillow.")
-                    }}><h3>Pillow</h3></button>
+                    {
+                        solvedPillow ? 
+                            hasBlueGem ?
+                                hasKeyC ?
+                                    // if i have key c, there is nothing there
+                                    <>
+                                    <button onClick={()=> 
+                                        props.setCommentary("I've gotten everything I need from the pillow.")
+                                    }><h3>Pillow</h3></button>
+                                    </>
+                                    :
+                                // if i do not have key c, it is there
+                                <>
+                                <button onClick={()=>{
+                                    setHasKeyC(true)
+                                    props.pickupItem(14, 'key-c')
+                                    props.updatePlayer({'has_key_c':true})
+                                }}><h3>Key C</h3></button>
+                                </>
+                            :
+                            // if I do not have the blue gem, it is there
+                            <>
+                            <button onClick={()=>{
+                                setHasBlueGem(true)
+                                props.pickupItem(16, 'blue-gem')
+                                props.updatePlayer({'has_blue_gem':true})
+                            }}><h3>Blue Gem</h3></button>
+                            </>
+                        :
+                        // if i have not solved pillow
+                        <button className='btn-light fs-4 me-1' onClick={() => {
+                            if(props.selectedItem === 'knife'){
+                                props.setCommentary("I cut the pillow open. What's this inside?")
+                                props.dropItem('knife')
+                                setSolvedPillow(true)
+                            } else {
+                                props.setCommentary("Hmm... I can feel something inside this pillow.")
+                            }
+                        }}><h3>Pillow</h3></button>
+                    }
+
+
 
                     <button onClick={() => {
                         setInspectBench(false)
@@ -110,18 +156,18 @@ export default function Fountain(props) {
                         // if yes, did i get the lens already?
                             hasTelescopeLens ? 
                             // if yes, "There's nothing else behind this door"
-                            props.setCommentary("There's nothing else behind this door")
+                            <>
+                            </>
                             :
                             // if no, there is a lens there
                             <>
                             <br />
-                            <button><span className='fs-3' onClick={() => {
+                            <button className='btn-success'><span className='fs-3' onClick={() => {
                                 props.updatePlayer({'has_telescope_lens': true})
                                 setHasTelescopeLens(true)
                                 props.pickupItem(15, 'telescope-lens')
-                                props.setRerenderHotbar(props.rerenderHotbar+1)
                                 props.setCommentary('A glass lens with some weird tiny symbols on it. Hmm...')
-                            }}>Glass Lens</span></button>
+                            }}>Glass Lens <i class="fa-regular fa-circle" /></span></button>
                             <button onClick={()=>{
                                 setInspectBrick(false)
                                 props.setCommentary(<>&nbsp;</>)
@@ -135,7 +181,13 @@ export default function Fountain(props) {
                             if (props.selectedItem === 'default-none' || 
                                 (hotbarSlot1 === 'default-none' && hotbarSlot2 === 'default-none' && hotbarSlot3 === 'default-none')) {
                                 props.setCommentary("It's locked. I wonder how to open it...")
-                            } else if (props.selectedItem !== 'key-b'){
+                            } else if (props.selectedItem === 'key-c'){
+                                props.setCommentary("That worked!")
+                                setSolvedFountainDoor(true)
+                                props.updatePlayer({'solved_fountain_door':true})
+                                props.dropItem('key-c')
+                                console.log('try this')
+                            } else {
                                 props.setCommentary("That didn't work.")
                             }
                         }}><h3>Brick with Keyhole</h3></button>
@@ -147,8 +199,12 @@ export default function Fountain(props) {
                     // if not inspecting brick, there is a brick (on click, i am inspecting it.)
                     :
                     <button className='btn-success' onClick={() => {
-                        props.setCommentary("Hey wait a minute!")
-                        setInspectBrick(true)
+                        if (solvedFountainDoor){
+                            props.setCommentary("There's nothing else behind this door.")
+                        } else {
+                            props.setCommentary("Hey wait a minute!")
+                            setInspectBrick(true)
+                        }
                     }}><h3>Totally Normal Brick</h3></button>
                 }
                 <br />
@@ -198,6 +254,7 @@ export default function Fountain(props) {
                 <button className='btn-primary' onClick={() => {
                     props.setAtLocation('garden')
                     props.updatePlayer({'current_location':'garden'})
+                    props.setCommentary(<>&nbsp;</>)
                 }}><h3>GARDEN <i class="fa-solid fa-arrow-down"/></h3></button>
                 </div>
                 

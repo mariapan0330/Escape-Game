@@ -82,6 +82,8 @@ export default function FlowerTunnel(props) {
                                             props.setCommentary("It's open!")
                                             setSolvedFlowerTunnelGate(true)
                                             props.updatePlayer({'solved_flower_gate_padlock':true})
+                                            props.updatePlayer({'current_location':'ending'})
+                                            props.setAtLocation('ending')
                                         }
                                         props.updatePlayer({'flower_gate_padlock_combination_entered': fullCombo})
                                     }}><i className="text-success fa-solid fa-check"/></button>
