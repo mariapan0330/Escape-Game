@@ -90,22 +90,22 @@ export default function FlowerTunnel(props) {
 
                                     {/* &#8712;&#8715;&#8721;&#8756;&#8834;&#8745;&#8853;&#936; */}
                                     <button onClick={() => { 
-                                        gateCode1 === 8 ? setGateCode1(1) : setGateCode1(Number(gateCode1) + 1)
+                                        gateCode1 >= 8 ? setGateCode1(1) : setGateCode1(Number(gateCode1) + 1)
                                         props.setCommentary(<>&nbsp;</>)
                                     }}><h3>{translateNumber(gateCode1)}</h3></button>
 
                                     <button onClick={() => { 
-                                        gateCode2 === 8 ? setGateCode2(1) : setGateCode2(Number(gateCode2) + 1)
+                                        gateCode2 >= 8 ? setGateCode2(1) : setGateCode2(Number(gateCode2) + 1)
                                         props.setCommentary(<>&nbsp;</>)
                                     }}><h3>{translateNumber(gateCode2)}</h3></button>
 
                                     <button onClick={() => { 
-                                        gateCode3 === 8 ? setGateCode3(1) : setGateCode3(Number(gateCode3) + 1)
+                                        gateCode3 >= 8 ? setGateCode3(1) : setGateCode3(Number(gateCode3) + 1)
                                         props.setCommentary(<>&nbsp;</>)
                                     }}><h3>{translateNumber(gateCode3)}</h3></button>
 
                                     <button onClick={() => { 
-                                        gateCode4 === 8 ? setGateCode4(1) : setGateCode4(Number(gateCode4) + 1)
+                                        gateCode4 >= 8 ? setGateCode4(1) : setGateCode4(Number(gateCode4) + 1)
                                         props.setCommentary(<>&nbsp;</>)
                                     }}><h3>{translateNumber(gateCode4)}</h3></button>
                                     

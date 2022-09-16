@@ -79,7 +79,7 @@ export default function Fountain(props) {
                     <br />
                     <button className='btn-light fs-4 me-1' onClick={() => {
                         props.setCommentary("Hmm... I can feel something inside this pillow.")
-                    }}>Pillow</button>
+                    }}><h3>Pillow</h3></button>
 
                     <button onClick={() => {
                         setInspectBench(false)
