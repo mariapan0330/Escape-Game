@@ -8,6 +8,9 @@ export default function Fountain(props) {
     const [inspectBrick, setInspectBrick] = useState(false)
     const [solvedFountainDoor, setSolvedFountainDoor] = useState(false)
     const [hasTelescopeLens, setHasTelescopeLens] = useState(false)
+    const [hotbarSlot1, setHotbarSlot1] = useState()
+    const [hotbarSlot2, setHotbarSlot2] = useState()
+    const [hotbarSlot3, setHotbarSlot3] = useState()
 
     useEffect(() => {
         findPlayerData()
@@ -27,6 +30,9 @@ export default function Fountain(props) {
             setHasCoin(data['has_coin'])
             setSolvedFountainDoor(data['solved_fountain_door'])
             setHasTelescopeLens(data['has_telescope_lens'])
+            setHotbarSlot1(data['hotbar_slot_1']['piece_name'])
+            setHotbarSlot2(data['hotbar_slot_2']['piece_name'])
+            setHotbarSlot3(data['hotbar_slot_3']['piece_name'])
         })
     }
 
@@ -126,9 +132,10 @@ export default function Fountain(props) {
                         
                         <>
                         <button className='btn-success' onClick={() => {
-                            if (props.selectedItem === 'default-none') {
+                            if (props.selectedItem === 'default-none' || 
+                                (hotbarSlot1 === 'default-none' && hotbarSlot2 === 'default-none' && hotbarSlot3 === 'default-none')) {
                                 props.setCommentary("It's locked. I wonder how to open it...")
-                            }else if (props.selectedItem !== 'key-b'){
+                            } else if (props.selectedItem !== 'key-b'){
                                 props.setCommentary("That didn't work.")
                             }
                         }}><h3>Brick with Keyhole</h3></button>

@@ -364,7 +364,7 @@ function App() {
                         // if not at the garden, am I at the fountain?
                         atLocation === 'fountain' ? <Fountain
                             setAtLocation={setAtLocation}
-
+                            
                             updatePlayer={updatePlayer}
                             renderHotbarAndCommentary={renderHotbarAndCommentary}
                             pickupItem={pickupItem}
