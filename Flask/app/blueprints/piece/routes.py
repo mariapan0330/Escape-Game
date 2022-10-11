@@ -3,9 +3,6 @@ from flask import jsonify, request
 from ...models import Piece
 from ..auth.http_auth import token_auth
 
-##### MUST BE LOGGED IN AND MARKED AS ADMIN TO CREATE, RETRIEVE, UPDATE, AND DEL PIECES #####
-
-
 # @piece.route('/')
 # def index():
 #     return "You've found the piece route!"
@@ -40,7 +37,7 @@ def view_all_pieces():
         pieces = Piece.query.all()
         return jsonify([p.to_dict() for p in pieces])
     else:
-        return jsonify({ "error": f"You are not authorized to do that bro" }), 403
+        return jsonify({ "error": f"You are not authorized to do that" }), 403
     
 
 # view a piece by id
@@ -51,7 +48,7 @@ def view_piece(id):
         piece = Piece.query.get_or_404(id)
         return jsonify(piece.to_dict())
     else:
-        return jsonify({ "error": f"You are not authorized to do that bro" }), 403
+        return jsonify({ "error": f"You are not authorized to do that" }), 403
 
 
 # update a piece by id
@@ -64,7 +61,7 @@ def update_piece(id):
         piece.update(data)
         return jsonify(piece.to_dict())
     else:
-        return jsonify({ "error": f"You are not authorized to do that bro" }), 403
+        return jsonify({ "error": f"You are not authorized to do that" }), 403
 
 
 # delete a piece by id
@@ -76,4 +73,4 @@ def delete_piece(id):
         piece.delete()
         return jsonify({'success':f"{piece.piece_name} has been deleted."})
     else:
-        return jsonify({ "error": f"You are not authorized to do that bro" }), 403
+        return jsonify({ "error": f"You are not authorized to do that" }), 403

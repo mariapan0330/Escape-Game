@@ -101,7 +101,7 @@ export default function SignupOrLogin(props) {
             .then(res => res.json())
             .then(data => {
                 if (!data.error){
-                    // Show the main game. Can i log in now too automatically instead of making the player do that
+                    // Show the main game. Log in now too automatically instead of making the player do that
                     console.log('sign up successful:', data['id'])
                     setPlayerId(data['id'])
                     // newPlayerId = data['id']
